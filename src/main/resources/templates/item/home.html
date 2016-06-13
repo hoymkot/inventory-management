@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-title">Item</div>
+					<div class="panel-body table-responsive">
+						<table th:fragment="content" id="items" class="table display">
+							<thead>
+								<tr>
+									<th width="5%">ID</th>
+									<th>车牌</th>
+									<th>电话</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+
+
+
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<script th:fragment="script">
+		$(document).ready(function() {
+			var table = $('#receivers').DataTable({
+				serverSide : true,
+				ajax : 'list',
+				columns : [
+				{"data" : "id"}, 
+				{"data" : "carNumber"}, 
+				{"data" : "phone"},
+		        {
+	                "class":          "details-control",
+	                "orderable":      false,
+	                "data":           null,
+	                "defaultContent": '<a class="view-detail btn">详情</a> ' 
+	            },					
+      				
+				],
+				"order": [[1, 'asc']],
+			});
+			
+			$('#receivers tbody').on('click', 'a.view-detail',function(){
+				var data = table.row( $(this).parents('tr') ).data();
+		        window.location="detail?id="+data.id;			
+
+			});
+
+
+//				var data = table.row( $(this).parents('tr') ).data();
+	//	        alert( data[0] );
+
+			
+		});
+	</script>
+</body>
+</html>

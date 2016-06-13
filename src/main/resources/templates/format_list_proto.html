@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Format</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+  <form action="#" th:action="@{/format/update}" th:object="${format}" method="post">
+  <table>
+  	<tr><td>Type (Type of Message)</td><td><input type="text" th:field="*{type}" /></td></tr>
+    <tr><td>Content</td><td><input type="text" th:field="*{content}" /> </td></tr>
+	<tr><td></td><td><button type="submit" name="update" >update</button></td></tr>
+ </table>
+</form>
+    
+<div class="list" th:unless="${#lists.isEmpty(mf_list)}">
+  
+
+  <h2>List of All Formats</h2>
+  
+  <table>
+    <thead>
+      <tr>
+		<th >Type</th>      
+        <th >Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="mf : ${mf_list}">
+        <td th:text="${{mf.type}}">X</td>
+        <td th:text="${{mf.content}}">X</td>
+        <td><a th:href="${#mvc.url('MFC#delete').arg(0,mf.type).build()}">delete</a>
+        </td>	   
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

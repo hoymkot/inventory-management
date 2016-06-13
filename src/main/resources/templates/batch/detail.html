@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+
+		<!-- Start Row -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+
+					<div class="panel-title">Receiver</div>
+
+					<div class="panel-body">
+						<form class="form-inline" action="#" th:action="@{/receiver/update}"
+							th:object="${receiver}" method="post">
+							<input type="hidden" class="form-control" th:field="*{id}" />
+							<div class="form-group">
+								<label for="input_car_Number" class="form-label">Car
+									Number</label> <input type="text" class="form-control"
+									id="input_car_Number" placeholder="CHK105"
+									th:field="*{carNumber}" />
+							</div>
+							<div class="form-group">
+								<label for="input_phone" class="form-label">Phone</label> <input
+									type="text" class="form-control" id="input_phone"
+									placeholder="13926911360" th:field="*{phone}" />
+							</div>
+							<button type="submit" class="btn btn-default">Save</button>
+							<a th:href="${#mvc.url('RC#delete').arg(0,receiver.id).build()}" class="btn">Delete</a>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- End Row -->	
+				
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-title">Preferences</div>
+					<div class="panel-body table-responsive">
+						<p></p>
+
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<td>Format</td>
+									<td width="5%">Frequency</td>
+									<td width="5%">Continuity</td>
+									<td>Last Sent On</td>
+									<td>Operation</td>
+								</tr>
+							</thead>
+							<tbody th:remove="all-but-first">
+								<tr th:each="pf : ${prefs}">
+									<form class="form-inline" action="#"
+										th:action="@{/preference/update}" 
+										method="post">
+										<input type="hidden" class="form-control" name="receiver_id" th:value="${{receiver.id}}" />
+										<input type="hidden" class="form-control" name="id" th:value="${{pf.id}}" />
+										<td>
+											<input type="text" class="form-control" name="message_type" th:value="${{pf.message.type}}" />
+										</td>									
+									<td><input type="text" class="form-control"
+										name="frequency" th:value="${{pf.frequency}}" /></td>
+									<td><input type="text" class="form-control"
+										name="continuity" th:value="${{pf.continuity}}" /></td>
+									<td><input type="text" class="form-control"
+										name="lastSentOn" th:value="${{pf.lastSentOn}}" /></td>
+									<td class="text-center">
+										<button type="submit" class="btn btn-default">
+											Save
+										</button> <a th:href="${#mvc.url('PC#delete').arg(0,pf.id).arg(1,receiver.id).build()}"
+										class="btn"> Delete
+									</a>
+									</td>
+									</form>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+		<!-- End Row -->
+<!-- Start Row -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+
+					<div class="panel-title">Add Preference</div>
+
+					<div class="panel-body">
+						<form class="form-inline" action="#" th:action="@{/preference/update}"
+							th:object="${new_pref}" method="post">
+							<input type="hidden" class="form-control" th:name="receiver_id" th:value="${receiver.id}" />
+							
+							<div class="form-group">
+								<label for="input_format" class="form-label">Format</label>
+								<select id="input_format"  class="selectpicker" name="message_type">
+									<option th:each="format:${mf_list}"   th:text="${format}" >1</option>
+								</select>
+								
+							</div>
+							<div class="form-group">
+								<label for="input_frequency" class="form-label">Frequency</label> <input
+									type="text" class="form-control" id="input_frequency"
+									 th:field="*{frequency}" />
+							</div>
+							<div class="form-group">
+								<label for="input_continuity" class="form-label">Continuity</label> <input
+									type="text" class="form-control" id="input_continuity"
+									 th:field="*{continuity}" />
+							</div>							
+							<button type="submit" class="btn btn-default">Add</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- End Row -->				
+		
+		
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<script th:fragment="script">
+	</script>
+</body>
+</html>

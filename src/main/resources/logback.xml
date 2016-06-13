@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+	<!--
+		 <logger name="org.thymeleaf.TemplateEngine.CONFIG" level="INFO"></logger>
+	<logger name="org.hibernate.type" level="INFO"></logger>
+	 <logger name="org.hibernate.sql" level="INFO"></logger>  
+	 <logger name="org.thymeleaf.TemplateEngine.CONFIG" level="INFO"></logger>
+	 <logger name="org.thymeleaf.TemplateEngine.CONFIG" level="INFO"></logger>
+	 <logger name="org.thymeleaf.TemplateEngine.TIMER" level="INFO"></logger>
+	 <logger name="org.thymeleaf.TemplateEngine.cache" level="INFO"></logger>
+	 <logger name="org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE" level="INFO"></logger>
+	 <logger name="org.thymeleaf.TemplateEngine.cache.FRAGMENT_CACHE" level="INFO"></logger>
+	 <logger name="org.thymeleaf.TemplateEngine.cache.MESSAGE_CACHE" level="INFO"></logger>
+	 <logger name="org.thymeleaf.TemplateEngine.cache.EXPRESSION_CACHE" level="INFO"></logger>
+	 -->
+</configuration>
+

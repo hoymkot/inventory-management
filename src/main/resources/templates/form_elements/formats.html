@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="form-group">	
+		<label for="input_format" class="form-label">短讯内容</label>
+			<select id="input_format"  class="selectpicker" name="message_type">
+				<option th:each="format:${mf_list}"   th:text="${format}" >1</option>
+			</select>
+
+
+	</div>
+	<!-- END CONTAINER -->
+</body>
+</html>

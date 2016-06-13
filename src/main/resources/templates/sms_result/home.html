@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-title">短信结果</div>
+					<div class="panel-body table-responsive">
+						<table th:fragment="content" id="sms_result" class="table display">
+							<thead>
+								<tr>
+									<th width="5%">ID</th>
+									<th>Created On</th>
+									<th>Receiver</th>
+									<th>Message Type</th>
+									<th>SMS Status</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+					</table>
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+
+
+
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<script th:fragment="script">
+		$(document)
+				.ready(
+						function() {
+							var table = $('#sms_result')
+									.DataTable(
+											{
+												serverSide : true,
+												ajax : 'list',
+												columns : [
+														{
+															"data" : "id",
+															"orderable" : false,
+														},
+														{
+															"data" : "createdOn"
+														},
+														{
+															"data" : "receiver.id",
+															"render" : function(
+																	data, type,
+																	row) {
+
+																return '<a href="/receiver/detail?id='
+																		+ data
+																		+ '">'
+																		+ row.receiver.carNumber
+																		+ '('
+																		+ row.receiver.phone
+																		+ ')'
+																		+ '</a>';
+															},
+															"orderable" : false,
+														},
+														{
+															"data" : "messageType",
+															"orderable" : false,
+														},
+														{
+															"data" : "smsStatus",
+															"orderable" : false,
+														},
+												],
+												order : [ [ 1, 'asc' ] ],
+											});
+
+							$('#receivers tbody').on(
+									'click',
+									'a.view-detail',
+									function() {
+										var data = table.row(
+												$(this).parents('tr')).data();
+										window.location = "detail?id="
+												+ data.id;
+
+									});
+
+						});
+	</script>
+</body>
+</html>

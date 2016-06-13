@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+ <div class="row">
+
+    <div class="col-md-12">
+      <div class="panel panel-default">
+
+        <div class="panel-title">
+          批量添加操作
+          <ul class="panel-tools">
+            <li><a class="icon minimise-tool"><i class="fa fa-minus"></i></a></li>
+            <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+            <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+          </ul>
+        </div>
+
+            <div class="panel-body">
+              <form class="form-horizontal" action="#" th:action="@{/batch/save}" method="post">
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">短讯内容</label>
+                  <div class="col-sm-10">
+                  <select id="input_format"  class="form-control" name="message_type">
+									<option th:each="format:${mf_list}"   th:text="${format}" >1</option>
+									</select>
+                  </div>
+                </div>
+
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">最后发出时间</label>
+                  <div class="col-sm-10">
+                    <div class="input-group">
+                      <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                      <input  class="form-control date-picker" value="1970-01-01" type="date" name="lastSentOn" />
+                      
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">接收人联系信息</label>
+                  <div class="col-sm-10">
+                  	<textarea class="form-control" rows="10"  name="receivers"  id="textarea1" placeholder="Type your message..."></textarea>
+                  </div>
+                </div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+                	<button type="submit" class="btn btn-default">保存</button>
+                </div>
+							</div>
+              </form> 
+
+            </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!-- End Row -->
+
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<script th:fragment="script">
+	
+	</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fook Yut</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+  <form action="#" th:action="@{/receiver/add}" th:object="${receiver}" method="post">
+  <table>
+  	<tr><td>Car Number</td><td><input type="text" th:field="*{carNumber}" /></td></tr>
+    <tr><td>Phone</td><td><input type="text" th:field="*{phone}" /> </td></tr>
+	<tr><td></td><td><button type="submit" name="add" >Add</button></td></tr>
+ </table>
+</form>
+
+<div class="list" th:unless="${#lists.isEmpty(receivers)}">
+  
+
+    
+  <h2>List of All Receivers</h2>
+  
+  <table>
+    <thead>
+      <tr>
+		<th >ID</th>      
+        <th >Car Number</th>
+        <th >Phone Number</th>     	   
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="rv : ${receivers}">
+        <td ><a th:href="${#mvc.url('RC#detail').arg(0,rv.id).build()}" th:text="${{rv.id}}">X</a></td>
+        <td th:text="${{rv.carNumber}}">X</td>
+        <td th:text="${rv.phone}">X</td>
+        <td><a th:href="${#mvc.url('RC#delete').arg(0,rv.id).build()}">delete</a>
+        </td>	   
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="description"
+	content="Kode is a Premium Bootstrap Admin Template, It's responsive, clean coded and mobile friendly"></meta>
+<meta name="keywords"
+	content="bootstrap, admin, dashboard, flat admin template, responsive," />
+<title>Kode</title>
+<!-- ========== Css Files ========== -->
+<link href="/css/root.css" rel="stylesheet"></link>
+</head>
+
+<body>
+	<!-- Start Page Loading -->
+	<div class="loading">
+		<img src="/img/loading.gif" alt="loading-img" />
+	</div>
+	<!-- End Page Loading -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<!-- START TOP -->
+	<div id="top" class="clearfix">
+
+		<!-- Start App Logo -->
+		<div class="applogo">
+			<a href="index.html" class="logo">SMS Proxy</a>
+		</div>
+		<!-- End App Logo -->	
+
+	</div>
+	<!-- END TOP -->
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<!-- START SIDEBAR -->
+	<div class="sidebar clearfix">
+
+		<ul class="sidebar-panel nav">
+			<li class="sidetitle">MAIN</li>
+			<li><a href="index.html"><span class="icon color5"><i
+						class="fa fa-home"></i></span>Receiver</a></li>
+			<li><a href="mailbox.html"><span class="icon color6"><i
+						class="fa fa-envelope-o"></i></span>Format</a></li>
+			<li><a href="charts.html"><span class="icon color8"><i
+						class="fa fa-bar-chart"></i></span>Logs</a></li>
+		</ul>
+
+	</div>
+	<!-- END SIDEBAR -->
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<!-- START CONTENT -->
+	<div class="content">
+
+
+		<!-- //////////////////////////////////////////////////////////////////////////// -->
+		<!-- START CONTAINER -->
+		<div class="container-padding">
+ 
+
+			<!-- Start Row -->
+			<div class="row">
+
+				<!-- Start Panel -->
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-title">Receiver</div>
+						<div class="panel-body table-responsive">
+							<p>
+								Show the list of receivers registered in this system
+		 					</p>
+
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<td class="text-center"><i class="fa fa-trash"></i></td>
+										<td>ID</td>
+										<td>Car Number</td>
+										<td>Phone Number</td>
+										<td>Configurations</td>
+									</tr>
+								</thead>
+								<tbody th:remove="all-but-first">
+									<tr th:each="rv : ${receivers}" >
+										<td class="text-center"><div class="checkbox margin-t-0">
+												<input id="checkbox1" type="checkbox" /><label
+													for="checkbox1"></label>
+											</div></td>
+										<td><a th:href="${#mvc.url('RC#detail').arg(0,rv.id).build()}" th:text="${{rv.id}}">#9652</a> </td>
+										<td th:text="${{rv.carNumber}}">Kode Gaming Laptop</td>
+										<td th:text="${rv.phone}">John Doe</td>
+										<td>2</td>
+										
+									</tr>
+									<tr>
+										<td class="text-center"><div class="checkbox margin-t-0">
+												<input id="checkbox2" type="checkbox" /><label
+													for="checkbox2"></label>
+											</div></td>
+										<td># <b>1963</b></td>
+										<td>New Season Jacket</td>
+										<td>Jane Doe</td>
+										<td>2</td>										
+									</tr>
+									<tr>
+										<td class="text-center"><div class="checkbox margin-t-0">
+												<input id="checkbox3" type="checkbox" /><label
+													for="checkbox3" />
+											</div></td>
+										<td># <b>9652</b></td>
+										<td>IO Mouse</td>
+										<td>Jonathan Doe</td>
+										<td>2</td>										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+				<!-- End Panel -->
+
+
+
+
+
+
+
+			</div>
+			<!-- End Row -->
+
+
+
+
+
+
+		</div>
+		<!-- END CONTAINER -->
+		<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+
+		<!-- Start Footer -->
+		<div class="row footer">
+			<div class="col-md-6 text-left">
+				Copyright © 2015 Hou Kot
+				All rights reserved.
+			</div>
+			<div class="col-md-6 text-right">
+				Design and Developed by Hou Kot
+			</div>
+		</div>
+		<!-- End Footer -->
+
+
+	</div>
+	<!-- End Content -->
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+	<!-- START SIDEPANEL -->
+	<div role="tabpanel" class="sidepanel">
+
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#today"
+				aria-controls="today" role="tab" data-toggle="tab">TODAY</a></li>
+			<li role="presentation"><a href="#tasks" aria-controls="tasks"
+				role="tab" data-toggle="tab">TASKS</a></li>
+			<li role="presentation"><a href="#chat" aria-controls="chat"
+				role="tab" data-toggle="tab">CHAT</a></li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+
+			<!-- Start Today -->
+			<div role="tabpanel" class="tab-pane active" id="today">
+
+				<div class="sidepanel-m-title">
+					Today <span class="left-icon"><a href="#"><i
+							class="fa fa-refresh"></i></a></span> <span class="right-icon"><a
+						href="#"><i class="fa fa-file-o"></i></a></span>
+				</div>
+
+				<div class="gn-title">NEW</div>
+
+				<ul class="list-w-title">
+					<li><a href="#"> <span class="label label-danger">ORDER</span>
+							<span class="date">9 hours ago</span>
+							<h4>New Jacket 2.0</h4> Etiam auctor porta augue sit amet
+							facilisis. Sed libero nisi, scelerisque.
+					</a></li>
+					<li><a href="#"> <span class="label label-success">COMMENT</span>
+							<span class="date">14 hours ago</span>
+							<h4>Bill Jackson</h4> Etiam auctor porta augue sit amet
+							facilisis. Sed libero nisi, scelerisque.
+					</a></li>
+					<li><a href="#"> <span class="label label-info">MEETING</span>
+							<span class="date">at 2:30 PM</span>
+							<h4>Developer Team</h4> Etiam auctor porta augue sit amet
+							facilisis. Sed libero nisi, scelerisque.
+					</a></li>
+					<li><a href="#"> <span class="label label-warning">EVENT</span>
+							<span class="date">3 days left</span>
+							<h4>Birthday Party</h4> Etiam auctor porta augue sit amet
+							facilisis. Sed libero nisi, scelerisque.
+					</a></li>
+				</ul>
+
+			</div>
+			<!-- End Today -->
+
+			<!-- Start Tasks -->
+			<div role="tabpanel" class="tab-pane" id="tasks">
+
+				<div class="sidepanel-m-title">
+					To-do List <span class="left-icon"><a href="#"><i
+							class="fa fa-pencil"></i></a></span> <span class="right-icon"><a
+						href="#"><i class="fa fa-trash"></i></a></span>
+				</div>
+
+				<div class="gn-title">TODAY</div>
+
+				<ul class="todo-list">
+					<li class="checkbox checkbox-primary"><input
+						id="checkboxside1" type="checkbox" /><label
+						for="checkboxside1">Add new products</label></li>
+
+					<li class="checkbox checkbox-primary"><input
+						id="checkboxside2" type="checkbox" /><label
+						for="checkboxside2"><b>May 12, 6:30 pm</b> Meeting with
+							Team</label></li>
+
+					<li class="checkbox checkbox-warning"><input
+						id="checkboxside3" type="checkbox" /><label
+						for="checkboxside3">Design Facebook page</label></li>
+
+					<li class="checkbox checkbox-info"><input id="checkboxside4"
+						type="checkbox" /><label for="checkboxside4">Send
+							Invoice to customers</label></li>
+
+					<li class="checkbox checkbox-danger"><input id="checkboxside5"
+						type="checkbox" /><label for="checkboxside5">Meeting
+							with developer team</label></li>
+				</ul>
+
+				<div class="gn-title">TOMORROW</div>
+				<ul class="todo-list">
+					<li class="checkbox checkbox-warning"><input
+						id="checkboxside6" type="checkbox" /><label
+						for="checkboxside6">Redesign our company blog</label></li>
+
+					<li class="checkbox checkbox-success"><input
+						id="checkboxside7" type="checkbox" /><label
+						for="checkboxside7">Finish client work</label></li>
+
+					<li class="checkbox checkbox-info"><input id="checkboxside8"
+						type="checkbox" /><label for="checkboxside8">Call
+							Johnny from Developer Team</label></li>
+
+				</ul>
+			</div>
+			<!-- End Tasks -->
+
+			<!-- Start Chat -->
+			<div role="tabpanel" class="tab-pane" id="chat">
+
+				<div class="sidepanel-m-title">
+					Friend List <span class="left-icon"><a href="#"><i
+							class="fa fa-pencil"></i></a></span> <span class="right-icon"><a
+						href="#"><i class="fa fa-trash"></i></a></span>
+				</div>
+
+				<div class="gn-title">ONLINE MEMBERS (3)</div>
+				<ul class="group">
+					<li class="member"><a href="#"><img
+							src="/img/profileimg.png" alt="img" /><b>Allice Mingham</b>Los
+							Angeles</a><span class="status online"></span></li>
+					<li class="member"><a href="#"><img
+							src="/img/profileimg2.png" alt="img"/><b>James Throwing</b>Las
+							Vegas</a><span class="status busy"></span></li>
+					<li class="member"><a href="#"><img
+							src="/img/profileimg3.png" alt="img"/><b>Fred Stonefield</b>New
+							York</a><span class="status away"></span></li>
+					<li class="member"><a href="#"><img
+							src="/img/profileimg4.png" alt="img"/><b>Chris M. Johnson</b>California</a><span
+						class="status online"></span></li>
+				</ul>
+
+				<div class="gn-title">OFFLINE MEMBERS (8)</div>
+				<ul class="group">
+					<li class="member"><a href="#"><img
+							src="/img/profileimg5.png" alt="img"/><b>Allice Mingham</b>Los
+							Angeles</a><span class="status offline"></span></li>
+					<li class="member"><a href="#"><img
+							src="/img/profileimg6.png" alt="img"/><b>James Throwing</b>Las
+							Vegas</a><span class="status offline"></span></li>
+				</ul>
+
+				<form class="search">
+					<input type="text" class="form-control"
+						placeholder="Search a Friend..." />
+				</form>
+			</div>
+			<!-- End Chat -->
+
+		</div>
+
+	</div>
+	<!-- END SIDEPANEL -->
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+
+
+	<!-- ================================================
+jQuery Library
+================================================ -->
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+
+	<!-- ================================================
+Bootstrap Core JavaScript File
+================================================ -->
+	<script src="/js/bootstrap/bootstrap.min.js"></script>
+
+	<!-- ================================================
+Plugin.js - Some Specific JS codes for Plugin Settings
+================================================ -->
+	<script type="text/javascript" src="/js/plugins.js"></script>
+<!-- ================================================
+Data Tables
+================================================ -->
+<script src="js/datatables/datatables.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+    $('#example0').DataTable();
+} );
+</script>
+
+
+
+<script>
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        "columnDefs": [
+            { "visible": false, "targets": 2 }
+        ],
+        "order": [[ 2, 'asc' ]],
+        "displayLength": 25,
+        "drawCallback": function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'} ).nodes();
+            var last=null;
+ 
+            api.column(2, {page:'current'} ).data().each( function ( group, i ) {
+                if ( last !== group ) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group"><td colspan="5">'+group+'</td></tr>'
+                    );
+ 
+                    last = group;
+                }
+            } );
+        }
+    } );
+ 
+    // Order by the grouping
+    $('#example tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === 2 && currentOrder[1] === 'asc' ) {
+            table.order( [ 2, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ 2, 'asc' ] ).draw();
+        }
+    } );
+} );
+</script>
+
+</body>
+</html>
