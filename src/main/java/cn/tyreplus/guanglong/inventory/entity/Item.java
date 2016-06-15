@@ -41,9 +41,16 @@ public class Item implements Serializable {
 		this.id = id;
 	}
 
-
+	// make unique
 	@Column(nullable = false)
 	private String name;
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	@Column(nullable = false)
 	private String description;
@@ -69,13 +76,6 @@ public class Item implements Serializable {
 		this.createdOn = createdOn;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
 	
 }

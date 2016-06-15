@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+
+		<!-- Start Row -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+
+					<div class="panel-title">接受者</div>
+
+					<div class="panel-body">
+						<form class="form-inline" action="#" th:action="@{/receiver/update}"
+							th:object="${receiver}" method="post">
+							<input type="hidden" class="form-control" th:field="*{id}" />
+							<div class="form-group">
+								<label for="input_car_Number" class="form-label">车牌</label> <input type="text" class="form-control"
+									id="input_car_Number" placeholder="CHK105"
+									th:field="*{carNumber}" />
+							</div>
+							<div class="form-group">
+								<label for="input_phone" class="form-label">电话</label> <input
+									type="text" class="form-control" id="input_phone"
+									placeholder="13926911360" th:field="*{phone}" />
+							</div>
+							<button type="submit" class="btn btn-default">保存</button>
+							<a th:href="${#mvc.url('RC#delete').arg(0,receiver.id).build()}" class="btn">删除</a>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- End Row -->	
+				
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body table-responsive">
+						<p></p>
+
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<td> 短讯配置</td>
+									<td>最后发送</td>
+									<td> 操作</td>
+								</tr>
+							</thead>
+							<tbody th:remove="all-but-first">
+								<tr th:each="pf : ${prefs}">
+									<form class="form-inline" action="#"
+										th:action="@{/preference/update}" 
+										method="post">
+										<input type="hidden" class="form-control" name="receiver_id" th:value="${{receiver.id}}" />
+										<input type="hidden" class="form-control" name="id" th:value="${{pf.id}}" />
+										<td>
+											<input type="text" class="form-control" name="message_type" th:value="${{pf.message.type}}" />
+										</td>									
+									<td>									
+									<input type="date" class="form-control date-picker"  name="lastSentOn" th:value="${{pf.lastSentOn}}" /></td>
+									<td >
+										<button type="submit" class="btn btn-default">
+											保存
+										</button> 
+										<a th:href="${#mvc.url('PC#delete').arg(0,pf.id).arg(1,receiver.id).build()}"
+										class="btn"> 删除
+									</a>
+									</td>
+									</form>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+		<!-- End Row -->
+<!-- Start Row -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+
+					<div class="panel-title">添加 短讯配置</div>
+
+					<div class="panel-body">
+						<form class="form-inline" action="#" th:action="@{/preference/update}"
+							th:object="${new_pref}" method="post">
+							<input type="hidden" class="form-control" th:name="receiver_id" th:value="${receiver.id}" />
+							
+							<div class="form-group">
+								<label for="input_format" class="form-label"> 短讯内容</label>
+								<select id="input_format"  class="selectpicker" name="message_type">
+									<option th:each="format:${mf_list}"   th:text="${format}" >1</option>
+								</select>
+								
+							</div>
+							<div class="form-group">
+								<label for="input_format" class="form-label"> 最后发送</label>
+									<input type="date" class="form-control date-picker"  name="lastSentOn" th:value="${{lastSentOn}}" />
+								
+							</div>
+							
+
+
+
+							<button type="submit" class="btn btn-default">保存 </button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- End Row -->				
+		
+		
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<script th:fragment="script">
+	
+	</script>
+</body>
+</html>

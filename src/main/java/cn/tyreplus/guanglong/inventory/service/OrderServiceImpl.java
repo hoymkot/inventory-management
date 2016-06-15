@@ -26,38 +26,33 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
+import cn.tyreplus.guanglong.inventory.entity.Order;
 
 
 
-@Component("itemService")
+@Component("orderService")
 @Transactional
-class ItemServiceImpl implements ItemService {
+class OrderServiceImpl implements OrderService {
 
-	static Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
-	private final ItemRepository itemRepository;
+	static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+	private final OrderRepository orderRepo;
 
 
 	@Autowired
-	public ItemServiceImpl(ItemRepository itemRepository) {
-		this.itemRepository= itemRepository;
+	public OrderServiceImpl(OrderRepository repo) {
+		this.orderRepo= repo;
 	}
 
 	@Override
-	public Page<Item> find(String search_value, Pageable pageable) {
-
-		if (!StringUtils.hasLength(search_value)) {
-			logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
-			return this.itemRepository.findAll(pageable);
-		}
-		System.out.println("I am here querying");
-
-//		return this.itemRepository.findByNameContainingIgnoringCase(search_value, pageable);
-		return this.itemRepository.findAll(pageable);
+	public Page<Order> find(String searchValue, Pageable pageable) {
+		logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
+		return this.orderRepo.findAll(pageable);
 	}
-
 	@Override
-	public Item getItem(Long id) {
-		return this.itemRepository.findOne(id);
+	public Order update(Order order) {
+
+		return orderRepo.save(order);
 	}
+
 	
 }

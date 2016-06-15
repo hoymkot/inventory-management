@@ -17,6 +17,7 @@
 package cn.tyreplus.guanglong.inventory.web;
 
 
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.service.ItemService;
 import cn.tyreplus.guanglong.web.util.DataTable;
 
+
 @Controller
 @RequestMapping("/item")
 public class ItemController {
@@ -55,9 +57,9 @@ public class ItemController {
 	public String home(Model model) {
 		model.addAttribute("layout_content", "item/home");
 		
+		
 		return "layout/general";
 	}
-
 	@RequestMapping("/list")
 	@Transactional(readOnly = true)
 	public @ResponseBody DataTable list(HttpServletRequest req) {
@@ -81,14 +83,13 @@ public class ItemController {
 		response.setRecordsTotal(0);
 		response.setRecordsFiltered(0);
 		Pageable page = new PageRequest(start / length, length, Direction.fromString(direction), orderBy);
-		Page<Item> items = this.itemService.findItems(searchValue, page);
+		Page<Item> items = this.itemService.find(searchValue, page);
 		List<Item> data = new LinkedList<Item>();
-		for (Item r : items) {
-			data.add(r);
+		for (Item i : items) {
+			data.add(i);
 		}
 		response.setData(data);
 		return response;
 	}
-
 
 }

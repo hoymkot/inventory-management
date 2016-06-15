@@ -2799,6 +2799,23 @@ select {
   background: none;
   border-color: #666;
 }
+
+/* Form Control No Line */
+.form-control-no-line {
+  border-left: 0;
+  border-top: 0;
+  border-right: 0;
+  padding-left: 0;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 0;
+}
+.form-control-no-line:focus {
+  border-top: 0;
+  background: none;
+  border-color: #666;
+}
+
 /* Form Control Radius */
 .form-control-radius {
   border-radius: 999px;

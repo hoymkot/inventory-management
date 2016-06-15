@@ -19,13 +19,13 @@ package cn.tyreplus.guanglong.inventory.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import cn.tyreplus.guanglong.inventory.entity.Item;
+import cn.tyreplus.guanglong.inventory.entity.Order;
 
-public interface ItemService {
+public interface OrderService {
 	
 
-	Item getItem(Long id);
+	Page<Order> find(String searchValue, Pageable pageable);
 
-	Page<Item> find(String search_value, Pageable pageable);
+	Order update(Order order);
 	
 }

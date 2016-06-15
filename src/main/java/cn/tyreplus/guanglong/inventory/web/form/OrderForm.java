@@ -13,83 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.tyreplus.guanglong.inventory.entity;
+package cn.tyreplus.guanglong.inventory.web.form;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+public class OrderForm implements Serializable {
 
-@Entity
-public class Order implements Serializable {
+	private String date; 
 
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue
-	private Long id;
-
-	@OneToOne
-	private Item item;
-
-	@Column(nullable = false)
-	Integer number;
-	
-	@Column(nullable = false)
-	BigDecimal price;
-
-	
-	@Column(nullable = false)
 	private String supplier;
 
-	@Column(nullable = false)
 	private String consumer;
 
-
-	@Column(nullable = false)
 	private String warehouse;
 
-	@Column(nullable = false)
 	private String remark;
+
+	private List<ItemForm> items = new ArrayList<ItemForm>();;
 	
-	@Column(nullable = false)
-	private Date createdOn;
-
-	public Long getId() {
-		return id;
+	public void addItem() {
+		this.getItems().add(new ItemForm());
+	}
+	
+	public void removeItem(Integer idx) {
+		this.getItems().remove(idx.intValue());
+	}
+	public List<ItemForm> getItems() {
+		return items;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
-	}
-
-	public Integer getNumber() {
-		return number;
-	}
-
-	public void setNumber(Integer number) {
-		this.number = number;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setItems(List<ItemForm> items) {
+		this.items = items;
 	}
 
 	public String getSupplier() {
@@ -124,13 +81,14 @@ public class Order implements Serializable {
 		this.remark = remark;
 	}
 
-	public Date getCreatedOn() {
-		return createdOn;
+	public String getDate() {
+		return date;
 	}
 
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
+	
 
 }

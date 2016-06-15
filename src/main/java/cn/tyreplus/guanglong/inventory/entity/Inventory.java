@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package cn.tyreplus.guanglong.inventory.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Order implements Serializable {
+public class Inventory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,38 +34,25 @@ public class Order implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@OneToOne
-	private Item item;
-
-	@Column(nullable = false)
-	Integer number;
-	
-	@Column(nullable = false)
-	BigDecimal price;
-
-	
-	@Column(nullable = false)
-	private String supplier;
-
-	@Column(nullable = false)
-	private String consumer;
-
-
-	@Column(nullable = false)
-	private String warehouse;
-
-	@Column(nullable = false)
-	private String remark;
-	
-	@Column(nullable = false)
-	private Date createdOn;
-
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@ManyToOne
+	private Item item;
+
+	@Column(nullable = false)
+	private Long number;
+
+	@Column(nullable = false)
+	private String warehouse;
+
+	public String getWarehouse() {
+		return warehouse;
 	}
 
 	public Item getItem() {
@@ -76,45 +63,20 @@ public class Order implements Serializable {
 		this.item = item;
 	}
 
-	public Integer getNumber() {
+	public Long getNumber() {
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(Long number) {
 		this.number = number;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	public String getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(String supplier) {
-		this.supplier = supplier;
-	}
-
-	public String getConsumer() {
-		return consumer;
-	}
-
-	public void setConsumer(String consumer) {
-		this.consumer = consumer;
-	}
-
-	public String getWarehouse() {
-		return warehouse;
 	}
 
 	public void setWarehouse(String warehouse) {
 		this.warehouse = warehouse;
 	}
+
+	@Column(nullable = false)
+	private String remark;
 
 	public String getRemark() {
 		return remark;
@@ -124,13 +86,15 @@ public class Order implements Serializable {
 		this.remark = remark;
 	}
 
-	public Date getCreatedOn() {
-		return createdOn;
+	@Column(nullable = false)
+	private Date lastModifiedOn;
+
+	public Date getLastModifiedOn() {
+		return lastModifiedOn;
 	}
 
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
+	public void setLastModifiedOn(Date lastModifiedOn) {
+		this.lastModifiedOn = lastModifiedOn;
 	}
-
 
 }

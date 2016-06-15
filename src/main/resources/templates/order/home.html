@@ -11,13 +11,19 @@
 			<!-- Start Panel -->
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-title">Merchandises</div>
+					<div class="panel-title">Orders</div>
 					<div class="panel-body table-responsive">
-						<table th:fragment="content" id="merchandises" class="table display">
+						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
 									<th>Name</th>
 									<th>Number</th>
+									<th>Price</th>
+									<th>Supplier</th>
+									<th>Consumer</th>
+									<th>Warehouse</th>
+									<th>Remark</th>
+									<th>Created On</th>
 									<th width="5%">Action</th>
 								</tr>
 							</thead>
@@ -40,12 +46,18 @@
 
 	<script th:fragment="script">
 		$(document).ready(function() {
-			var table = $('#merchandises').DataTable({
+			var table = $('#orders').DataTable({
 				serverSide : true,
 				ajax : 'list',
 				columns : [
 				{"data" : "name"}, 
-				{"data" : "description"}, 
+				{"data" : "number"}, 
+				{"data" : "price"}, 
+				{"data" : "supplier"}, 
+				{"data" : "consumer"}, 
+				{"data" : "warehouse"}, 
+				{"data" : "remark"}, 
+				{"data" : "createdOn"}, 
 		        {
 	                "class":          "details-control",
 	                "orderable":      false,
@@ -54,10 +66,10 @@
 	            },					
       				
 				],
-				"order": [[1, 'asc']],
+				"order": [[0, 'asc']],
 			});
 			
-			$('#merchandises tbody').on('click', 'a.view-detail',function(){
+			$('#orders tbody').on('click', 'a.view-detail',function(){
 				var data = table.row( $(this).parents('tr') ).data();
 		        window.location="detail?id="+data.id;			
 
