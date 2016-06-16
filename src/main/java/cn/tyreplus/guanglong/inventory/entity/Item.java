@@ -48,11 +48,12 @@ public class Item implements Serializable {
 		return name;
 	}
 	
-	public void setName(String name) {
+	public Item setName(String name) {
 		this.name = name;
+		return this;
 	}
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String description;
 
 	public String getDescription() {

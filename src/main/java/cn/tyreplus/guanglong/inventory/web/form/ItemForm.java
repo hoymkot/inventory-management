@@ -8,7 +8,7 @@ public class ItemForm {
 
 	Integer number;
 
-	BigDecimal price;
+	Integer price;
 	
 	public String getItem() {
 		return item;
@@ -26,11 +26,11 @@ public class ItemForm {
 		this.number = number;
 	}
 
-	public BigDecimal getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 }
