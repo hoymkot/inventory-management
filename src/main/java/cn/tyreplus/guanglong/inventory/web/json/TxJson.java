@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.tyreplus.guanglong.inventory.entity;
+package cn.tyreplus.guanglong.inventory.web.json;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,39 +25,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-@Entity
-public class Order implements Serializable {
+public class TxJson implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue
 	private Long id;
 
-	@OneToOne
-	private Item item;
+	private String item;
 
-	@Column(nullable = false)
 	Integer number;
 	
-	@Column(nullable = false)
-	BigDecimal price;
-
+	Integer price;
 	
-	@Column(nullable = false)
 	private String supplier;
 
-	@Column(nullable = false)
 	private String consumer;
 
-
-	@Column(nullable = false)
 	private String warehouse;
 
-	@Column(nullable = false)
 	private String remark;
 	
-	@Column(nullable = false)
 	private Date createdOn;
 
 	public Long getId() {
@@ -68,11 +53,11 @@ public class Order implements Serializable {
 		this.id = id;
 	}
 
-	public Item getItem() {
+	public String getItem() {
 		return item;
 	}
 
-	public void setItem(Item item) {
+	public void setItem(String item) {
 		this.item = item;
 	}
 
@@ -84,11 +69,11 @@ public class Order implements Serializable {
 		this.number = number;
 	}
 
-	public BigDecimal getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

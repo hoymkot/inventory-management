@@ -11,12 +11,12 @@
 			<!-- Start Panel -->
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-title">Orders</div>
+					<div class="panel-title">Transaction</div>
 					<div class="panel-body table-responsive">
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
-									<th>Name</th>
+									<th>Item Name</th>
 									<th>Number</th>
 									<th>Price</th>
 									<th>Supplier</th>
@@ -50,7 +50,7 @@
 				serverSide : true,
 				ajax : 'list',
 				columns : [
-				{"data" : "name"}, 
+				{"data" : "item"}, 
 				{"data" : "number"}, 
 				{"data" : "price"}, 
 				{"data" : "supplier"}, 
@@ -66,7 +66,7 @@
 	            },					
       				
 				],
-				"order": [[0, 'asc']],
+				"order": [[7, 'desc']],
 			});
 			
 			$('#orders tbody').on('click', 'a.view-detail',function(){

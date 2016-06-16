@@ -40,7 +40,9 @@ import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.TransactionService;
 import cn.tyreplus.guanglong.inventory.web.form.ItemForm;
 import cn.tyreplus.guanglong.inventory.web.form.OrderForm;
+import cn.tyreplus.guanglong.inventory.web.json.TxJson;
 import cn.tyreplus.guanglong.web.util.DataTable;
+import cn.tyreplus.guanglong.web.util.PaginationUtil;
 
 @Controller
 @RequestMapping("/tx")
@@ -51,31 +53,52 @@ public class TransactionController {
 	@Autowired
 	private TransactionService txService;
 
+
+	/**
+	 * For frame only 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/")
 	@Transactional(readOnly = true)
 	public String home(Model model) {
-		model.addAttribute("layout_content", "order/home");
+		model.addAttribute("layout_content", "tx/home");
 		return "layout/general";
 	}
-
+	
+	/**
+	 * for ajax result
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping("/list")
 	@Transactional(readOnly = true)
 	public @ResponseBody DataTable list(HttpServletRequest req) {
 
-		// PaginationUtil paginationUtil = PaginationUtil.getInstance(req);
-		// Page<Order> orders =
-		// this.orderService.find(paginationUtil.getSearchValue(),
-		// paginationUtil.getPageable());
-		//
-		DataTable response = new DataTable();
-		// response.setDraw(paginationUtil.getDraw());
-		// response.setRecordsTotal(0);
-		// response.setRecordsFiltered(0);
-		// List<Order> data = new LinkedList<Order>();
-		// for (Order d : orders) {
-		// data.add(d);
-		// }
-		// response.setData(data);
+		 PaginationUtil paginationUtil = PaginationUtil.getInstance(req);
+		 Page<Transaction> orders = this.txService.find(
+				 paginationUtil.getSearchValue()
+				 , paginationUtil.getPageable());
+		
+		 DataTable response = new DataTable();
+		 response.setDraw(paginationUtil.getDraw());
+		 response.setRecordsTotal(0);
+		 response.setRecordsFiltered(0);
+		 List<TxJson> data = new LinkedList<TxJson>();
+		 for (Transaction tx : orders) {
+			 TxJson json = new TxJson() ;
+			 json.setConsumer(tx.getConsumer());
+			 json.setCreatedOn(tx.getCreatedOn());
+			 json.setId(tx.getId());
+			 json.setItem(tx.getItem().getName());
+			 json.setNumber(tx.getNumber());
+			 json.setPrice(tx.getPrice());
+			 json.setRemark(tx.getRemark());
+			 json.setSupplier(tx.getSupplier());
+			 json.setWarehouse(tx.getWarehouse());
+			 data.add(json);
+		 }
+		 response.setData(data);
 		return response;
 	}
 
@@ -144,8 +167,8 @@ public class TransactionController {
 			txService.update(tx);
 		}
 
-//		return "redirect:/tx/";
-		return "ok";
+		return "redirect:/tx/";
+
 	}
 
 }

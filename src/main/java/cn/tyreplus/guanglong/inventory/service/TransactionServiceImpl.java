@@ -46,6 +46,7 @@ class TransactionServiceImpl implements TransactionService {
 	@Override
 	public Page<Transaction> find(String searchValue, Pageable pageable) {
 		logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
+		
 		return this.txRepo.findAll(pageable);
 	}
 	@Override
