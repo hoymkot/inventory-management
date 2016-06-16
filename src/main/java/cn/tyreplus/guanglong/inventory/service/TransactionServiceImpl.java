@@ -17,18 +17,21 @@
 package cn.tyreplus.guanglong.inventory.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
-
+import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
+import cn.tyreplus.guanglong.inventory.service.repository.TransactionRepository;
 @Component("txService")
 @Transactional
 class TransactionServiceImpl implements TransactionService {
@@ -46,8 +49,13 @@ class TransactionServiceImpl implements TransactionService {
 	@Override
 	public Page<Transaction> find(String searchValue, Pageable pageable) {
 		logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
-		
-		return this.txRepo.findAll(pageable);
+		if(searchValue.equals(""))
+			return this.txRepo.findAll(pageable);
+		else {
+			List<Transaction> result = txRepo.search(searchValue);
+			return new PageImpl<Transaction>(result);
+			
+		}
 	}
 	@Override
 	public Transaction update(Transaction order) {

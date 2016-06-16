@@ -49,11 +49,20 @@ import cn.tyreplus.guanglong.web.util.PaginationUtil;
 public class TransactionController {
 
 	static Logger logger = LoggerFactory.getLogger(TransactionController.class);
+	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
+	
 	@Autowired
 	private TransactionService txService;
 
 
+	@RequestMapping("/plain")
+	@Transactional(readOnly = true)
+	public String plainPage(Model model) {
+		model.addAttribute("layout_content", "tx/plain");
+		return "layout/general";
+	}
+	
 	/**
 	 * For frame only 
 	 * @param model
@@ -88,7 +97,7 @@ public class TransactionController {
 		 for (Transaction tx : orders) {
 			 TxJson json = new TxJson() ;
 			 json.setConsumer(tx.getConsumer());
-			 json.setCreatedOn(tx.getCreatedOn());
+			 json.setCreatedOn(df.format(tx.getCreatedOn()));
 			 json.setId(tx.getId());
 			 json.setItem(tx.getItem().getName());
 			 json.setNumber(tx.getNumber());
@@ -136,7 +145,6 @@ public class TransactionController {
 	@RequestMapping(method = RequestMethod.POST, value = "/add")
 	public @ResponseBody String addSubmit(OrderForm orderForm, BindingResult bindingResult, Model model) {
 
-		final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		df.setLenient(false);
 
 		if (bindingResult.hasErrors()) {

@@ -43,7 +43,7 @@ public class TxJson implements Serializable {
 
 	private String remark;
 	
-	private Date createdOn;
+	private String createdOn;
 
 	public Long getId() {
 		return id;
@@ -109,11 +109,11 @@ public class TxJson implements Serializable {
 		this.remark = remark;
 	}
 
-	public Date getCreatedOn() {
+	public String getCreatedOn() {
 		return createdOn;
 	}
 
-	public void setCreatedOn(Date createdOn) {
+	public void setCreatedOn(String createdOn) {
 		this.createdOn = createdOn;
 	}
 

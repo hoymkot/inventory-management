@@ -49,14 +49,15 @@
 			var table = $('#orders').DataTable({
 				serverSide : true,
 				ajax : 'list',
+				iDisplayLength : 100,
 				columns : [
-				{"data" : "item"}, 
-				{"data" : "number"}, 
-				{"data" : "price"}, 
+				{"data" : "item", "orderable": false}, 
+				{"data" : "number", "orderable": false}, 
+				{"data" : "price",  "orderable": false}, 
 				{"data" : "supplier"}, 
 				{"data" : "consumer"}, 
 				{"data" : "warehouse"}, 
-				{"data" : "remark"}, 
+				{"data" : "remark",  "orderable": false}, 
 				{"data" : "createdOn"}, 
 		        {
 	                "class":          "details-control",

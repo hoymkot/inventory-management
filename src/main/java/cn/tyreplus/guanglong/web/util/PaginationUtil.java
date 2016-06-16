@@ -27,7 +27,8 @@ public class PaginationUtil {
 	public Pageable getPageable() {
 		
 		Integer start = Integer.valueOf(req.getParameter("start"));
-		Integer length = Integer.valueOf(req.getParameter("length"));
+//		Integer length = Integer.valueOf(req.getParameter("length"));
+		Integer length = 100;
 		logger.info("start: " + start + " length: " + length );
 		
 		String direction = req.getParameter("order[0][dir]");
@@ -40,8 +41,8 @@ public class PaginationUtil {
 		logger.info("order by: " + orderBy);
 		logger.info("direction: " + direction);
 
-//		return new PageRequest(start / length, length, Direction.fromString(direction), orderBy);
-		return new PageRequest(start / length, length);
+		return new PageRequest(start / length, length, Direction.fromString(direction), orderBy);
+//		return new PageRequest(start / length, length);
 	}
 	
 	public Integer getDraw(){

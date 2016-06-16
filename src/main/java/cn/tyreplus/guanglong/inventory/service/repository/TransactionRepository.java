@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package cn.tyreplus.guanglong.inventory.service;
+package cn.tyreplus.guanglong.inventory.service.repository;
+
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import cn.tyreplus.guanglong.inventory.entity.Item;
+import cn.tyreplus.guanglong.inventory.entity.Transaction;
 
-interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
 
-	Page<Item> findByNameContainingIgnoringCase(String search_value, Pageable pageable);
+public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Long> {
+
+	@Query("from Transaction tx where tx.item.name like %?1% ")
+	List<Transaction> search(String itemName);
 }

@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
+import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
 
 
 
