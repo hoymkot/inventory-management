@@ -52,8 +52,8 @@ class ItemServiceImpl implements ItemService {
 		}
 		System.out.println("I am here querying");
 
-//		return this.itemRepository.findByNameContainingIgnoringCase(search_value, pageable);
-		return this.itemRepository.findAll(pageable);
+		return this.itemRepository.findByNameContainingIgnoringCase(search_value, pageable);
+//		return this.itemRepository.findAll(pageable);
 	}
 
 	@Override

@@ -17,8 +17,6 @@
 							<thead>
 								<tr>
 									<th>Name</th>
-									<th>Number</th>
-									<th width="5%">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -43,18 +41,11 @@
 			var table = $('#merchandises').DataTable({
 				serverSide : true,
 				ajax : 'list',
+				iDisplayLength : 100,
 				columns : [
-				{"data" : "name"}, 
-				{"data" : "description"}, 
-		        {
-	                "class":          "details-control",
-	                "orderable":      false,
-	                "data":           null,
-	                "defaultContent": '<a class="view-detail btn">详情</a> ' 
-	            },					
-      				
+					{"data" : "name"}, 
 				],
-				"order": [[1, 'asc']],
+				"order": [[0, 'asc']],
 			});
 			
 			$('#merchandises tbody').on('click', 'a.view-detail',function(){
@@ -63,11 +54,6 @@
 
 			});
 
-
-//				var data = table.row( $(this).parents('tr') ).data();
-	//	        alert( data[0] );
-
-			
 		});
 	</script>
 </body>

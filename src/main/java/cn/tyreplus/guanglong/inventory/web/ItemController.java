@@ -38,8 +38,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
+import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.ItemService;
 import cn.tyreplus.guanglong.web.util.DataTable;
+import cn.tyreplus.guanglong.web.util.PaginationUtil;
 
 
 @Controller
@@ -63,27 +65,17 @@ public class ItemController {
 	@RequestMapping("/list")
 	@Transactional(readOnly = true)
 	public @ResponseBody DataTable list(HttpServletRequest req) {
-		Integer draw = Integer.valueOf(req.getParameter("draw"));
-		Integer start = Integer.valueOf(req.getParameter("start"));
-		Integer length = Integer.valueOf(req.getParameter("length"));
-		String searchValue = req.getParameter("search[value]");
-		String direction = req.getParameter("order[0][dir]");
-		String orderByColIdx = req.getParameter("order[0][column]");
-		String orderBy = req.getParameter("columns[" + orderByColIdx + "][data]");
-		DataTable response = new DataTable();
-		response.setDraw(draw);
-		logger.info("start: " + start + " length: " + length + " search: " + searchValue);
+		
+		 PaginationUtil paginationUtil = PaginationUtil.getInstance(req);
+		 Page<Item> items = this.itemService.find(
+				 paginationUtil.getSearchValue()
+				 , paginationUtil.getPageable());
+		
+		 DataTable response = new DataTable();
+		 response.setDraw(paginationUtil.getDraw());
+		 response.setRecordsTotal(0);
+		 response.setRecordsFiltered(0);
 
-		Map<String, String[]> pMap = req.getParameterMap();
-		logger.info("full map: " + pMap.toString());
-
-		logger.info("order by: " + orderBy);
-		logger.info("direction: " + direction);
-
-		response.setRecordsTotal(0);
-		response.setRecordsFiltered(0);
-		Pageable page = new PageRequest(start / length, length, Direction.fromString(direction), orderBy);
-		Page<Item> items = this.itemService.find(searchValue, page);
 		List<Item> data = new LinkedList<Item>();
 		for (Item i : items) {
 			data.add(i);
