@@ -79,6 +79,7 @@
                     <input class="form-control form-control-no-line itemName"  style="display:inline-block;width:65%" th:field="*{items[__${rowStat.index}__].item}" placeholder="Name" type="text" />
                     <input class="form-control form-control-no-line"  style="display:inline-block;width:8%" th:field="*{items[__${rowStat.index}__].number}" placeholder="Number" type="text" />
                     <input class="form-control form-control-no-line"  style="display:inline-block;width:8%" th:field="*{items[__${rowStat.index}__].price}" placeholder="Price" type="text" />
+                     <button style="display:inline-block;width:5%" type="submit" name="addItem" value="addItem" class="form-control form-control-no-line"><i class="fa fa-plus"></i></button>
                      <button type="submit" name="removeItem" class="form-control form-control-no-line " style="display:inline-block;width:5%" th:value="${rowStat.index}"><i class="fa fa-minus"></i></button>
                   </div>
                 </div>                 
@@ -106,7 +107,7 @@
       $(function() {
        $( ".itemName" ).autocomplete({      
             source: "/item/json",
-            minLength: 2,
+            minLength: 3,
        });
      });
   </script>

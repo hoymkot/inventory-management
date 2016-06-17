@@ -17,6 +17,7 @@
 							<thead>
 								<tr>
 									<th>Name</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -43,17 +44,22 @@
 				ajax : 'list',
 				iDisplayLength : 100,
 				columns : [
-					{"data" : "name"}, 
+					{"data" : "name"},
+					{
+	                "class":          "details-control",
+	                "orderable":      false,
+	                "data":           null,
+	                "defaultContent": '<a class="delete-item"><i class="fa fa-minus"></i></a> ' 
+	            },		 
 				],
 				"order": [[0, 'asc']],
 			});
 			
-			$('#merchandises tbody').on('click', 'a.view-detail',function(){
+			$('#merchandises tbody').on('click', 'a.delete-item',function(){
 				var data = table.row( $(this).parents('tr') ).data();
-		        window.location="detail?id="+data.id;			
+		        window.location="delete?item="+data.name;			
 
 			});
-
 		});
 	</script>
 </body>

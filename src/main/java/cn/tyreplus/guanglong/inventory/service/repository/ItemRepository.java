@@ -22,7 +22,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
 
-public interface ItemRepository extends PagingAndSortingRepository<Item, Long> {
+public interface ItemRepository extends PagingAndSortingRepository<Item, String> {
 
 	Page<Item> findByNameContainingIgnoringCase(String search_value, Pageable pageable);
 }

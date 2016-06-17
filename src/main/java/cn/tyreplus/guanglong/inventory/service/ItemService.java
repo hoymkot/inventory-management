@@ -24,7 +24,7 @@ import cn.tyreplus.guanglong.inventory.entity.Item;
 public interface ItemService {
 	
 
-	Item getItem(Long id);
+	void delete(String item);
 
 	Page<Item> find(String search_value, Pageable pageable);
 	

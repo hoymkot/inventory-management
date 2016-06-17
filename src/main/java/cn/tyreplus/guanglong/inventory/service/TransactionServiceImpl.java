@@ -59,12 +59,6 @@ class TransactionServiceImpl implements TransactionService {
 	}
 	@Override
 	public Transaction update(Transaction order) {
-		Item i = new Item(); 
-		i.setName("205/55R16 Xm2");
-		i.setDescription("blah");
-		i.setCreatedOn(new Date());
-		itemRepo.save(i);
-		order.setItem(i);
 		return txRepo.save(order);
 	}
 	

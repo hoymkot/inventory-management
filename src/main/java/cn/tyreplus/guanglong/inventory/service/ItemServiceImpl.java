@@ -35,12 +35,12 @@ import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
 class ItemServiceImpl implements ItemService {
 
 	static Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
-	private final ItemRepository itemRepository;
+	private final ItemRepository repo;
 
 
 	@Autowired
-	public ItemServiceImpl(ItemRepository itemRepository) {
-		this.itemRepository= itemRepository;
+	public ItemServiceImpl(ItemRepository repo) {
+		this.repo= repo;
 	}
 
 	@Override
@@ -48,17 +48,20 @@ class ItemServiceImpl implements ItemService {
 
 		if (!StringUtils.hasLength(search_value)) {
 			logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
-			return this.itemRepository.findAll(pageable);
+			return this.repo.findAll(pageable);
 		}
-		System.out.println("I am here querying");
 
-		return this.itemRepository.findByNameContainingIgnoringCase(search_value, pageable);
-//		return this.itemRepository.findAll(pageable);
+		return this.repo.findByNameContainingIgnoringCase(search_value, pageable);
 	}
 
 	@Override
-	public Item getItem(Long id) {
-		return this.itemRepository.findOne(id);
+	public void delete(String item) {
+		logger.info("find " + item);
+		Item i = repo.findOne(item);
+		if (i != null){
+			logger.info("delete " + i.getName());
+			repo.delete(i);
+		}
 	}
 	
 }

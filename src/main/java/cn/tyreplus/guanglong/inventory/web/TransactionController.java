@@ -102,7 +102,6 @@ public class TransactionController {
 			 json.setItem(tx.getItem().getName());
 			 json.setNumber(tx.getNumber());
 			 json.setPrice(tx.getPrice());
-			 json.setRemark(tx.getRemark());
 			 json.setSupplier(tx.getSupplier());
 			 json.setWarehouse(tx.getWarehouse());
 			 data.add(json);

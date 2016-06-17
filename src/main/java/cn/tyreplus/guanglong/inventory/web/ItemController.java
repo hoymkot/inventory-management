@@ -90,7 +90,7 @@ public class ItemController {
 	@Transactional(readOnly = true)
 	public @ResponseBody List<String> plainTxt(@RequestParam(value = "term") String item) {
 		
-		 Page<Item> items = this.itemService.find(item,new PageRequest(0, 100));
+		 Page<Item> items = this.itemService.find(item,new PageRequest(0, 10000));
 		
 		 StringBuilder sb = new StringBuilder();
 		List<String> data = new LinkedList<String>();
@@ -100,4 +100,12 @@ public class ItemController {
 		return data;
 	}
 
+	
+	@RequestMapping("/delete")
+	@Transactional()
+	public String delete(@RequestParam(value = "item") String item) {
+		
+		this.itemService.delete(item);
+		return "redirect:/item/";
+	}
 }

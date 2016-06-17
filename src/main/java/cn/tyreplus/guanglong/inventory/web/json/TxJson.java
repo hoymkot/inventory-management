@@ -40,8 +40,6 @@ public class TxJson implements Serializable {
 	private String consumer;
 
 	private String warehouse;
-
-	private String remark;
 	
 	private String createdOn;
 
@@ -99,14 +97,6 @@ public class TxJson implements Serializable {
 
 	public void setWarehouse(String warehouse) {
 		this.warehouse = warehouse;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 
 	public String getCreatedOn() {
