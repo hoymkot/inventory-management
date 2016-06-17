@@ -36,6 +36,7 @@
                   <label class="col-sm-2 control-label form-label">Supplier</label>
                   <div class="col-sm-8">
                     <select class="selectpicker"  th:field="*{supplier}">
+                        <option value="N/A" >N/A</option>
                         <option value="信诚">信诚</option>
                         <option value="广骏">广骏</option>
                         <option value="许华龙">许华龙</option>
@@ -75,10 +76,10 @@
                 <div class="form-group"  th:each="row,rowStat : *{items}">
                   <label class="col-sm-2 control-label form-label"  th:text="'Item ' + ${rowStat.count}">Item</label>
                   <div class="col-sm-10">
-                    <input class="form-control form-control-no-line itemName"  style="display:inline-block;width:auto" th:field="*{items[__${rowStat.index}__].item}" placeholder="Name" type="text" />
-                    <input class="form-control form-control-no-line"  style="display:inline-block;width:auto" th:field="*{items[__${rowStat.index}__].number}" placeholder="Number" type="text" />
-                    <input class="form-control form-control-no-line"  style="display:inline-block;width:auto" th:field="*{items[__${rowStat.index}__].price}" placeholder="Price" type="text" />
-                     <button type="submit" name="removeItem" class="form-control form-control-no-line " style="display:inline-block;width:auto" th:value="${rowStat.index}"><i class="fa fa-minus"></i></button>
+                    <input class="form-control form-control-no-line itemName"  style="display:inline-block;width:65%" th:field="*{items[__${rowStat.index}__].item}" placeholder="Name" type="text" />
+                    <input class="form-control form-control-no-line"  style="display:inline-block;width:8%" th:field="*{items[__${rowStat.index}__].number}" placeholder="Number" type="text" />
+                    <input class="form-control form-control-no-line"  style="display:inline-block;width:8%" th:field="*{items[__${rowStat.index}__].price}" placeholder="Price" type="text" />
+                     <button type="submit" name="removeItem" class="form-control form-control-no-line " style="display:inline-block;width:5%" th:value="${rowStat.index}"><i class="fa fa-minus"></i></button>
                   </div>
                 </div>                 
 
@@ -103,30 +104,6 @@
 
   <script th:fragment="script">
       $(function() {
-          var availableTags = [
-           "ActionScript",
-           "AppleScript",
-           "Asp",
-           "BASIC",
-           "C",
-           "C++",
-           "Clojure",
-           "COBOL",
-           "ColdFusion",
-           "Erlang",
-           "Fortran",
-           "Groovy",
-           "Haskell",
-           "Java",
-           "JavaScript",
-           "Lisp",
-           "Perl",
-           "PHP",
-           "Python",
-           "Ruby",
-           "Scala",
-           "Scheme"
-         ];
        $( ".itemName" ).autocomplete({      
             source: "/item/json",
             minLength: 2,
