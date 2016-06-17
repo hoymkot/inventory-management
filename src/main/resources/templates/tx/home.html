@@ -11,7 +11,12 @@
 			<!-- Start Panel -->
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-title">Transaction</div>
+					<div class="panel-title">Transaction
+					<ul class="panel-tools">
+						<li><a class="icon" th:href="${#mvc.url('TC#addForm').build()}"><i class="fa fa-plus"></i></a></li>
+          			</ul>
+					
+					</div>
 					<div class="panel-body table-responsive">
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
@@ -77,11 +82,10 @@
 			});
 
 
-//				var data = table.row( $(this).parents('tr') ).data();
-	//	        alert( data[0] );
-
 			
 		});
+
+		
 	</script>
 </body>
 </html>

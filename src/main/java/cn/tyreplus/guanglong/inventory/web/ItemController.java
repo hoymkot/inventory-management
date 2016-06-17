@@ -35,12 +35,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.ItemService;
-import cn.tyreplus.guanglong.web.util.DataTable;
+import cn.tyreplus.guanglong.inventory.web.json.DataTable;
+import cn.tyreplus.guanglong.inventory.web.json.ItemListJson;
 import cn.tyreplus.guanglong.web.util.PaginationUtil;
 
 
@@ -82,6 +84,20 @@ public class ItemController {
 		}
 		response.setData(data);
 		return response;
+	}
+	
+	@RequestMapping("/json")
+	@Transactional(readOnly = true)
+	public @ResponseBody List<String> plainTxt(@RequestParam(value = "term") String item) {
+		
+		 Page<Item> items = this.itemService.find(item,new PageRequest(0, 100));
+		
+		 StringBuilder sb = new StringBuilder();
+		List<String> data = new LinkedList<String>();
+		for (Item i : items) {
+			data.add(i.getName());
+		}
+		return data;
 	}
 
 }

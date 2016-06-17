@@ -40,8 +40,8 @@ import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.TransactionService;
 import cn.tyreplus.guanglong.inventory.web.form.ItemForm;
 import cn.tyreplus.guanglong.inventory.web.form.OrderForm;
+import cn.tyreplus.guanglong.inventory.web.json.DataTable;
 import cn.tyreplus.guanglong.inventory.web.json.TxJson;
-import cn.tyreplus.guanglong.web.util.DataTable;
 import cn.tyreplus.guanglong.web.util.PaginationUtil;
 
 @Controller
@@ -143,7 +143,7 @@ public class TransactionController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/add")
-	public @ResponseBody String addSubmit(OrderForm orderForm, BindingResult bindingResult, Model model) {
+	public String addSubmit(OrderForm orderForm, BindingResult bindingResult, Model model) {
 
 		df.setLenient(false);
 

@@ -1,4 +1,4 @@
-package cn.tyreplus.guanglong.web.util;
+package cn.tyreplus.guanglong.inventory.web.json;
 
 import java.util.LinkedList;
 

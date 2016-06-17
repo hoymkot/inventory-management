@@ -42,7 +42,6 @@ public class PaginationUtil {
 		logger.info("direction: " + direction);
 
 		return new PageRequest(start / length, length, Direction.fromString(direction), orderBy);
-//		return new PageRequest(start / length, length);
 	}
 	
 	public Integer getDraw(){
