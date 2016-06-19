@@ -16,6 +16,8 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,6 +28,7 @@ public interface TransactionService {
 
 	Page<Transaction> find(String searchValue, Pageable pageable);
 
-	Transaction update(Transaction order);
+	void updateMany(List<Transaction> manyOrder);
+	void adjustMany(List<Transaction> manyFrom, List<Transaction> manyTo);
 	
 }

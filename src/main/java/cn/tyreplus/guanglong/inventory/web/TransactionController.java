@@ -18,6 +18,8 @@ package cn.tyreplus.guanglong.inventory.web;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,6 +40,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.TransactionService;
+import cn.tyreplus.guanglong.inventory.web.form.AdjustForm;
 import cn.tyreplus.guanglong.inventory.web.form.ItemForm;
 import cn.tyreplus.guanglong.inventory.web.form.OrderForm;
 import cn.tyreplus.guanglong.inventory.web.json.DataTable;
@@ -112,6 +115,7 @@ public class TransactionController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/add")
 	public String addForm(Model model, OrderForm orderForm) {
+		orderForm.setDate(df.format(new Date()));
 		model.addAttribute("layout_content", "tx/add");
 		return "layout/general";
 	}
@@ -150,6 +154,7 @@ public class TransactionController {
 			model.addAttribute("layout_content", "tx/add");
 			return "layout/general";
 		}
+		List<Transaction> orders = new ArrayList<Transaction>(); 
 
 		for (ItemForm itemF : orderForm.getItems()) {
 			if (itemF.getItem().equals(""))
@@ -170,12 +175,83 @@ public class TransactionController {
 			tx.setItem((new Item()).setName(itemF.getItem()));
 			tx.setPrice(itemF.getPrice());
 			tx.setNumber(itemF.getNumber());
-
-			txService.update(tx);
+			orders.add(tx);
 		}
+		txService.updateMany(orders);
 
 		return "redirect:/tx/";
 
 	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/adjust")
+	public String adjust(Model model, AdjustForm adjustForm) {
+		model.addAttribute("layout_content", "tx/adjust");
+		return "layout/general";
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/adjust")
+	public String adjustSubmit(Model model, AdjustForm adjustForm) {
+		Date date = null;
+		try {
+			date = df.parse(adjustForm.getDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		List<Transaction> manyFrom = new ArrayList<Transaction>(); 
+		List<Transaction> manyTo = new ArrayList<Transaction>(); 
+		
+		for (ItemForm itemF : adjustForm.getItems()) {
+			Transaction from = new Transaction();
+			Transaction to = new Transaction();
+			from.setCreatedOn(date);
+			from.setConsumer(adjustForm.getTo());
+			from.setRemark(adjustForm.getRemark());
+			from.setItem((new Item()).setName(itemF.getItem()));
+			from.setNumber(itemF.getNumber()*-1);		
+			from.setSupplier("N/A");
+			from.setWarehouse(adjustForm.getFrom());
+			from.setPrice(0);
+			manyFrom.add(from);
+			
+			to.setCreatedOn(date);
+			to.setSupplier(adjustForm.getFrom());
+			to.setConsumer("N/A");
+			to.setRemark(adjustForm.getRemark());
+			to.setWarehouse(adjustForm.getTo());
+			to.setItem((new Item()).setName(itemF.getItem()));
+			to.setNumber(itemF.getNumber());
+			to.setPrice(0);
+			manyTo.add(to);
+		}
+		logger.info("number of items in record: " + manyFrom.size() );
+		txService.adjustMany(manyFrom, manyTo);
+//		model.addAttribute("layout_content", "tx/adjust");
+//		return "layout/general";
+		return "redirect:/tx/";
+	}
+	@RequestMapping(value = "/adjust", params = { "addItem" })
+	public String addAdjustRow(final AdjustForm adjustForm, final BindingResult bindingResult, Model model) {
 
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("layout_content", "tx/adjust");
+			return "layout/general";
+		}
+		adjustForm.addItem();
+		model.addAttribute("layout_content", "tx/adjust");
+		return "layout/general";
+	}
+
+	@RequestMapping(value = "/adjust", params = { "removeItem" })
+	public String removeAdjustRow(Model model, final AdjustForm adjustForm, final BindingResult bindingResult,
+			final HttpServletRequest req) {
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("layout_content", "tx/adjust");
+			return "layout/general";
+		}
+		final Integer rowId = Integer.valueOf(req.getParameter("removeItem"));
+		adjustForm.removeItem(rowId);
+		model.addAttribute("layout_content", "tx/adjust");
+		return "layout/general";
+	}
 }

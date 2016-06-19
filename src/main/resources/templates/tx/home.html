@@ -21,13 +21,13 @@
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
+									<th>交易于</th>
 									<th>商品名</th>
 									<th>数量</th>
 									<th>价钱</th>
 									<th>供应商</th>
 									<th>消费者</th>
 									<th>倉库</th>
-									<th>交易于</th>
 									<th width="5%">操作</th>
 								</tr>
 							</thead>
@@ -55,13 +55,13 @@
 				ajax : 'list',
 				iDisplayLength : 100,
 				columns : [
+				{"data" : "createdOn"}, 
 				{"data" : "item", "orderable": false, width: "40%"}, 
 				{"data" : "number", "orderable": false}, 
 				{"data" : "price",  "orderable": false}, 
 				{"data" : "supplier"}, 
 				{"data" : "consumer"}, 
 				{"data" : "warehouse"}, 
-				{"data" : "createdOn"}, 
 		        {
 	                "class":          "details-control",
 	                "orderable":      false,
@@ -70,7 +70,7 @@
 	            },					
       				
 				],
-				"order": [[6, 'desc']],
+				"order": [[0, 'desc']],
 			});
 			
 			$('#orders tbody').on('click', 'a.view-detail',function(){

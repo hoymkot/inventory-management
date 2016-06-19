@@ -16,7 +16,6 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -28,7 +27,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
 import cn.tyreplus.guanglong.inventory.service.repository.TransactionRepository;
@@ -38,12 +36,10 @@ class TransactionServiceImpl implements TransactionService {
 
 	static Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
 	private final TransactionRepository txRepo;
-	private final ItemRepository itemRepo;
 
 	@Autowired
-	public TransactionServiceImpl(TransactionRepository txRepo, ItemRepository itemRepo) {
+	public TransactionServiceImpl(TransactionRepository txRepo) {
 		this.txRepo= txRepo;
-		this.itemRepo = itemRepo;
 	}
 
 	@Override
@@ -54,12 +50,26 @@ class TransactionServiceImpl implements TransactionService {
 		else {
 			List<Transaction> result = txRepo.search(searchValue);
 			return new PageImpl<Transaction>(result);
-			
 		}
 	}
+
 	@Override
-	public Transaction update(Transaction order) {
-		return txRepo.save(order);
+	public void updateMany(List<Transaction> manyOrder) {
+		txRepo.save(manyOrder);
+	}
+
+	@Override
+	public void adjustMany(List<Transaction> manyFrom, List<Transaction> manyTo) {
+		if (manyFrom.size() != manyTo.size()) {
+			logger.warn("the number of adjustment items doesn't match.");
+			return;
+		}
+		for(int i = 0; i < manyFrom.size() ; i++ ) {
+			logger.info("saving  " + manyFrom.get(i).getItem().getName() );
+			logger.info("saving  " + manyTo.get(i).getItem().getName() );
+			txRepo.save(manyFrom.get(i));
+			txRepo.save(manyTo.get(i));
+		}
 	}
 	
 }

@@ -30,7 +30,8 @@ public class ItemForm {
 		return price;
 	}
 
-	public void setPrice(Integer price) {
+	public ItemForm setPrice(Integer price) {
 		this.price = price;
+		return this;
 	}
 }

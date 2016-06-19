@@ -25,6 +25,7 @@ public interface ItemService {
 	
 
 	void delete(String item);
+	void add(Item item);
 
 	Page<Item> find(String search_value, Pageable pageable);
 	

@@ -18,6 +18,7 @@ package cn.tyreplus.guanglong.inventory.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,8 @@ public class Transaction implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@OneToOne
+	// TODO: Set Cascade
+	@OneToOne()
 	private Item item;
 
 	@Column(nullable = false)

@@ -32,6 +32,11 @@ public class Item implements Serializable {
 	@Id
 	@Column(nullable = false)
 	private String name;
+	
+	@Column(nullable = true)
+	private String description;
+
+
 	public String getName() {
 		return name;
 	}
@@ -40,22 +45,17 @@ public class Item implements Serializable {
 		this.name = name;
 		return this;
 	}
-	
-	@Column(nullable = true)
-	private String description;
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 
 	@Column(nullable = false)
 	private Date createdOn;
 
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 	public Date getCreatedOn() {
 		return createdOn;

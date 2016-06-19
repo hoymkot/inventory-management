@@ -17,7 +17,6 @@ package cn.tyreplus.guanglong.inventory.web.form;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrderForm implements Serializable {
@@ -33,9 +32,8 @@ public class OrderForm implements Serializable {
 	private String remark;
 
 	private List<ItemForm> items = new ArrayList<ItemForm>();;
-	
 	public void addItem() {
-		this.getItems().add(new ItemForm());
+		this.getItems().add(new ItemForm().setPrice(0));
 	}
 	
 	public void removeItem(Integer idx) {

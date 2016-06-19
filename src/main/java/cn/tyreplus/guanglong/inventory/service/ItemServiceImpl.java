@@ -63,5 +63,16 @@ class ItemServiceImpl implements ItemService {
 			repo.delete(i);
 		}
 	}
+
+	@Override
+	public void add(Item item) {
+		if (null == repo.findOne(item.getName())){
+			logger.info("item " + item.getName() + " saved ");
+			repo.save(item);
+		} else {
+			logger.info("item " + item.getName() + " already exists");
+		}
+			
+	}
 	
 }
