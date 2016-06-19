@@ -16,6 +16,7 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,12 +24,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
-import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
 import cn.tyreplus.guanglong.inventory.service.repository.TransactionRepository;
 @Component("txService")
 @Transactional
@@ -45,10 +48,24 @@ class TransactionServiceImpl implements TransactionService {
 	@Override
 	public Page<Transaction> find(String searchValue, Pageable pageable) {
 		logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
-		if(searchValue.equals(""))
-			return this.txRepo.findAll(pageable);
+		if(searchValue.equals("")){
+			Sort sort = pageable.getSort().and(new Sort(new Sort.Order(Direction.fromString("desc"), "id")));
+			Pageable p = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
+			return this.txRepo.findAll(p);
+		}
 		else {
 			List<Transaction> result = txRepo.search(searchValue);
+			result.sort(new Comparator<Transaction>(){
+
+				@Override
+				public int compare(Transaction arg0, Transaction arg1) {
+					if (arg0.getCreatedOn().compareTo(arg1.getCreatedOn()) == 0) {
+						if ( arg0.getId() < arg1.getId()) return 1;
+						else return -1;
+					} else return arg0.getCreatedOn().compareTo(arg1.getCreatedOn()) * -1;
+				}
+				
+			});
 			return new PageImpl<Transaction>(result);
 		}
 	}

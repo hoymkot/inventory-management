@@ -53,11 +53,9 @@ public class TransactionController {
 
 	static Logger logger = LoggerFactory.getLogger(TransactionController.class);
 	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
 	
 	@Autowired
 	private TransactionService txService;
-
 
 	@RequestMapping("/plain")
 	@Transactional(readOnly = true)
@@ -115,7 +113,6 @@ public class TransactionController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/add")
 	public String addForm(Model model, OrderForm orderForm) {
-		orderForm.setDate(df.format(new Date()));
 		model.addAttribute("layout_content", "tx/add");
 		return "layout/general";
 	}
@@ -200,13 +197,14 @@ public class TransactionController {
 		}
 		List<Transaction> manyFrom = new ArrayList<Transaction>(); 
 		List<Transaction> manyTo = new ArrayList<Transaction>(); 
+		String prefix = adjustForm.getFrom() + "调" + adjustForm.getTo() + " ";
 		
 		for (ItemForm itemF : adjustForm.getItems()) {
 			Transaction from = new Transaction();
 			Transaction to = new Transaction();
 			from.setCreatedOn(date);
 			from.setConsumer(adjustForm.getTo());
-			from.setRemark(adjustForm.getRemark());
+			from.setRemark(prefix + adjustForm.getRemark());
 			from.setItem((new Item()).setName(itemF.getItem()));
 			from.setNumber(itemF.getNumber()*-1);		
 			from.setSupplier("N/A");
@@ -217,7 +215,7 @@ public class TransactionController {
 			to.setCreatedOn(date);
 			to.setSupplier(adjustForm.getFrom());
 			to.setConsumer("N/A");
-			to.setRemark(adjustForm.getRemark());
+			to.setRemark(prefix + adjustForm.getRemark());
 			to.setWarehouse(adjustForm.getTo());
 			to.setItem((new Item()).setName(itemF.getItem()));
 			to.setNumber(itemF.getNumber());
@@ -226,8 +224,6 @@ public class TransactionController {
 		}
 		logger.info("number of items in record: " + manyFrom.size() );
 		txService.adjustMany(manyFrom, manyTo);
-//		model.addAttribute("layout_content", "tx/adjust");
-//		return "layout/general";
 		return "redirect:/tx/";
 	}
 	@RequestMapping(value = "/adjust", params = { "addItem" })
