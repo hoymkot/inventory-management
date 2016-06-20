@@ -57,31 +57,35 @@ public class ReportController {
 	@RequestMapping(method = RequestMethod.GET, value = "/sales")
 	@Transactional(readOnly = true)
 	public String sales(Model model ,SalesForm form) {
-		Date from = new Date();
-		Date to = new Date();
+		Date from;
+		Date to;
+	    Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+	    int month = calendar.get(Calendar.MONTH);
+	    List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
 		if ( null != form.getFrom() && null != form.getTo()){ 
 			try {
 				from = df.parse(form.getFrom());
 				to = df.parse(form.getTo());
+				table = txService.salesReport("", from, to);
 			} catch (ParseException e1) {
-			    Calendar calendar = Calendar.getInstance();
-			    int year = calendar.get(Calendar.YEAR);
-			    int month = calendar.get(Calendar.MONTH);
-			    // Do you really want 0-based months, like Java has? Consider month - 1.
-			    calendar.set(year, month, 1, 0, 0, 0);
-			    calendar.clear(Calendar.MILLISECOND);
-			    from = calendar.getTime();
-	
-			    // Get to the last millisecond in the month
-			    calendar.add(Calendar.MONTH, 1);
-			    calendar.add(Calendar.MILLISECOND, -1);
-			    to = calendar.getTime();
-				
+				logger.warn("incorrect date");
 			}
+			
+		} else {
+		    // Do you really want 0-based months, like Java has? Consider month - 1.
+		    calendar.set(year, month, 1, 0, 0, 0);
+		    calendar.clear(Calendar.MILLISECOND);
+		    from = calendar.getTime();
+		    // Get to the last millisecond in the month
+		    calendar.add(Calendar.MONTH, 1);
+		    calendar.add(Calendar.MILLISECOND, -1);
+		    to = calendar.getTime();			
+		    table = txService.salesReport("", from, to);
+		    form.setFrom(df.format(from));
+		    form.setTo(df.format(to));
 		}
 		
-		List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
-		table = txService.salesReport("", from, to);
 		model.addAttribute("sales_list", table );
 		model.addAttribute("layout_content", "report/sales");
 		return "layout/general";
