@@ -95,9 +95,9 @@ class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public List<Map<String, String>> salesReport(Date from, Date to) {
+	public List<Map<String, String>> salesReport(String item, Date from, Date to) {
 		List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
-		List<Object[]> list = txRepo.salesReport("", from, to);
+		List<Object[]> list = txRepo.salesReport(item, from, to);
 		for ( Object[] obj : list) {
 			Map<String, String> row= new HashMap<String, String>();
 			row.put("name", obj[0].toString());

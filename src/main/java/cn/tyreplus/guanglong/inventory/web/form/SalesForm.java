@@ -13,25 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package cn.tyreplus.guanglong.inventory.web.form;
 
-package cn.tyreplus.guanglong.inventory.service;
+import java.io.Serializable;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+public class SalesForm implements Serializable {
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+	private String from;
 
-import cn.tyreplus.guanglong.inventory.entity.Transaction;
+	private String to;
 
-public interface TransactionService {
-	
+	public String getFrom() {
+		return from;
+	}
 
-	Page<Transaction> find(String searchValue, Pageable pageable);
+	public void setFrom(String from) {
+		this.from = from;
+	}
 
-	void updateMany(List<Transaction> manyOrder);
-	void adjustMany(List<Transaction> manyFrom, List<Transaction> manyTo);
-	public List<Map<String, String>> salesReport(String item, Date from, Date to) ;
-	
+	public String getTo() {
+		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+
 }

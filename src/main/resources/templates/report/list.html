@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-title">List of Reports
+					</div>
+					<div class="panel-body table-responsive">
+						<table th:fragment="content" id="orders" class="table display">
+							<thead>
+								<tr>
+									<th>Report</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr >
+										<td><a href="sales">Sales Report</a></td>
+										
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+	</div>
+	<!-- END CONTAINER -->
+</body>
+</html>
