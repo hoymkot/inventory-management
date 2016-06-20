@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+              <form class="form-horizontal"  action="#" th:action="@{/tx/adjust}" th:object="${adjustForm}" method="post">                                                   
+
+		<div class="row">
+    
+
+    <div class="col-md-12 col-lg-12">
+      <div class="panel panel-default">
+
+        <div class="panel-title">
+			调货
+        <ul class="panel-tools">
+
+            <li><button type="submit" name="addItem" value="addItem" class="form-control form-control-no-line"><i class="fa fa-plus"></i></button></li>
+          </ul>
+        </div>
+
+            <div class="panel-body">
+    
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">Date</label>
+                  <div class="col-sm-10">
+                    <input class="form-control form-control-no-line date-picker" th:field="*{date}" type="text" />
+                  </div>
+                </div>          
+                
+
+
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">From</label>
+                  <div class="col-sm-8">
+                    <select class="selectpicker"  th:field="*{from}">
+                        <option value="吉大" >吉大</option>
+                        <option value="金鸡">金鸡</option>
+                      </select>                  
+                  </div>
+                </div>                                                   
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">To</label>
+                  <div class="col-sm-8">
+                    <select class="selectpicker"  th:field="*{to}">
+                        <option value="金鸡">金鸡</option>
+                        <option value="吉大" >吉大</option>
+                      </select>                  
+                  </div>
+                </div>                                                   
+                                                              
+                <div class="form-group">
+                  <label class="col-sm-2 control-label form-label">Remark</label>
+                  <div class="col-sm-10">
+                    <input class="form-control form-control-no-line" type="text" th:field="*{remark}" />
+                  </div>
+                </div>                 
+
+                <div class="form-group"  th:each="row,rowStat : *{items}">
+                  <label class="col-sm-2 control-label form-label"  th:text="'商品 ' + ${rowStat.count}">商品</label>
+                  <div class="col-sm-10">
+                    <input class="form-control form-control-no-line itemName"  style="display:inline-block;width:65%" th:field="*{items[__${rowStat.index}__].item}" placeholder="Name" type="text" />
+                    <input class="form-control form-control-no-line"  style="display:inline-block;width:8%" th:field="*{items[__${rowStat.index}__].number}" placeholder="Number" type="text" />
+                     <button style="display:inline-block;width:5%" type="submit" name="addItem" value="addItem" class="form-control form-control-no-line"><i class="fa fa-plus"></i></button>
+                     <button type="submit" name="removeItem" class="form-control form-control-no-line " style="display:inline-block;width:5%" th:value="${rowStat.index}"><i class="fa fa-minus"></i></button>
+                  </div>
+                </div>                 
+
+
+               <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </div>
+                </div>
+    
+            </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- End Row -->
+
+  </form>
+	</div>
+	<!-- END CONTAINER -->
+</body>
+
+  <script th:fragment="script">
+      $(function() {
+       $( ".itemName" ).autocomplete({      
+            source: "/item/json",
+            minLength: 6,
+       });
+     });
+  </script>
+</html>

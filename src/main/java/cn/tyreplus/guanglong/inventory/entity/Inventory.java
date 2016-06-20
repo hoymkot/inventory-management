@@ -50,6 +50,10 @@ public class Inventory implements Serializable {
 
 	@Column(nullable = false)
 	private String warehouse;
+	
+	@Column(nullable = false)
+	private String period;
+	
 
 	public String getWarehouse() {
 		return warehouse;
@@ -95,6 +99,14 @@ public class Inventory implements Serializable {
 
 	public void setLastModifiedOn(Date lastModifiedOn) {
 		this.lastModifiedOn = lastModifiedOn;
+	}
+
+	public String getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 
 }

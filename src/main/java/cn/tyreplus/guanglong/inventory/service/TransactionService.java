@@ -16,7 +16,9 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,5 +32,6 @@ public interface TransactionService {
 
 	void updateMany(List<Transaction> manyOrder);
 	void adjustMany(List<Transaction> manyFrom, List<Transaction> manyTo);
+	List<Map<String, String>> salesReport(Date from, Date to);
 	
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-title">Sales Report
+					</div>
+					<div class="panel-body table-responsive">
+						<table th:fragment="content" id="orders" class="table display">
+							<thead>
+								<tr>
+									<th>商品名</th>
+									<th>数量</th>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="sl : ${sales_list}">
+										<td th:text="${{sl.name}}"></td>
+										<td th:text="${{sl.total}}" ></td>
+										<td th:text="${{sl.sales}}" ></td>
+										
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+	</div>
+	<!-- END CONTAINER -->
+</body>
+</html>

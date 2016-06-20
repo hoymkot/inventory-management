@@ -16,6 +16,7 @@
 
 package cn.tyreplus.guanglong.inventory.service.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -30,4 +31,8 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
 
 	@Query("from Transaction tx where tx.item.name like %?1% ")
 	List<Transaction> search(String itemName);
+
+//	@Query("select tx.item.name as name, sum(tx.number) as sum from Transaction tx where tx.item.name like %?1% and tx.createdOn >= ?2 and tx.createdOn < ?3 and tx.number < 0 group by tx.item order by name asc")
+	@Query(nativeQuery=true, value="Select item, sum(number), sum(number * price) from transaction where item like %?1% and created_on >= ?2 and created_on <= ?3 and number < 0 group by item order by item asc")
+	List<Object[]> salesReport(String itemName, Date from, Date to);
 }

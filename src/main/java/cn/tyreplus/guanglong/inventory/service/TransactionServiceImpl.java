@@ -17,7 +17,12 @@
 package cn.tyreplus.guanglong.inventory.service;
 
 import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +92,20 @@ class TransactionServiceImpl implements TransactionService {
 			txRepo.save(manyFrom.get(i));
 			txRepo.save(manyTo.get(i));
 		}
+	}
+
+	@Override
+	public List<Map<String, String>> salesReport(Date from, Date to) {
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
+		List<Object[]> list = txRepo.salesReport("", from, to);
+		for ( Object[] obj : list) {
+			Map<String, String> row= new HashMap<String, String>();
+			row.put("name", obj[0].toString());
+			row.put("total", obj[1].toString());
+			row.put("sales", obj[2].toString());
+			table.add(row);
+		}
+		return table;
 	}
 	
 }
