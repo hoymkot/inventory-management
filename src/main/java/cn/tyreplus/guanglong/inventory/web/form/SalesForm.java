@@ -38,5 +38,7 @@ public class SalesForm implements Serializable {
 	public void setTo(String to) {
 		this.to = to;
 	}
+	
+	
 
 }

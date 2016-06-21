@@ -79,7 +79,7 @@ public class Inventory implements Serializable {
 		this.warehouse = warehouse;
 	}
 
-	@Column(nullable = false)
+	@Column
 	private String remark;
 
 	public String getRemark() {

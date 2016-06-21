@@ -12,20 +12,23 @@
 			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-title">List of Reports
+					<ul class="panel-tools">
+						<li><a class="icon" href="generate" ><i class="fa fa-plus"></i></a></li>
+          			</ul>					
 					</div>
 					<div class="panel-body table-responsive">
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
-									<th>Report</th>
+									<th>Inventory</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td><a href="sales">Sales Report</a></td>
+									<td><a href="generate">Generate End of Month Inventory/a></td>
 								</tr>
 								<tr>
-									<td><a href="purchase">Purchase Report</a></td>
+									<td><a href="view">View Inventory</a></td>
 								</tr>
 							</tbody>
 						</table>

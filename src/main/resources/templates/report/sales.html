@@ -15,7 +15,7 @@
         </div>
 
             <div class="panel-body">
-				<form class="form-inline"  action="#" th:action="@{/report/sales}" th:object="${salesForm}" method="get">                                                   
+				<form class="form-inline"  action="#" th:object="${salesForm}" method="get">                                                   
                 <div class="form-group">
                 <label  class="form-label">From:</label>
                 <input class="form-control form-control-no-line date-picker" th:field="*{from}" type="text" placeholder="from"/>
@@ -39,7 +39,7 @@
 			<!-- Start Panel -->
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-title">Sales Report
+					<div class="panel-title" th:text="${report_name}"> 
 					</div>
 					<div class="panel-body table-responsive">
 						<table th:fragment="content" id="orders" class="table display">

@@ -90,10 +90,8 @@ public class ItemController {
 	@RequestMapping("/json")
 	@Transactional(readOnly = true)
 	public @ResponseBody List<String> plainTxt(@RequestParam(value = "term") String item) {
-		
-		 Page<Item> items = this.itemService.find(item,new PageRequest(0, 10000));
-		
-		 StringBuilder sb = new StringBuilder();
+		Page<Item> items = this.itemService.find(item,new PageRequest(0, 10000));
+		StringBuilder sb = new StringBuilder();
 		List<String> data = new LinkedList<String>();
 		for (Item i : items) {
 			data.add(i.getName());
@@ -126,5 +124,12 @@ public class ItemController {
 		i.setCreatedOn(new Date());
 		this.itemService.add(i);
 		return "redirect:/item/";
-	}	
+	}
+	
+	@RequestMapping("/inventory/generate")
+	@Transactional(readOnly = true)
+	public String inventoryGeneration(Model model) {
+		model.addAttribute("layout_content", "inventory/view");
+		return "layout/general";
+	}
 }

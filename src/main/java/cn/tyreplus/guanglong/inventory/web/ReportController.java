@@ -18,31 +18,22 @@ package cn.tyreplus.guanglong.inventory.web;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.hibernate.type.descriptor.java.CalendarDateTypeDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.tyreplus.guanglong.inventory.service.TransactionService;
 import cn.tyreplus.guanglong.inventory.web.form.SalesForm;
-
-
 
 @Controller
 @RequestMapping("/report")
@@ -87,9 +78,52 @@ public class ReportController {
 		}
 		
 		model.addAttribute("sales_list", table );
+		model.addAttribute("report_name", "Sales Report");
 		model.addAttribute("layout_content", "report/sales");
 		return "layout/general";
 	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/purchase")
+	@Transactional(readOnly = true)
+	public String purchase(Model model ,SalesForm form) {
+		Date from;
+		Date to;
+
+	    List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
+		if ( null != form.getFrom() && null != form.getTo()){ 
+			try {
+				from = df.parse(form.getFrom());
+				to = df.parse(form.getTo());
+				table = txService.purchaseReport("", from, to);
+			} catch (ParseException e1) {
+				logger.warn("incorrect date");
+			}
+			
+		} else {
+		    // Do you really want 0-based months, like Java has? Consider month - 1.
+		    Calendar calendar = Calendar.getInstance();
+			int year = calendar.get(Calendar.YEAR);
+		    int month = calendar.get(Calendar.MONTH);
+			calendar.set(year, month, 1, 0, 0, 0);
+		    calendar.clear(Calendar.MILLISECOND);
+		    from = calendar.getTime();
+		    // Get to the last millisecond in the month
+		    calendar.add(Calendar.MONTH, 1);
+		    calendar.add(Calendar.MILLISECOND, -1);
+		    to = calendar.getTime();			
+		    table = txService.purchaseReport("", from, to);
+		    form.setFrom(df.format(from));
+		    form.setTo(df.format(to));
+		}
+		
+		model.addAttribute("sales_list", table );
+		model.addAttribute("report_name", "Purchase Report");
+		model.addAttribute("layout_content", "report/sales");
+		return "layout/general";
+	}
+	
+	
 	
 	@RequestMapping("/")
 	@Transactional(readOnly = true)

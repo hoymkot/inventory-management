@@ -99,10 +99,11 @@ $('.selectpicker').selectpicker({
 	<div class="sidebar clearfix">
 		<ul class="sidebar-panel nav">
 			<li class="sidetitle">MAIN</li>
-			<li><a th:href="${#mvc.url('IC#home').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>商品</a></li>				
+			<li><a href="/item/"><span class="icon color5"><i class="fa fa-user-md"></i></span>商品</a></li>				
 			<li><a th:href="${#mvc.url('TC#home').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>交易</a></li>				
 			<li><a th:href="${#mvc.url('TC#adjust').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>调货</a></li>				
-			<li><a th:href="${#mvc.url('RC#list').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>Report</a></li>				
+			<li><a th:href="${#mvc.url('RC#list').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>Reports</a></li>				
+			<li><a href="/inventory/"><span class="icon color5"><i class="fa fa-user-md"></i></span>Inventory</a></li>				
 		</ul>
 	</div>
 	<!-- END SIDEBAR -->

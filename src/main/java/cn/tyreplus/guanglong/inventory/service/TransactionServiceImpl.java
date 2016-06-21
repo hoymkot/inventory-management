@@ -108,4 +108,18 @@ class TransactionServiceImpl implements TransactionService {
 		return table;
 	}
 	
+	@Override
+	public List<Map<String, String>> purchaseReport(String item, Date from, Date to) {
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
+		List<Object[]> list = txRepo.purchaseReport(item, from, to);
+		for ( Object[] obj : list) {
+			Map<String, String> row= new HashMap<String, String>();
+			row.put("name", obj[0].toString());
+			row.put("total", obj[1].toString());
+			row.put("sales", obj[2].toString());
+			table.add(row);
+		}
+		return table;
+	}
+	
 }
