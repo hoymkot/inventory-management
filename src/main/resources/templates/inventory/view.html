@@ -11,7 +11,7 @@
 			<!-- Start Panel -->
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-title">List of Reports
+					<div class="panel-title">Preview End Of Month Inventory Report
 					<ul class="panel-tools">
 						<li><a class="icon" href="generate" ><i class="fa fa-plus"></i></a></li>
           			</ul>					
@@ -20,15 +20,20 @@
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
-									<th>Inventory</th>
+									<th>Item</th>
+									<th>Warehouse</th>
+									<th>Old Value</th>
+									<th>Net</th>
+									<th>New Value</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td><a href="generate">Generate End of Month Inventory</a></td>
-								</tr>
-								<tr>
-									<td><a href="view">View Inventory</a></td>
+								<tr th:each="row : ${report}">
+									<td th:text="*{row[0]}"></td>
+									<td th:text="*{row[1]}"></td>
+									<td th:text="*{row[2]}"></td>
+									<td th:text="*{row[3]}"></td>
+									<td th:text="*{row[4]}"></td>
 								</tr>
 							</tbody>
 						</table>

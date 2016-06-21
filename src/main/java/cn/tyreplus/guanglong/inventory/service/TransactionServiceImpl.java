@@ -19,7 +19,6 @@ package cn.tyreplus.guanglong.inventory.service;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.repository.TransactionRepository;
-@Component("txService")
+
+@Component("inventoryService")
 @Transactional
 class TransactionServiceImpl implements TransactionService {
 

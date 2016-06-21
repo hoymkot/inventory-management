@@ -125,11 +125,4 @@ public class ItemController {
 		this.itemService.add(i);
 		return "redirect:/item/";
 	}
-	
-	@RequestMapping("/inventory/generate")
-	@Transactional(readOnly = true)
-	public String inventoryGeneration(Model model) {
-		model.addAttribute("layout_content", "inventory/view");
-		return "layout/general";
-	}
 }
