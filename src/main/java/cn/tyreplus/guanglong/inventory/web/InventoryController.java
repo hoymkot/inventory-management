@@ -16,6 +16,10 @@
 
 package cn.tyreplus.guanglong.inventory.web;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,13 +40,35 @@ import cn.tyreplus.guanglong.inventory.service.InventoryService;
 public class InventoryController {
 
 	static Logger logger = LoggerFactory.getLogger(InventoryController.class);
+	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
 
 	@Autowired
 	private InventoryService service;
 
 	@RequestMapping(method = RequestMethod.GET, value="/view" , params = { "generate" })
 	public String inventoryGeneration(Model model) {
-		service.saveEndOfMonthInventory("2016-05-31", "2016-06-30");
+
+		List<String> available = this.service.availableInventoryReport();
+		if (available.size() == 0) return "redirect:/inventory/view/";
+		
+		String period = available.iterator().next();
+		Date recent = new Date(); Date now = recent;
+		try {
+			recent = df.parse(period);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return "redirect:/inventory/view/";
+		}
+		Calendar c = Calendar.getInstance();
+		c.set(recent.getYear() + 1900, recent.getMonth() + 1 ,0,0,0);
+		c.clear(Calendar.MILLISECOND);
+		c.add(Calendar.MONTH, 1);
+		c.add(Calendar.MILLISECOND, -1);;
+		String new_period = (new Integer(c.get(Calendar.YEAR))).toString() +
+				"-" + (new Integer(c.get(Calendar.MONTH) + 1)).toString() + 
+				"-" + (new Integer(c.get(Calendar.DAY_OF_MONTH))).toString();
+		service.saveEndOfMonthInventory(period, new_period);
 		
 		return "redirect:/inventory/view/";
 	}

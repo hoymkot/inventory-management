@@ -47,7 +47,6 @@
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
-									<th>Period</th>
 									<th>Warehouse</th>
 									<th>Item</th>
 									<th>Number</th>
@@ -55,7 +54,6 @@
 							</thead>
 							<tbody>
 								<tr th:each="row : ${report}">
-									<td th:text="*{row.period}"></td>
 									<td th:text="*{row.warehouse}"></td>
 									<td th:text="*{row.item.name}"></td>
 									<td th:text="*{row.number}"></td>
