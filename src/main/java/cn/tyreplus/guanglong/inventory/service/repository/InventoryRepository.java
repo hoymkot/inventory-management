@@ -68,7 +68,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 	 * @param thisMonth
 	 */
 	@Modifying
-	@Query(nativeQuery=true, value="INSERT INTO `inventory`(`period`, `item`, `number`, `warehouse`, `remark`, `last_modified_on`) select ?2, tx.item, sum(tx.number), tx.warehouse, tx.remark, now() from transaction tx where (tx.item, tx.warehouse) not in ( select i.item, i.warehouse from inventory i where period = ?2) and created_on > ?1' and created_on <= ?2 group by tx.item, tx.warehouse")
+	@Query(nativeQuery=true, value="INSERT INTO `inventory`(`period`, `item`, `number`, `warehouse`, `remark`, `last_modified_on`) select ?2, tx.item, sum(tx.number), tx.warehouse, tx.remark, now() from transaction tx where (tx.item, tx.warehouse) not in ( select i.item, i.warehouse from inventory i where period = ?2) and created_on > ?1 and created_on <= ?2 group by tx.item, tx.warehouse")
 	void addNewlyAddedItemToInventory(String lastMonth, String thisMonth);
 
 	void deleteByPeriod(String period);

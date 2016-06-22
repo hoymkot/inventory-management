@@ -16,7 +16,6 @@
 
 package cn.tyreplus.guanglong.inventory.web;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -41,7 +40,7 @@ public class InventoryController {
 	@Autowired
 	private InventoryService service;
 
-	@RequestMapping(method = RequestMethod.GET, value="/generate")
+	@RequestMapping(method = RequestMethod.GET, value="/view" , params = { "generate" })
 	public String inventoryGeneration(Model model) {
 		service.saveEndOfMonthInventory("2016-05-31", "2016-06-30");
 		

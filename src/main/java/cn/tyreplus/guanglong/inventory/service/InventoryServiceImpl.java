@@ -16,7 +16,6 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,9 +25,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.tyreplus.guanglong.inventory.entity.Inventory;
-import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.service.repository.InventoryRepository;
-import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
 
 @Component("inventoryService")
 @Transactional

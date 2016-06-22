@@ -16,15 +16,8 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import cn.tyreplus.guanglong.inventory.entity.Inventory;
-import cn.tyreplus.guanglong.inventory.entity.Transaction;
 
 public interface InventoryService {
 	
