@@ -16,6 +16,7 @@
 
 package cn.tyreplus.guanglong.inventory.web;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -40,9 +41,9 @@ public class InventoryController {
 	private InventoryService inventoryService;
 
 	@RequestMapping(method = RequestMethod.GET, value="/generate")
-	@Transactional(readOnly = true)
 	public String inventoryGeneration(Model model) {
-		List<String[]> report = inventoryService.previewEndOfMonthInventory("2016-05-31", "2016-06-30");
+		List<String[]> report = new LinkedList<String[]>(); 
+		inventoryService.saveEndOfMonthInventory("2016-05-31", "2016-06-30");
 		
 		model.addAttribute("report", report);
 		model.addAttribute("layout_content", "inventory/view");

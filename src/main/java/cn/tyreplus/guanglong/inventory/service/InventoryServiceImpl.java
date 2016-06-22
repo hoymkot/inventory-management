@@ -16,7 +16,7 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
-import java.util.LinkedList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -25,49 +25,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.tyreplus.guanglong.inventory.entity.Inventory;
+import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.service.repository.InventoryRepository;
+import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
 
-@Component("txService")
+@Component("inventoryService")
 @Transactional
 public class InventoryServiceImpl implements InventoryService{
 	
 	static Logger logger = LoggerFactory.getLogger(InventoryServiceImpl.class);
 	private final InventoryRepository repo;
 
+	private final ItemRepository itemRepo;
+
 
 	@Autowired
-	public InventoryServiceImpl(InventoryRepository repo) {
-		this.repo= repo;
+	public InventoryServiceImpl(InventoryRepository repo,ItemRepository itemRepo) {
+		this.repo = repo;
+		this.itemRepo = itemRepo;
 	}
+
 	
-	
-	/**
-	 * error reporting inventory already recorded.
-	 * validation
-	 * @param lastMonth
-	 * @param thisMonth
-	 * @return
-	 */
-	@Override
-	public List<String[]> previewEndOfMonthInventory(String lastMonth, String thisMonth){
-		List<String> reports = this.availableInventoryReport() ;
-		if (reports.contains(thisMonth)) {
-			logger.warn("inventory report for " + thisMonth + " already exists");
-			return new LinkedList<String[]>();
-		}
-		return repo.previewEndOfMonthInventory(lastMonth, thisMonth);
-		
-	}
 	/**
 	 * no op on error
 	 */
 	@Override
+//	@Transactional(readOnly=false)
 	public void saveEndOfMonthInventory(String lastMonth, String thisMonth){
-		List<String> reports = this.availableInventoryReport() ;
-		if (reports.contains(thisMonth)) {
-			logger.warn("inventory report for " + thisMonth + " already exists");
-		}
-		repo.saveEndOfMonthInventory(lastMonth, thisMonth);
+//		List<String> reports = this.availableInventoryReport() ;
+//		if (reports.contains(thisMonth)) {
+//			logger.warn("inventory report for " + thisMonth + " already exists");
+//		}
+		Inventory in = new Inventory();
+		Item item = itemRepo.findOne("倍耐力 255/40R18  99Y");
+		in.setItem(item);
+		in.setLastModifiedOn(new Date());
+		in.setNumber((long) 1);
+		in.setPeriod("2016-05-31");
+		in.setRemark("bushi");
+		in.setWarehouse("Jinji");
+		repo.save(in);
+		//		repo.copyLastMonthInventory();
+//		repo.copyLastMonthInventory(lastMonth, thisMonth);
 		
 	}
 	@Override

@@ -33,8 +33,6 @@ public interface InventoryService {
 	 * @param thisMonth
 	 * @return
 	 */
-	List<String[]> previewEndOfMonthInventory(String lastMonth, String thisMonth);
-	
 	void saveEndOfMonthInventory(String lastMonth, String thisMonth);
 	
 	List<String> availableInventoryReport();

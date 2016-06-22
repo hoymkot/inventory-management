@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
 import cn.tyreplus.guanglong.inventory.service.repository.TransactionRepository;
 
-@Component("inventoryService")
+@Component("txService")
 @Transactional
 class TransactionServiceImpl implements TransactionService {
 
