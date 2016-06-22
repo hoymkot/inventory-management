@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cn.tyreplus.guanglong.inventory.entity.Inventory;
 import cn.tyreplus.guanglong.inventory.service.InventoryService;
 
 
@@ -38,16 +39,33 @@ public class InventoryController {
 	static Logger logger = LoggerFactory.getLogger(InventoryController.class);
 
 	@Autowired
-	private InventoryService inventoryService;
+	private InventoryService service;
 
 	@RequestMapping(method = RequestMethod.GET, value="/generate")
 	public String inventoryGeneration(Model model) {
-		List<String[]> report = new LinkedList<String[]>(); 
-		inventoryService.saveEndOfMonthInventory("2016-05-31", "2016-06-30");
+		service.saveEndOfMonthInventory("2016-05-31", "2016-06-30");
 		
+		return "redirect:/inventory/view/";
+	}
+	@RequestMapping(method = RequestMethod.GET, value="/view")
+	public String viewReport(String period, Model model) {
+		List<String> available = this.service.availableInventoryReport();
+		if (period == null || period.equals("")){
+			period = available.iterator().next();
+		}
+		List<Inventory> report = this.service.viewReport(period);
+		
+		model.addAttribute("current_period", period);
 		model.addAttribute("report", report);
+		model.addAttribute("available", available);
 		model.addAttribute("layout_content", "inventory/view");
 		return "layout/general";
+	}
+	@RequestMapping(method = RequestMethod.GET, value="/view", params = { "delete" })
+	public String deleteReport(String period, Model model) {
+		if(period != null && !period.equals("2016-05-31"))
+			this.service.deleteReport(period);
+		return "redirect:/inventory/view";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/")

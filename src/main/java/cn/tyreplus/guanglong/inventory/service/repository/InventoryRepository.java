@@ -31,7 +31,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 	
 	@Query(nativeQuery=true, value="select tx.item, tx.warehouse, inven.number as old_value,  sum(tx.number) as net, (sum(tx.number) + inven.number) as total, ?2 from inventory inven outer join transaction tx on inven.item = tx.item and tx.warehouse = inven.warehouse where created_on > ?1 and created_on <= ?2 and period = ?1 group by tx.item order by tx.warehouse, tx.item")
 	List<String[]> previewEndOfMonthInventory(String lastMonth, String thisMonth);
-
 	
 	/**
 	 * * copy old inventory to new record 
@@ -44,19 +43,37 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 	@Transactional
 	void saveEndOfMonthInventory(String lastMonth, String thisMonth);
 	
-	@Query(nativeQuery=true, value="select period from inventory group by period")
+	@Query(nativeQuery=true, value="select period from inventory group by period order by period desc")
 	List<String> availableInventoryReports();
-	
+
+	/**
+	 * INSERT INTO `inventory`( `number`, `warehouse`, `item`, `period`, last_modified_on) select number, warehouse, item, '2016-06-30', now() from inventory where period = '2016-05-31' 
+	 * @param lastMonth
+	 * @param thisMonth
+	 */
+	@Modifying
+	@Query(nativeQuery=true, value="INSERT INTO `inventory`( `number`, `warehouse`, `item`, `period`, last_modified_on) select number, warehouse, item, ?2, now() from inventory where period = ?1 ")
+	void copyLastMonthInventory(String lastMonth, String thisMonth);
+
 	
 	@Modifying
-	@Transactional
-	@Query(nativeQuery=true, value="DELETE FROM `inventory` ")
-	void copyLastMonthInventory();
-//	@Modifying
-//	@Transactional
-//	@Query(nativeQuery=true, value="INSERT INTO `inventory`( `number`, `warehouse`, `item`, `period`) select number, warehouse, item, ?2 from inventory where period = ?1 ")
-//	void copyLastMonthInventory(String lastMonth, String thisMonth);
+	@Query(nativeQuery=true, value="UPDATE `inventory`i SET i.number = i.number + (select ifnull(sum(tx.number),0) from transaction tx where i.item = tx.item and tx.warehouse = i.warehouse and created_on > ?1 and created_on <= ?2 ), last_modified_on = now() WHERE period = ?2")
+	void applyDiffToInventory(String lastMonth, String thisMonth);
 
+	/**
+	 * INSERT INTO `inventory`(`period`, `item`, `number`, `warehouse`, `remark`, `last_modified_on`) select '2016-06-30', tx.item, sum(tx.number), tx.warehouse, tx.remark, now() from transaction tx where (tx.item, tx.warehouse) not in ( select i.item, i.warehouse from inventory i where period = '2016-06-30') and created_on > '2016-05-31' and created_on <= '2016-06-30' group by tx.item, tx.warehouse
+	 * base query: 
+	 * select '2016-06-30', tx.item, sum(tx.number), tx.warehouse, tx.remark, now() from transaction tx where (tx.item, tx.warehouse) not in ( select i.item, i.warehouse from inventory i where period = '2016-06-30') and created_on > '2016-05-31' and created_on <= '2016-06-30' group by tx.item, tx.warehouse  
+	 * @param lastMonth
+	 * @param thisMonth
+	 */
+	@Modifying
+	@Query(nativeQuery=true, value="INSERT INTO `inventory`(`period`, `item`, `number`, `warehouse`, `remark`, `last_modified_on`) select ?2, tx.item, sum(tx.number), tx.warehouse, tx.remark, now() from transaction tx where (tx.item, tx.warehouse) not in ( select i.item, i.warehouse from inventory i where period = ?2) and created_on > ?1' and created_on <= ?2 group by tx.item, tx.warehouse")
+	void addNewlyAddedItemToInventory(String lastMonth, String thisMonth);
+
+	void deleteByPeriod(String period);
+
+	List<Inventory> findByPeriod(String period);
 }
 	
 	

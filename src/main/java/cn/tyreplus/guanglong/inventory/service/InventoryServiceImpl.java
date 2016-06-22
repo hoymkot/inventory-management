@@ -37,13 +37,9 @@ public class InventoryServiceImpl implements InventoryService{
 	static Logger logger = LoggerFactory.getLogger(InventoryServiceImpl.class);
 	private final InventoryRepository repo;
 
-	private final ItemRepository itemRepo;
-
-
 	@Autowired
-	public InventoryServiceImpl(InventoryRepository repo,ItemRepository itemRepo) {
+	public InventoryServiceImpl(InventoryRepository repo) {
 		this.repo = repo;
-		this.itemRepo = itemRepo;
 	}
 
 	
@@ -51,29 +47,34 @@ public class InventoryServiceImpl implements InventoryService{
 	 * no op on error
 	 */
 	@Override
-//	@Transactional(readOnly=false)
 	public void saveEndOfMonthInventory(String lastMonth, String thisMonth){
-//		List<String> reports = this.availableInventoryReport() ;
-//		if (reports.contains(thisMonth)) {
-//			logger.warn("inventory report for " + thisMonth + " already exists");
-//		}
-		Inventory in = new Inventory();
-		Item item = itemRepo.findOne("倍耐力 255/40R18  99Y");
-		in.setItem(item);
-		in.setLastModifiedOn(new Date());
-		in.setNumber((long) 1);
-		in.setPeriod("2016-05-31");
-		in.setRemark("bushi");
-		in.setWarehouse("Jinji");
-		repo.save(in);
-		//		repo.copyLastMonthInventory();
-//		repo.copyLastMonthInventory(lastMonth, thisMonth);
+		List<String> reports = this.availableInventoryReport() ;
+		if (reports.contains(thisMonth)) {
+			logger.warn("inventory report for " + thisMonth + " already exists");
+		} else {
+			repo.copyLastMonthInventory(lastMonth, thisMonth);
+			repo.applyDiffToInventory(lastMonth, thisMonth);
+			repo.addNewlyAddedItemToInventory(lastMonth, thisMonth);
+		}
 		
 	}
 	@Override
 	public List<String> availableInventoryReport() {
 		return repo.availableInventoryReports();
 	}
+
+	@Override
+	public List<Inventory> viewReport(String period) {
+		return repo.findByPeriod(period);
+	}
 	
+	
+	/**
+	 * TODO: may try example or criteria api 
+	 */
+	@Override
+	public void deleteReport(String period) {
+		repo.deleteByPeriod(period);
+	}
 	
 }

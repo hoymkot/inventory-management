@@ -23,6 +23,7 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import cn.tyreplus.guanglong.inventory.entity.Inventory;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
 
 public interface InventoryService {
@@ -36,6 +37,10 @@ public interface InventoryService {
 	void saveEndOfMonthInventory(String lastMonth, String thisMonth);
 	
 	List<String> availableInventoryReport();
+
+	void deleteReport(String period);
+
+	List<Inventory> viewReport(String period);
 	
 
 	
