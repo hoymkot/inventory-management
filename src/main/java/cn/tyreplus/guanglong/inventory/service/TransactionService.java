@@ -35,5 +35,7 @@ public interface TransactionService {
 	public List<Map<String, String>> purchaseReport(String item, Date from, Date to) ;
 
 	Page<Transaction> find(String searchValue, Map<String, String> searchMap, Pageable pageable);
+	Long getTotalRecords();
+	Long getTotalFiltered(String searchValue, Map<String, String> searchMap, Pageable pageable);
 	
 }

@@ -21,14 +21,14 @@
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
-									<th>交易于</th>
+									<th width="10%">交易于</th>
 									<th>商品名</th>
-									<th>数量</th>
-									<th>价钱</th>
-									<th>供应商</th>
+									<th width="5%">数量</th>
+									<th width="5%">价钱</th>
+									<th width="10%">供应商</th>
 									<th>消费者</th>
-									<th>倉库</th>
-									<th width="5%">操作</th>
+									<th width="10%">倉库</th>
+									<th width="5%"></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -54,12 +54,17 @@
 			$('#orders thead th').each( function () {
         		var title = $(this).text();
         		var width = $(this).width();
-        		$(this).html( '<input style="width: '+ width + 'px; border-bottom:0" class="form-control form-control-line" type="text" placeholder="'+title+'" />' );
+        		var insert = true;
+        		if (title == "数量") insert = false;
+        		if (title == "价钱") insert = false;
+        		if (title == "交易于") insert = false;
+        		if(insert)
+        			$(this).html( '<input style="width: '+ width + 'px; border-bottom:0" class="form-control form-control-line" type="text" placeholder="'+title+'" />' );
     		} );
 			var table = $('#orders').DataTable({
 				serverSide : true,
 				ajax : 'list',
-				iDisplayLength : 100,
+//				iDisplayLength : 100,
 				columns : [
 				{"data" : "createdOn", 'searchable': false}, 
 				{"data" : "item", "orderable": false, width: "40%"}, 

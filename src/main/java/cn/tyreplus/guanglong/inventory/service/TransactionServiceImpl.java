@@ -63,24 +63,18 @@ class TransactionServiceImpl implements TransactionService {
 		logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
 		Sort sort = pageable.getSort().and(new Sort(new Sort.Order(Direction.fromString("desc"), "id")));
 		Pageable p = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
-		return txRepo.findAll(new Specification<Transaction>() {
-			public Predicate toPredicate(Root<Transaction> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-				Predicate p = builder.conjunction();
-				String itemName = searchValue;
-				if (searchMap.get("item") != null && !searchMap.get("item").equals("")) {
-					itemName = searchMap.get("item");
-				}
-				if (!"".equals(itemName))
-					p = builder.and(p, builder.like(root.get("item").get("name"), "%" + itemName + "%"));
-				for ( String key : searchMap.keySet()){
-					if (key!= null && !key.equals("") && !key.equals("item") && searchMap.get(key) != null && !searchMap.get(key).equals(""))
-						p = builder.and(p, builder.like(root.get(key), "%" + searchMap.get(key) + "%"));
-				}
-				
-				return p;
-			}
-		}, p);
+		return txRepo.findAll(new TransactionSpecification(searchValue, searchMap), p);
 
+	}
+		
+	@Override
+	public Long getTotalFiltered(String searchValue, Map<String, String> searchMap, Pageable pageable) {
+		return txRepo.count(new TransactionSpecification(searchValue, searchMap));
+		
+	}
+	@Override
+	public Long getTotalRecords() {
+		return txRepo.count();		
 	}
 
 
@@ -131,4 +125,33 @@ class TransactionServiceImpl implements TransactionService {
 		return table;
 	}
 
+	class TransactionSpecification implements Specification<Transaction>{
+
+		private String searchValue;
+		private Map<String, String> searchMap;
+		TransactionSpecification(String searchValue, Map<String, String> searchMap){
+			this.searchValue = searchValue;
+			this.searchMap = searchMap;
+		}
+		
+		@Override
+		public Predicate toPredicate(Root<Transaction> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+			Predicate p = builder.conjunction();
+			String itemName = searchValue;
+			if (searchMap.get("item") != null && !searchMap.get("item").equals("")) {
+				itemName = searchMap.get("item");
+			}
+			if (!"".equals(itemName))
+				p = builder.and(p, builder.like(root.get("item").get("name"), "%" + itemName + "%"));
+			for ( String key : searchMap.keySet()){
+				if (key!= null && !key.equals("") && !key.equals("item") && searchMap.get(key) != null && !searchMap.get(key).equals(""))
+					p = builder.and(p, builder.like(root.get(key), "%" + searchMap.get(key) + "%"));
+			}
+			
+			return p;
+		}
+		
+	}
+	
+	
 }

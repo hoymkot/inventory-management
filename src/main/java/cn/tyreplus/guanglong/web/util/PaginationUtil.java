@@ -29,7 +29,7 @@ public class PaginationUtil {
 	public Pageable getPageable() {
 		
 		Integer start = Integer.valueOf(req.getParameter("start"));
-		Integer length = 100;
+		Integer length = Integer.valueOf(req.getParameter("length"));
 		logger.info("start: " + start + " length: " + length );
 		
 		String direction = req.getParameter("order[0][dir]");

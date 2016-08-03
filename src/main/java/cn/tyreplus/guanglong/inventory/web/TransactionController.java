@@ -93,8 +93,12 @@ public class TransactionController {
 		
 		 DataTable response = new DataTable();
 		 response.setDraw(paginationUtil.getDraw());
-		 response.setRecordsTotal(0);
-		 response.setRecordsFiltered(0);
+		 response.setRecordsTotal(txService.getTotalRecords());
+		 response.setRecordsFiltered(txService.getTotalFiltered(
+				 paginationUtil.getSearchValue(),
+				 paginationUtil.getSearchMap(),
+				 paginationUtil.getPageable()
+				 ));
 		 List<TxJson> data = new LinkedList<TxJson>();
 		 for (Transaction tx : orders) {
 			 TxJson json = new TxJson() ;

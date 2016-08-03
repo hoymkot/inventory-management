@@ -12,8 +12,8 @@ public class DataTable {
 	static Logger logger = LoggerFactory.getLogger(DataTable.class);
 
 	Integer draw;
-	Integer recordsTotal ; 
-	Integer recordsFiltered; 
+	Long recordsTotal ; 
+	Long recordsFiltered; 
 	public Integer getDraw() {
 		return draw;
 	}
@@ -21,16 +21,16 @@ public class DataTable {
 		this.draw = draw;
 	}
 
-	public Integer getRecordsTotal() {
+	public Long getRecordsTotal() {
 		return recordsTotal;
 	}
-	public void setRecordsTotal(Integer recordsTotal) {
+	public void setRecordsTotal(Long recordsTotal) {
 		this.recordsTotal = recordsTotal;
 	}
-	public Integer getRecordsFiltered() {
+	public Long getRecordsFiltered() {
 		return recordsFiltered;
 	}
-	public void setRecordsFiltered(Integer recordsFiltered) {
+	public void setRecordsFiltered(Long recordsFiltered) {
 		this.recordsFiltered = recordsFiltered;
 	}
 	public Iterable getData() {
