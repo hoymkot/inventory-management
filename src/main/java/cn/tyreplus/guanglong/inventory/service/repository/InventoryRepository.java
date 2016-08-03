@@ -45,6 +45,9 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 	
 	@Query(nativeQuery=true, value="select period from inventory group by period order by period desc")
 	List<String> availableInventoryReports();
+	
+	@Query(nativeQuery=true, value="select warehouse from inventory group by warehouse order by warehouse desc")
+	List<String> availableWarehouse();
 
 	/**
 	 * INSERT INTO `inventory`( `number`, `warehouse`, `item`, `period`, last_modified_on) select number, warehouse, item, '2016-06-30', now() from inventory where period = '2016-05-31' 
@@ -73,7 +76,10 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
 	void deleteByPeriod(String period);
 
-	List<Inventory> findByPeriod(String period);
+	@Query(nativeQuery=true, value="select item ,warehouse, number from inventory where period = ?1")
+//	@Query(nativeQuery=true, value="select 'ac', 'ad', 'ade' from inventory where period = ?1")
+	List<String[]> findByPeriod(String period);
+	
 }
 	
 	

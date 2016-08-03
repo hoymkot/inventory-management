@@ -20,7 +20,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,17 +81,32 @@ public class InventoryController {
 		if (period == null || period.equals("")){
 			period = available.iterator().next();
 		}
-		List<Inventory> report = this.service.viewReport(period);
+		List<String[]> report = this.service.viewReport(period);
 		
+		HashMap<String, HashMap<String, String>> table = new HashMap<String, HashMap<String, String>>();
+		for (Object[] in : report) {
+			String i = in[0].toString();
+			if ( table.get(i) == null){
+				HashMap<String, String> entry = new HashMap<String, String>();
+				entry.put(in[1].toString(), (new Long(in[2].toString())).toString());
+				table.put(i, entry);
+			} else {
+				table.get(i).put(in[1].toString(), (new Long(in[2].toString())).toString());
+			}
+		}
+		List<String> houseList = this.service.availableWarehouse();
+		Set<String> itemList = table.keySet();
 		model.addAttribute("current_period", period);
-		model.addAttribute("report", report);
+		model.addAttribute("table", table);
+		model.addAttribute("keyList", itemList);
+		model.addAttribute("houseList", houseList);
 		model.addAttribute("available", available);
 		model.addAttribute("layout_content", "inventory/view");
 		return "layout/general";
 	}
 	@RequestMapping(method = RequestMethod.GET, value="/view", params = { "delete" })
 	public String deleteReport(String period, Model model) {
-		if(period != null && !period.equals("2016-05-31"))
+		if(period != null && !period.equals("2016-06-30"))
 			this.service.deleteReport(period);
 		return "redirect:/inventory/view";
 	}

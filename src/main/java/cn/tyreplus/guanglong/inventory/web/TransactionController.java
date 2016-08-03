@@ -87,8 +87,9 @@ public class TransactionController {
 
 		 PaginationUtil paginationUtil = PaginationUtil.getInstance(req);
 		 Page<Transaction> orders = this.txService.find(
-				 paginationUtil.getSearchValue()
-				 , paginationUtil.getPageable());
+				 paginationUtil.getSearchValue(),
+				 paginationUtil.getSearchMap(),
+				 paginationUtil.getPageable());
 		
 		 DataTable response = new DataTable();
 		 response.setDraw(paginationUtil.getDraw());

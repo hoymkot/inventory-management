@@ -19,15 +19,16 @@ package cn.tyreplus.guanglong.inventory.service.repository;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
 
 
-public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Long> {
+public interface TransactionRepository extends PagingAndSortingRepository<Transaction, Long> , JpaSpecificationExecutor {
 
-	@Query("from Transaction tx where tx.item.name like %?1% ")
+	@Query("from Transaction tx where tx.item.name like %?1% or tx.warehouse like %?1%")
 	List<Transaction> search(String itemName);
 
 //	@Query("select tx.item.name as name, sum(tx.number) as sum from Transaction tx where tx.item.name like %?1% and tx.createdOn >= ?2 and tx.createdOn < ?3 and tx.number < 0 group by tx.item order by name asc")

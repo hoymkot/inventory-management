@@ -33,6 +33,9 @@ public class TransactionForm implements Serializable {
 
 	private List<ItemForm> items = new ArrayList<ItemForm>();
 	
+	TransactionForm(){
+	}
+	
 	public void addItem() {
 		this.getItems().add(new ItemForm());
 	}

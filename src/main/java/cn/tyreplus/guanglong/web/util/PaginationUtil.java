@@ -1,5 +1,6 @@
 package cn.tyreplus.guanglong.web.util;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PaginationUtil {
 	static Logger logger = LoggerFactory.getLogger(PaginationUtil.class);
 
+	static int COLS = 7;
 	HttpServletRequest req ;
 	
 	public PaginationUtil(HttpServletRequest req) {
@@ -27,7 +29,6 @@ public class PaginationUtil {
 	public Pageable getPageable() {
 		
 		Integer start = Integer.valueOf(req.getParameter("start"));
-//		Integer length = Integer.valueOf(req.getParameter("length"));
 		Integer length = 100;
 		logger.info("start: " + start + " length: " + length );
 		
@@ -53,6 +54,22 @@ public class PaginationUtil {
 		logger.info(" search: " + searchValue);
 		return searchValue;
 		
+	}
+	public Map<String, String> getSearchMap(){
+		Map<String, String> map = new HashMap<String, String>();
+		for ( Integer i = 0 ; i < COLS ; i++){
+			if (! "true".equals(req.getParameter("columns["+i.toString()+"][searchable]"))) continue;	
+			String searchValue = req.getParameter("columns["+i.toString()+"][search][value]");	
+			String searchName = req.getParameter("columns["+i.toString()+"][data]");
+			logger.error("search name: " + searchName);
+			logger.error("search value:" + searchValue);
+			if (searchName != null && !searchName.equals("") && searchValue != null && ! searchValue.equals("") ){
+				logger.error("search name: " + searchName);
+				logger.error("search value:" + searchValue);
+				map.put(searchName, searchValue);
+			}
+		}
+		return map;
 	}
 
 }

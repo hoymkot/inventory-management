@@ -28,11 +28,12 @@ import cn.tyreplus.guanglong.inventory.entity.Transaction;
 public interface TransactionService {
 	
 
-	Page<Transaction> find(String searchValue, Pageable pageable);
 
 	void updateMany(List<Transaction> manyOrder);
 	void adjustMany(List<Transaction> manyFrom, List<Transaction> manyTo);
 	public List<Map<String, String>> salesReport(String item, Date from, Date to) ;
 	public List<Map<String, String>> purchaseReport(String item, Date from, Date to) ;
+
+	Page<Transaction> find(String searchValue, Map<String, String> searchMap, Pageable pageable);
 	
 }

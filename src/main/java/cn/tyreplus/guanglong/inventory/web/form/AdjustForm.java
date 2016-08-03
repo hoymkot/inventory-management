@@ -21,7 +21,8 @@ import java.util.List;
 
 public class AdjustForm implements Serializable {
 
-	private String date; 
+
+	private String date="2016-06-30"; 
 
 	private String from;
 

@@ -59,9 +59,13 @@ public class InventoryServiceImpl implements InventoryService{
 	public List<String> availableInventoryReport() {
 		return repo.availableInventoryReports();
 	}
+	@Override
+	public List<String> availableWarehouse() {
+		return repo.availableWarehouse();
+	}
 
 	@Override
-	public List<Inventory> viewReport(String period) {
+	public List<String[]> viewReport(String period) {
 		return repo.findByPeriod(period);
 	}
 	

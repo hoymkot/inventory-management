@@ -23,6 +23,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +37,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,33 +53,36 @@ class TransactionServiceImpl implements TransactionService {
 
 	@Autowired
 	public TransactionServiceImpl(TransactionRepository txRepo) {
-		this.txRepo= txRepo;
+		this.txRepo = txRepo;
 	}
+
+
 
 	@Override
-	public Page<Transaction> find(String searchValue, Pageable pageable) {
+	public Page<Transaction> find(String searchValue, Map<String, String> searchMap, Pageable pageable) {
 		logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
-		if(searchValue.equals("")){
-			Sort sort = pageable.getSort().and(new Sort(new Sort.Order(Direction.fromString("desc"), "id")));
-			Pageable p = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
-			return this.txRepo.findAll(p);
-		}
-		else {
-			List<Transaction> result = txRepo.search(searchValue);
-			result.sort(new Comparator<Transaction>(){
-
-				@Override
-				public int compare(Transaction arg0, Transaction arg1) {
-					if (arg0.getCreatedOn().compareTo(arg1.getCreatedOn()) == 0) {
-						if ( arg0.getId() < arg1.getId()) return 1;
-						else return -1;
-					} else return arg0.getCreatedOn().compareTo(arg1.getCreatedOn()) * -1;
+		Sort sort = pageable.getSort().and(new Sort(new Sort.Order(Direction.fromString("desc"), "id")));
+		Pageable p = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
+		return txRepo.findAll(new Specification<Transaction>() {
+			public Predicate toPredicate(Root<Transaction> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+				Predicate p = builder.conjunction();
+				String itemName = searchValue;
+				if (searchMap.get("item") != null && !searchMap.get("item").equals("")) {
+					itemName = searchMap.get("item");
+				}
+				if (!"".equals(itemName))
+					p = builder.and(p, builder.like(root.get("item").get("name"), "%" + itemName + "%"));
+				for ( String key : searchMap.keySet()){
+					if (key!= null && !key.equals("") && !key.equals("item") && searchMap.get(key) != null && !searchMap.get(key).equals(""))
+						p = builder.and(p, builder.like(root.get(key), "%" + searchMap.get(key) + "%"));
 				}
 				
-			});
-			return new PageImpl<Transaction>(result);
-		}
+				return p;
+			}
+		}, p);
+
 	}
+
 
 	@Override
 	public void updateMany(List<Transaction> manyOrder) {
@@ -86,9 +95,9 @@ class TransactionServiceImpl implements TransactionService {
 			logger.warn("the number of adjustment items doesn't match.");
 			return;
 		}
-		for(int i = 0; i < manyFrom.size() ; i++ ) {
-			logger.info("saving  " + manyFrom.get(i).getItem().getName() );
-			logger.info("saving  " + manyTo.get(i).getItem().getName() );
+		for (int i = 0; i < manyFrom.size(); i++) {
+			logger.info("saving  " + manyFrom.get(i).getItem().getName());
+			logger.info("saving  " + manyTo.get(i).getItem().getName());
 			txRepo.save(manyFrom.get(i));
 			txRepo.save(manyTo.get(i));
 		}
@@ -96,10 +105,10 @@ class TransactionServiceImpl implements TransactionService {
 
 	@Override
 	public List<Map<String, String>> salesReport(String item, Date from, Date to) {
-		List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
 		List<Object[]> list = txRepo.salesReport(item, from, to);
-		for ( Object[] obj : list) {
-			Map<String, String> row= new HashMap<String, String>();
+		for (Object[] obj : list) {
+			Map<String, String> row = new HashMap<String, String>();
 			row.put("name", obj[0].toString());
 			row.put("total", obj[1].toString());
 			row.put("sales", obj[2].toString());
@@ -107,13 +116,13 @@ class TransactionServiceImpl implements TransactionService {
 		}
 		return table;
 	}
-	
+
 	@Override
 	public List<Map<String, String>> purchaseReport(String item, Date from, Date to) {
-		List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
 		List<Object[]> list = txRepo.purchaseReport(item, from, to);
-		for ( Object[] obj : list) {
-			Map<String, String> row= new HashMap<String, String>();
+		for (Object[] obj : list) {
+			Map<String, String> row = new HashMap<String, String>();
 			row.put("name", obj[0].toString());
 			row.put("total", obj[1].toString());
 			row.put("sales", obj[2].toString());
@@ -121,5 +130,5 @@ class TransactionServiceImpl implements TransactionService {
 		}
 		return table;
 	}
-	
+
 }

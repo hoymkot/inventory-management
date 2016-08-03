@@ -21,7 +21,9 @@ import java.util.List;
 
 public class OrderForm implements Serializable {
 
-	private String date; 
+	private static final long serialVersionUID = 1L;
+
+	private String date="2016-07-01"; 
 
 	private String supplier;
 
@@ -29,7 +31,7 @@ public class OrderForm implements Serializable {
 
 	private String warehouse;
 
-	private String remark;
+	private String remark = "";
 
 	private List<ItemForm> items = new ArrayList<ItemForm>();;
 	public void addItem() {

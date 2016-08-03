@@ -21,6 +21,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -34,8 +35,7 @@ public class Transaction implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	// TODO: Set Cascade
-	@OneToOne()
+	@OneToOne(fetch=FetchType.EAGER)
 	private Item item;
 
 	@Column(nullable = false)
@@ -61,6 +61,9 @@ public class Transaction implements Serializable {
 	@Column(nullable = false)
 	private Date createdOn;
 
+	@Column(nullable = true)
+	private Date lastModifiedOn = new Date();
+	
 	public Long getId() {
 		return id;
 	}

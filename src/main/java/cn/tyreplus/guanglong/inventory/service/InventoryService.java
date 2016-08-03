@@ -17,7 +17,6 @@
 package cn.tyreplus.guanglong.inventory.service;
 
 import java.util.List;
-import cn.tyreplus.guanglong.inventory.entity.Inventory;
 
 public interface InventoryService {
 	
@@ -30,10 +29,11 @@ public interface InventoryService {
 	void saveEndOfMonthInventory(String lastMonth, String thisMonth);
 	
 	List<String> availableInventoryReport();
+	List<String> availableWarehouse();
 
 	void deleteReport(String period);
 
-	List<Inventory> viewReport(String period);
+	List<String[]> viewReport(String period);
 	
 
 	
