@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -119,6 +120,28 @@ public class TransactionController {
 	@RequestMapping(method = RequestMethod.GET, value = "/add")
 	public String addForm(Model model, OrderForm orderForm) {
 		model.addAttribute("layout_content", "tx/add");
+		return "layout/general";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/detail/{id}" )
+	public String editForm(Model model, @PathVariable("id") Long id) {
+		Transaction tx = txService.getDetail(id);
+		OrderForm form = new OrderForm();
+		form.setId(id);
+		form.setConsumer(tx.getConsumer());
+		form.setDate(df.format(tx.getCreatedOn()));
+		form.setRemark(tx.getRemark());
+		form.setSupplier(tx.getSupplier());
+		form.setWarehouse(tx.getWarehouse());
+		ItemForm item = new ItemForm();
+		LinkedList<ItemForm> list = new LinkedList<ItemForm>();
+		item.setItem(tx.getItem().getName());
+		item.setNumber(tx.getNumber());
+		item.setPrice(tx.getPrice());
+		list.add(item);
+		form.setItems(list);
+		model.addAttribute("orderForm", form);
+		model.addAttribute("layout_content", "tx/detail");
 		return "layout/general";
 	}
 

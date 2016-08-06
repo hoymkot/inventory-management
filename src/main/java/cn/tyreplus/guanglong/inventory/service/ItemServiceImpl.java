@@ -16,11 +16,17 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -45,13 +51,38 @@ class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Page<Item> find(String search_value, Pageable pageable) {
-
 		if (!StringUtils.hasLength(search_value)) {
 			logger.info("find all : start: " + pageable.getPageNumber() + " size: " + pageable.getPageSize());
 			return this.repo.findAll(pageable);
 		}
-
-		return this.repo.findByNameContainingIgnoringCase(search_value, pageable);
+		return this.repo.findAll(new ItemSpecification(search_value), pageable);
+	}
+	
+	class ItemSpecification implements Specification {
+		String search_value; 
+		ItemSpecification(String search_value){
+			this.search_value = search_value;
+		}
+		@Override
+		public Predicate toPredicate(Root root, CriteriaQuery query, CriteriaBuilder cb) {
+			if (!StringUtils.hasLength(search_value)) {
+				return cb.conjunction();
+			}
+			return cb.like(root.get("name"), "%"+search_value+"%");
+		}
+	}
+	
+	@Override
+	public Long countFiltered(String search_value) {
+		if (!StringUtils.hasLength(search_value)) {
+			return this.repo.count();
+		}
+		return this.repo.count(new ItemSpecification(search_value));
+	}
+	
+	@Override
+	public Long countRecords() {
+		return this.repo.count();
 	}
 
 	@Override

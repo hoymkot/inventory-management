@@ -76,8 +76,8 @@ public class ItemController {
 		
 		 DataTable response = new DataTable();
 		 response.setDraw(paginationUtil.getDraw());
-		 response.setRecordsTotal(0);
-		 response.setRecordsFiltered(0);
+		 response.setRecordsTotal(itemService.countRecords());
+		 response.setRecordsFiltered(itemService.countFiltered(paginationUtil.getSearchValue()));
 
 		List<Item> data = new LinkedList<Item>();
 		for (Item i : items) {

@@ -23,6 +23,8 @@ public class OrderForm implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Long id; 
+	
 	private String date="2016-07-01"; 
 
 	private String supplier;
@@ -87,6 +89,14 @@ public class OrderForm implements Serializable {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+		
+	}
+	public Long getId(){
+		return id;
 	}
 
 	

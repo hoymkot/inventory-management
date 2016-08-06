@@ -96,6 +96,11 @@ class TransactionServiceImpl implements TransactionService {
 			txRepo.save(manyTo.get(i));
 		}
 	}
+	
+	@Override
+	public Transaction getDetail(Long id) {
+		return this.txRepo.findOne(id);
+	}
 
 	@Override
 	public List<Map<String, String>> salesReport(String item, Date from, Date to) {

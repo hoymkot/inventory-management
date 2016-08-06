@@ -86,7 +86,7 @@
 			
 			$('#orders tbody').on('click', 'a.view-detail',function(){
 				var data = table.row( $(this).parents('tr') ).data();
-		        window.location="detail?id="+data.id;			
+		        window.location="detail/"+data.id;			
 
 			});
 			

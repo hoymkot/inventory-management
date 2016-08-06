@@ -18,11 +18,12 @@ package cn.tyreplus.guanglong.inventory.service.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
 
-public interface ItemRepository extends PagingAndSortingRepository<Item, String> {
+public interface ItemRepository extends PagingAndSortingRepository<Item, String>,  JpaSpecificationExecutor {
 
 	Page<Item> findByNameContainingIgnoringCase(String search_value, Pageable pageable);
 }

@@ -37,5 +37,6 @@ public interface TransactionService {
 	Page<Transaction> find(String searchValue, Map<String, String> searchMap, Pageable pageable);
 	Long getTotalRecords();
 	Long getTotalFiltered(String searchValue, Map<String, String> searchMap, Pageable pageable);
+	Transaction getDetail(Long id);
 	
 }
