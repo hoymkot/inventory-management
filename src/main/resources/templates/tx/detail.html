@@ -5,7 +5,7 @@
 
 	<!-- START CONTAINER -->
 	<div th:fragment="content" class="container-padding">
-		<form class="form-horizontal"  action="#" th:action="@{/tx/add}" th:object="${orderForm}" method="post">                                                   
+		<form class="form-horizontal"  action="#" th:action="@{/tx/detail}" th:object="${orderForm}" method="post">                                                   
         <input th:field="*{id}" type="hidden" />
 		<div class="row">
     
@@ -77,16 +77,14 @@
                     <input class="form-control form-control-no-line itemName"  style="display:inline-block;width:65%" th:field="*{items[__${rowStat.index}__].item}" placeholder="Name" type="text" />
                     <input class="form-control form-control-no-line"  style="display:inline-block;width:8%" th:field="*{items[__${rowStat.index}__].number}" placeholder="Number" type="text" />
                     <input class="form-control form-control-no-line"  style="display:inline-block;width:8%" th:field="*{items[__${rowStat.index}__].price}" placeholder="Price" type="text" />
-                     <button style="display:inline-block;width:5%" type="submit" name="addItem" value="addItem" class="form-control form-control-no-line"><i class="fa fa-plus"></i></button>
-                     <button type="submit" name="removeItem" class="form-control form-control-no-line " style="display:inline-block;width:5%" th:value="${rowStat.index}"><i class="fa fa-minus"></i></button>
                   </div>
                 </div>                 
 
 
                <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                  	<button type="submit" name="deleteItem" value="deleteItem" class="btn btn-default">&nbsp;&nbsp;Delete&nbsp;&nbsp;</button>
-                    <button type="submit" class="btn btn-default">Submit</button>
+                  	<button type="submit" name="deleteItem" value="deleteItem" class="btn btn-default">&nbsp;Delete&nbsp;</button>
+                    <button type="submit" name="updateItem" value="updateItem" class="btn btn-default">Update</button>
                   </div>
                 </div>
     

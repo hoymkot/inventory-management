@@ -16,7 +16,6 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,7 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -156,6 +154,19 @@ class TransactionServiceImpl implements TransactionService {
 			return p;
 		}
 		
+	}
+
+	@Override
+	public void delete(Long id) {
+		if(id != null)
+			this.txRepo.delete(id);
+	}
+
+
+
+	@Override
+	public void save(Transaction tx) {
+		this.txRepo.save(tx);
 	}
 	
 	

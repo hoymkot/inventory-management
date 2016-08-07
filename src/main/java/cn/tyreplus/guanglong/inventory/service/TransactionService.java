@@ -38,5 +38,7 @@ public interface TransactionService {
 	Long getTotalRecords();
 	Long getTotalFiltered(String searchValue, Map<String, String> searchMap, Pageable pageable);
 	Transaction getDetail(Long id);
+	void delete(Long id);
+	void save(Transaction tx);
 	
 }

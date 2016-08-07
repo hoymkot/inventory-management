@@ -123,6 +123,47 @@ public class TransactionController {
 		return "layout/general";
 	}
 	
+	@RequestMapping(method = RequestMethod.POST, value = "/detail", params = { "deleteItem" })
+	public String deleteItem(final OrderForm orderForm) {
+		this.txService.delete(orderForm.getId());
+		return "redirect:/tx/";
+	}
+
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/detail",  params = { "updateItem" })
+	public String updateItem(final OrderForm orderForm, final BindingResult bindingResult, Model model) {
+		df.setLenient(false);
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("layout_content", "tx/detail");
+			return "layout/general";
+		}
+
+		Transaction tx = this.txService.getDetail(orderForm.getId()); 
+
+		for (ItemForm itemF : orderForm.getItems()) {
+			if (itemF.getItem().equals(""))
+				continue;
+			
+			try {
+				tx.setCreatedOn(df.parse(orderForm.getDate()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			tx.setConsumer(orderForm.getConsumer());
+			tx.setSupplier(orderForm.getSupplier());
+			tx.setWarehouse(orderForm.getWarehouse());
+			tx.setRemark(orderForm.getRemark());
+			tx.setItem((new Item()).setName(itemF.getItem()));
+			tx.setPrice(itemF.getPrice());
+			tx.setNumber(itemF.getNumber());
+		}
+		txService.save(tx);
+
+		return "redirect:/tx/detail/"+tx.getId().toString();
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/detail/{id}" )
 	public String editForm(Model model, @PathVariable("id") Long id) {
 		Transaction tx = txService.getDetail(id);
