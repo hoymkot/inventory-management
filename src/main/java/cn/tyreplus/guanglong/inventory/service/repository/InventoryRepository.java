@@ -27,6 +27,13 @@ import org.springframework.data.jpa.repository.Query;
 import cn.tyreplus.guanglong.inventory.entity.Inventory;
 
 
+
+/**
+ * Initial Inventory Creation Query
+ * SELECT id, '2016-6-30', item, sum(number),warehouse, now() FROM `transaction` WHERE created_on = '2016-06-30 00:00:00' group by item, warehouse 
+ * @author Administrator
+ *
+ */
 public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 	
 	@Query(nativeQuery=true, value="select tx.item, tx.warehouse, inven.number as old_value,  sum(tx.number) as net, (sum(tx.number) + inven.number) as total, ?2 from inventory inven outer join transaction tx on inven.item = tx.item and tx.warehouse = inven.warehouse where created_on > ?1 and created_on <= ?2 and period = ?1 group by tx.item order by tx.warehouse, tx.item")
@@ -46,7 +53,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 	@Query(nativeQuery=true, value="select period from inventory group by period order by period desc")
 	List<String> availableInventoryReports();
 	
-	@Query(nativeQuery=true, value="select warehouse from inventory group by warehouse order by warehouse desc")
+	@Query(nativeQuery=true, value="select warehouse from inventory group by warehouse order by warehouse ASC")
 	List<String> availableWarehouse();
 
 	/**
@@ -76,7 +83,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
 	void deleteByPeriod(String period);
 
-	@Query(nativeQuery=true, value="select item ,warehouse, number from inventory where period = ?1")
+	@Query(nativeQuery=true, value="select item ,warehouse, number from inventory where period = ?1 ORDER BY ITEM")
 //	@Query(nativeQuery=true, value="select 'ac', 'ad', 'ade' from inventory where period = ?1")
 	List<String[]> findByPeriod(String period);
 	

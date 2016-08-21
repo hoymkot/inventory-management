@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +49,8 @@ public class InventoryController {
 
 	@Autowired
 	private InventoryService service;
+	
+	static int[] LAST_DAY_OF_MONTH = {31,28,31,30,31,30,31,31,30,31,30,31};
 
 	@RequestMapping(method = RequestMethod.GET, value="/view" , params = { "generate" })
 	public String inventoryGeneration(Model model) {
@@ -66,11 +69,17 @@ public class InventoryController {
 		Calendar c = Calendar.getInstance();
 		c.set(recent.getYear() + 1900, recent.getMonth() + 1 ,0,0,0);
 		c.clear(Calendar.MILLISECOND);
-		c.add(Calendar.MONTH, 1);
-		c.add(Calendar.MILLISECOND, -1);;
-		String new_period = (new Integer(c.get(Calendar.YEAR))).toString() +
-				"-" + (new Integer(c.get(Calendar.MONTH) + 1)).toString() + 
-				"-" + (new Integer(c.get(Calendar.DAY_OF_MONTH))).toString();
+		c.add(Calendar.MONTH, 1);// -1 
+		Integer day = LAST_DAY_OF_MONTH[c.get(Calendar.MONTH) + 1];
+		Integer month = c.get(Calendar.MONTH) + 1;
+		Integer year = c.get(Calendar.YEAR);
+		if (year % 4 == 0 && month == 2) {
+			day = 29;
+		}
+		String new_period = year.toString() +
+				"-" + month.toString() + 
+				"-" + day.toString();
+		logger.info("create report for new period: " + new_period );
 		service.saveEndOfMonthInventory(period, new_period);
 		
 		return "redirect:/inventory/view/";
@@ -83,7 +92,7 @@ public class InventoryController {
 		}
 		List<String[]> report = this.service.viewReport(period);
 		
-		HashMap<String, HashMap<String, String>> table = new HashMap<String, HashMap<String, String>>();
+		HashMap<String, HashMap<String, String>> table = new LinkedHashMap<String, HashMap<String, String>>();
 		for (Object[] in : report) {
 			String i = in[0].toString();
 			if ( table.get(i) == null){

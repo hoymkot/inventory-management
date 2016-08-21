@@ -16,16 +16,20 @@
 package cn.tyreplus.guanglong.inventory.web.form;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderForm implements Serializable {
 
+	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private static final long serialVersionUID = 1L;
 
 	private Long id; 
 	
-	private String date="2016-07-01"; 
+	private String date=""; 
 
 	private String supplier;
 
@@ -35,7 +39,13 @@ public class OrderForm implements Serializable {
 
 	private String remark = "";
 
+	
 	private List<ItemForm> items = new ArrayList<ItemForm>();;
+	
+	public OrderForm(){
+		this.setDate(df.format(new Date()));
+	}
+	
 	public void addItem() {
 		this.getItems().add(new ItemForm().setPrice(0));
 	}

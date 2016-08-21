@@ -39,6 +39,8 @@
                         <option value="许华龙">许华龙</option>
                         <option value="泰兴隆">泰兴隆</option>
                         <option value="淘气">淘气</option>  
+                        <option value="康木生">康木生</option>
+                        <option value="车云网">车云网</option>
                         <option value="初始">初始</option>
                       </select>                  
                   </div>
@@ -50,8 +52,9 @@
                   <label class="col-sm-2 control-label form-label">Warehouse</label>
                   <div class="col-sm-8">
                     <select class="selectpicker"  th:field="*{warehouse}">
-						<option value="金鸡">金鸡</option>
-                        <option value="吉大">吉大</option>
+						          <option value="吉大">吉大</option>
+                      <option value="金鸡">金鸡</option>
+                        
                       </select>                  
                   </div>
                 </div>                
@@ -83,7 +86,8 @@
 
                <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                  	<button type="submit" name="deleteItem" value="deleteItem" class="btn btn-default">&nbsp;Delete&nbsp;</button>
+                  	<a href="/tx/" class="btn btn-default">Back</a>
+                    <button type="submit" name="deleteItem" value="deleteItem" class="btn btn-default">&nbsp;Delete&nbsp;</button>
                     <button type="submit" name="updateItem" value="updateItem" class="btn btn-default">Update</button>
                   </div>
                 </div>
