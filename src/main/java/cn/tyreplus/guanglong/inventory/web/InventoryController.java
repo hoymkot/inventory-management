@@ -70,7 +70,9 @@ public class InventoryController {
 		c.set(recent.getYear() + 1900, recent.getMonth() + 1 ,0,0,0);
 		c.clear(Calendar.MILLISECOND);
 		c.add(Calendar.MONTH, 1);// -1 
-		Integer day = LAST_DAY_OF_MONTH[c.get(Calendar.MONTH) + 1];
+		logger.info("Calendar c: " + c.toString());
+//		Integer day = LAST_DAY_OF_MONTH[c.get(Calendar.MONTH)];
+		Integer day = c.get(Calendar.DAY_OF_MONTH);
 		Integer month = c.get(Calendar.MONTH) + 1;
 		Integer year = c.get(Calendar.YEAR);
 		if (year % 4 == 0 && month == 2) {
