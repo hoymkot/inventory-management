@@ -32,6 +32,7 @@ public interface TransactionService {
 	void updateMany(List<Transaction> manyOrder);
 	void adjustMany(List<Transaction> manyFrom, List<Transaction> manyTo);
 	public List<Map<String, String>> salesReport(String item, Date from, Date to) ;
+	public List<Map<String, String>> xinchengReport(String item, Date from, Date to) ;
 	public List<Map<String, String>> purchaseReport(String item, Date from, Date to) ;
 
 	Page<Transaction> find(String searchValue, Map<String, String> searchMap, Pageable pageable);

@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cn.tyreplus.guanglong.inventory.entity.Inventory;
 import cn.tyreplus.guanglong.inventory.service.InventoryService;
 
-
 @Controller
 @RequestMapping("/inventory")
 public class InventoryController {
@@ -46,20 +45,21 @@ public class InventoryController {
 	static Logger logger = LoggerFactory.getLogger(InventoryController.class);
 	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-
 	@Autowired
 	private InventoryService service;
-	
-	static int[] LAST_DAY_OF_MONTH = {31,28,31,30,31,30,31,31,30,31,30,31};
 
-	@RequestMapping(method = RequestMethod.GET, value="/view" , params = { "generate" })
+	static int[] LAST_DAY_OF_MONTH = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+	@RequestMapping(method = RequestMethod.GET, value = "/view", params = { "generate" })
 	public String inventoryGeneration(Model model) {
 
 		List<String> available = this.service.availableInventoryReport();
-		if (available.size() == 0) return "redirect:/inventory/view/";
-		
+		if (available.size() == 0)
+			return "redirect:/inventory/view/";
+
 		String period = available.iterator().next();
-		Date recent = new Date(); Date now = recent;
+		Date recent = new Date();
+		Date now = recent;
 		try {
 			recent = df.parse(period);
 		} catch (ParseException e) {
@@ -67,37 +67,41 @@ public class InventoryController {
 			return "redirect:/inventory/view/";
 		}
 		Calendar c = Calendar.getInstance();
-		c.set(recent.getYear() + 1900, recent.getMonth() + 1 ,0,0,0);
+		c.set(recent.getYear() + 1900, recent.getMonth() + 1, 0, 0, 0);
 		c.clear(Calendar.MILLISECOND);
-		c.add(Calendar.MONTH, 1);// -1 
+		c.add(Calendar.MONTH, 1);// -1
 		logger.info("Calendar c: " + c.toString());
-//		Integer day = LAST_DAY_OF_MONTH[c.get(Calendar.MONTH)];
-		Integer day = c.get(Calendar.DAY_OF_MONTH);
+		Integer day = LAST_DAY_OF_MONTH[c.get(Calendar.MONTH)];
+		// Integer day = c.get(Calendar.DAY_OF_MONTH);
 		Integer month = c.get(Calendar.MONTH) + 1;
 		Integer year = c.get(Calendar.YEAR);
 		if (year % 4 == 0 && month == 2) {
 			day = 29;
 		}
-		String new_period = year.toString() +
-				"-" + month.toString() + 
-				"-" + day.toString();
-		logger.info("create report for new period: " + new_period );
+		String new_period = "";
+		if (month >= 10) {
+			new_period = year.toString() + "-" + month.toString() + "-" + day.toString();
+		} else {
+			new_period = year.toString() + "-0" + month.toString() + "-" + day.toString();
+		}
+		logger.info("create report for new period: " + new_period);
 		service.saveEndOfMonthInventory(period, new_period);
-		
+
 		return "redirect:/inventory/view/";
 	}
-	@RequestMapping(method = RequestMethod.GET, value="/view")
+
+	@RequestMapping(method = RequestMethod.GET, value = "/view")
 	public String viewReport(String period, Model model) {
 		List<String> available = this.service.availableInventoryReport();
-		if (period == null || period.equals("")){
+		if (period == null || period.equals("")) {
 			period = available.iterator().next();
 		}
 		List<String[]> report = this.service.viewReport(period);
-		
+
 		HashMap<String, HashMap<String, String>> table = new LinkedHashMap<String, HashMap<String, String>>();
 		for (Object[] in : report) {
 			String i = in[0].toString();
-			if ( table.get(i) == null){
+			if (table.get(i) == null) {
 				HashMap<String, String> entry = new HashMap<String, String>();
 				entry.put(in[1].toString(), (new Long(in[2].toString())).toString());
 				table.put(i, entry);
@@ -115,14 +119,15 @@ public class InventoryController {
 		model.addAttribute("layout_content", "inventory/view");
 		return "layout/general";
 	}
-	@RequestMapping(method = RequestMethod.GET, value="/view", params = { "delete" })
+
+	@RequestMapping(method = RequestMethod.GET, value = "/view", params = { "delete" })
 	public String deleteReport(String period, Model model) {
-		if(period != null && !period.equals("2016-06-30"))
+		if (period != null && !period.equals("2016-06-30"))
 			this.service.deleteReport(period);
 		return "redirect:/inventory/view";
 	}
-	
-	@RequestMapping(method = RequestMethod.GET, value="/")
+
+	@RequestMapping(method = RequestMethod.GET, value = "/")
 	@Transactional(readOnly = true)
 	public String list(Model model) {
 		model.addAttribute("layout_content", "inventory/list");

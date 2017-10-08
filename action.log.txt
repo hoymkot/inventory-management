@@ -1,0 +1,2 @@
+* log every single action done
+* return to top of page button

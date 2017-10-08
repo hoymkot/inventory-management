@@ -23,10 +23,19 @@
                     </select>                  
                   </div>
                 </div>
-            
+				<script type="text/javascript">
+				$('html').keyup(function(e){
+				    if(e.keyCode == 46) {
+				        $('#deleteBtn').click();
+				    }
+				    if(e.keyCode == 71) {
+				        $('#generateBtn').click();
+				    }
+				});
+				</script>            
                 <button type="submit" class="btn btn-default">Select</button>
-                <button type="submit" name="delete" class="btn btn-default">Delete</button>
-                <button type="submit" name="generate" class="btn btn-default">Generate</button>
+                <button type="submit" id="deleteBtn" name="delete" class="btn btn-default">Delete</button>
+                <button type="submit" id="generateBtn" name="generate" class="btn btn-default">Generate</button>
               </form>
             </div>
 
