@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+  <!-- Start row -->
+  <div class="row">
+
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-title">
+        Date Range
+        </div>
+
+            <div class="panel-body">
+				<form class="form-inline"  action="#"  method="get">  
+				<div class="form-group">
+                	<label class="form-label">From:</label>
+              		<div class="col-sm-8">
+                		<select class="selectpicker" name="from" >
+                	    	<option th:each="row : ${available}" th:value="*{row}" th:text="*{row}" >N/A</option>
+                	    	
+                    	</select>                  
+                  	</div>
+                </div>
+				<div class="form-group">
+                	<label class="form-label">To:</label>
+              		<div class="col-sm-8">
+                		<select class="selectpicker" name="to">
+                	    	<option  th:each="row : ${available}" th:value="*{row}" th:text="*{row}" >N/A</option>
+                    	</select>                  
+                  	</div>
+                </div>                                                                                                                         
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div>
+
+      </div>
+    </div>
+
+
+  </div>
+  <!-- End row -->
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-title" th:text="${report_name}"> 
+					</div>
+					<div class="panel-body table-responsive">
+						<table th:fragment="content" id="orders" class="table display">
+							<thead>
+								<tr>
+									<th>商品名</th>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="sl : ${untouched_list}">
+										<td th:text="${{sl.name}}"></td>
+										<td th:text="${{sl.total}}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+	</div>
+	<!-- END CONTAINER -->
+</body>
+</html>

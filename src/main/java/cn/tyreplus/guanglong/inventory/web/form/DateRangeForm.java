@@ -17,7 +17,7 @@ package cn.tyreplus.guanglong.inventory.web.form;
 
 import java.io.Serializable;
 
-public class SalesForm implements Serializable {
+public class DateRangeForm implements Serializable {
 
 	private String from;
 

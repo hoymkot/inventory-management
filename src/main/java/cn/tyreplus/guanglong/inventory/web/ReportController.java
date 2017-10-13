@@ -20,6 +20,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cn.tyreplus.guanglong.inventory.service.InventoryService;
 import cn.tyreplus.guanglong.inventory.service.TransactionService;
-import cn.tyreplus.guanglong.inventory.web.form.SalesForm;
+import cn.tyreplus.guanglong.inventory.web.form.DateRangeForm;
 
 @Controller
 @RequestMapping("/report")
@@ -41,20 +43,23 @@ public class ReportController {
 
 	static Logger logger = LoggerFactory.getLogger(ReportController.class);
 	final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	@Autowired
 	private TransactionService txService;
 
+	@Autowired
+	private InventoryService invService;
+
 	@RequestMapping(method = RequestMethod.GET, value = "/sales")
 	@Transactional(readOnly = true)
-	public String sales(Model model ,SalesForm form) {
+	public String sales(Model model, DateRangeForm form) {
 		Date from;
 		Date to;
-	    Calendar calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		int year = calendar.get(Calendar.YEAR);
-	    int month = calendar.get(Calendar.MONTH);
-	    List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
-		if ( null != form.getFrom() && null != form.getTo()){ 
+		int month = calendar.get(Calendar.MONTH);
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
+		if (null != form.getFrom() && null != form.getTo()) {
 			try {
 				from = df.parse(form.getFrom());
 				to = df.parse(form.getTo());
@@ -62,38 +67,39 @@ public class ReportController {
 			} catch (ParseException e1) {
 				logger.warn("incorrect date");
 			}
-			
+
 		} else {
-		    // Do you really want 0-based months, like Java has? Consider month - 1.
-		    calendar.set(year, month, 1, 0, 0, 0);
-		    calendar.clear(Calendar.MILLISECOND);
-		    from = calendar.getTime();
-		    // Get to the last millisecond in the month
-		    calendar.add(Calendar.MONTH, 1);
-		    calendar.add(Calendar.MILLISECOND, -1);
-		    to = calendar.getTime();			
-		    table = txService.salesReport("", from, to);
-		    form.setFrom(df.format(from));
-		    form.setTo(df.format(to));
+			// Do you really want 0-based months, like Java has? Consider month
+			// - 1.
+			calendar.set(year, month, 1, 0, 0, 0);
+			calendar.clear(Calendar.MILLISECOND);
+			from = calendar.getTime();
+			// Get to the last millisecond in the month
+			calendar.add(Calendar.MONTH, 1);
+			calendar.add(Calendar.MILLISECOND, -1);
+			to = calendar.getTime();
+			table = txService.salesReport("", from, to);
+			form.setFrom(df.format(from));
+			form.setTo(df.format(to));
 		}
-		
-		model.addAttribute("sales_list", table );
+
+		model.addAttribute("sales_list", table);
 		model.addAttribute("report_name", "Sales Report");
 		model.addAttribute("layout_content", "report/sales");
 		return "layout/general";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/xinchenɡ")
 	@Transactional(readOnly = true)
-	public String xinchenɡ(Model model ,SalesForm form) {
+	public String xinchenɡ(Model model, DateRangeForm form) {
 		System.out.println("hellO");
 		Date from;
 		Date to;
-	    Calendar calendar = Calendar.getInstance();
+		Calendar calendar = Calendar.getInstance();
 		int year = calendar.get(Calendar.YEAR);
-	    int month = calendar.get(Calendar.MONTH);
-	    List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
-		if ( null != form.getFrom() && null != form.getTo()){ 
+		int month = calendar.get(Calendar.MONTH);
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
+		if (null != form.getFrom() && null != form.getTo()) {
 			try {
 				from = df.parse(form.getFrom());
 				to = df.parse(form.getTo());
@@ -101,37 +107,36 @@ public class ReportController {
 			} catch (ParseException e1) {
 				logger.warn("incorrect date");
 			}
-			
+
 		} else {
-		    // Do you really want 0-based months, like Java has? Consider month - 1.
-		    calendar.set(year, month, 1, 0, 0, 0);
-		    calendar.clear(Calendar.MILLISECOND);
-		    from = calendar.getTime();
-		    // Get to the last millisecond in the month
-		    calendar.add(Calendar.MONTH, 1);
-		    calendar.add(Calendar.MILLISECOND, -1);
-		    to = calendar.getTime();			
-		    table = txService.xinchengReport("", from, to);
-		    form.setFrom(df.format(from));
-		    form.setTo(df.format(to));
+			// Do you really want 0-based months, like Java has? Consider month
+			// - 1.
+			calendar.set(year, month, 1, 0, 0, 0);
+			calendar.clear(Calendar.MILLISECOND);
+			from = calendar.getTime();
+			// Get to the last millisecond in the month
+			calendar.add(Calendar.MONTH, 1);
+			calendar.add(Calendar.MILLISECOND, -1);
+			to = calendar.getTime();
+			table = txService.xinchengReport("", from, to);
+			form.setFrom(df.format(from));
+			form.setTo(df.format(to));
 		}
-		
-		model.addAttribute("sales_list", table );
+
+		model.addAttribute("sales_list", table);
 		model.addAttribute("report_name", "信诚 Report");
 		model.addAttribute("layout_content", "report/sales");
 		return "layout/general";
 	}
-	
-	
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/purchase")
 	@Transactional(readOnly = true)
-	public String purchase(Model model ,SalesForm form) {
+	public String purchase(Model model, DateRangeForm form) {
 		Date from;
 		Date to;
 
-	    List<Map<String, String>> table = new LinkedList<Map<String, String>>();	
-		if ( null != form.getFrom() && null != form.getTo()){ 
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
+		if (null != form.getFrom() && null != form.getTo()) {
 			try {
 				from = df.parse(form.getFrom());
 				to = df.parse(form.getTo());
@@ -139,37 +144,74 @@ public class ReportController {
 			} catch (ParseException e1) {
 				logger.warn("incorrect date");
 			}
-			
+
 		} else {
-		    // Do you really want 0-based months, like Java has? Consider month - 1.
-		    Calendar calendar = Calendar.getInstance();
+			// Do you really want 0-based months, like Java has? Consider month
+			// - 1.
+			Calendar calendar = Calendar.getInstance();
 			int year = calendar.get(Calendar.YEAR);
-		    int month = calendar.get(Calendar.MONTH);
+			int month = calendar.get(Calendar.MONTH);
 			calendar.set(year, month, 1, 0, 0, 0);
-		    calendar.clear(Calendar.MILLISECOND);
-		    from = calendar.getTime();
-		    // Get to the last millisecond in the month
-		    calendar.add(Calendar.MONTH, 1);
-		    calendar.add(Calendar.MILLISECOND, -1);
-		    to = calendar.getTime();			
-		    table = txService.purchaseReport("", from, to);
-		    form.setFrom(df.format(from));
-		    form.setTo(df.format(to));
+			calendar.clear(Calendar.MILLISECOND);
+			from = calendar.getTime();
+			// Get to the last millisecond in the month
+			calendar.add(Calendar.MONTH, 1);
+			calendar.add(Calendar.MILLISECOND, -1);
+			to = calendar.getTime();
+			table = txService.purchaseReport("", from, to);
+			form.setFrom(df.format(from));
+			form.setTo(df.format(to));
 		}
-		
-		model.addAttribute("sales_list", table );
+
+		model.addAttribute("sales_list", table);
 		model.addAttribute("report_name", "Purchase Report");
 		model.addAttribute("layout_content", "report/sales");
 		return "layout/general";
 	}
-	
-	
-	
+
 	@RequestMapping("/")
 	@Transactional(readOnly = true)
 	public String list(Model model) {
 		model.addAttribute("layout_content", "report/list");
 		return "layout/general";
 	}
+
 	
+	/**
+	 * Show items that are not updated within a specified period and ignore zero inventory items.
+	 * @param model
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/untouched")
+	@Transactional(readOnly = true)
+	public String untouched(Model model, String from, String to) {
+		List<String> available = this.invService.availableInventoryReport();
+		logger.warn((new Integer(available.size()).toString()));
+		if (from == null || from.equals("")) {
+			Iterator<String> it = available.iterator();
+			to = it.next();
+			from = it.next();
+			logger.warn(from);
+			logger.warn(to);
+		}
+
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
+		try {
+			table = txService.untouchedReport(from, to);
+		} catch (Exception e1) {
+			// } catch (ParseException e1) {
+			logger.warn("incorrect date", e1);
+		}
+
+		model.addAttribute("untouched_list", table);
+		model.addAttribute("from", from);
+		model.addAttribute("to", to);
+		model.addAttribute("available", available);
+		model.addAttribute("report_name", "Untouched Report");
+		model.addAttribute("layout_content", "report/untouched");
+		return "layout/general";
+	}
+
 }

@@ -35,6 +35,9 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
 	@Query(nativeQuery=true, value="Select item, sum(number), sum(number * price) from transaction where item like %?1% and created_on >= ?2 and created_on <= ?3 and consumer not in ('金鸡', '吉大') and number < 0 group by item order by item asc")
 	List<Object[]> salesReport(String itemName, Date from, Date to);
 
+	@Query(nativeQuery=true, value="select item , sum(number) as total from inventory where period = ?2 group by item having item not in (select item from transaction where created_on > ?1 and created_on <= ?2 ) and total <> 0;")
+	List<Object[]> untouchedReport( String from, String to);
+
 	@Query(nativeQuery=true, value="Select item, sum(number), sum(number * price) from transaction where item like %?1% and created_on >= ?2 and created_on <= ?3 and supplier not in ('金鸡', '吉大') and number > 0 group by item order by item asc")
 	List<Object[]> purchaseReport(String itemName, Date from, Date to);
 
