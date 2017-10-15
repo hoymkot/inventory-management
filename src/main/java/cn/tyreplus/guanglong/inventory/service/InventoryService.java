@@ -17,6 +17,7 @@
 package cn.tyreplus.guanglong.inventory.service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface InventoryService {
 	
@@ -34,6 +35,8 @@ public interface InventoryService {
 	void deleteReport(String period);
 
 	List<String[]> viewReport(String period);
+
+	List<Map<String, String>> untouchedReport(String from, String to);
 	
 
 	

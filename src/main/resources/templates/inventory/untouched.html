@@ -32,8 +32,8 @@
                 	    	<option  th:each="row : ${available}" th:value="*{row}" th:text="*{row}" >N/A</option>
                     	</select>                  
                   	</div>
-                </div>                                                                                                                         
-                <button type="submit" class="btn btn-default">Submit</button>
+                </div>                                  
+                <button type="submit" id="untouchedBtn" name="untouched" class="btn btn-default">Submit</button>
               </form>
             </div>
 
@@ -48,7 +48,7 @@
 			<!-- Start Panel -->
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-title" th:text="${report_name}"> 
+					<div class="panel-title" th:text="'Untouched Report for Period '+${from} + ' to ' + ${to} ">Inventory Report 						 
 					</div>
 					<div class="panel-body table-responsive">
 						<table th:fragment="content" id="orders" class="table display">

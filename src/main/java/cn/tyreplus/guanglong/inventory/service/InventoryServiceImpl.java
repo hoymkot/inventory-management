@@ -16,7 +16,10 @@
 
 package cn.tyreplus.guanglong.inventory.service;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +79,21 @@ public class InventoryServiceImpl implements InventoryService{
 	@Override
 	public void deleteReport(String period) {
 		repo.deleteByPeriod(period);
+	}
+
+
+	@Override
+	public List<Map<String, String>> untouchedReport(String from, String to) {
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
+		logger.info("date range " + from.toString() + ": " + to.toString());
+		List<Object[]> list = repo.untouchedReport(from, to);
+		for (Object[] obj : list) {
+			Map<String, String> row = new HashMap<String, String>();
+			row.put("name", obj[0].toString());
+			row.put("total", obj[1].toString());
+			table.add(row);
+		}
+		return table;
 	}
 	
 }

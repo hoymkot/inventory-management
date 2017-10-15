@@ -23,7 +23,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -125,6 +127,40 @@ public class InventoryController {
 		if (period != null && !period.equals("2016-06-30"))
 			this.service.deleteReport(period);
 		return "redirect:/inventory/view";
+	}
+
+	/**
+	 * Show items that are not updated within a specified period and ignore zero
+	 * inventory items.
+	 * 
+	 * @param model
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/view", params = { "untouched" })
+	@Transactional(readOnly = true)
+	public String untouched(Model model, String from, String to) {
+		List<String> available = this.service.availableInventoryReport();
+		logger.warn((new Integer(available.size()).toString()));
+		if (from == null || from.equals("")) {
+			Iterator<String> it = available.iterator();
+			to = it.next();
+			from = it.next();
+			logger.warn(from);
+			logger.warn(to);
+		}
+
+		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
+		table = service.untouchedReport(from, to);
+
+		model.addAttribute("untouched_list", table);
+		model.addAttribute("from", from);
+		model.addAttribute("to", to);
+		model.addAttribute("available", available);
+		model.addAttribute("report_name", "Untouched Report");
+		model.addAttribute("layout_content", "inventory/untouched");
+		return "layout/general";
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/")

@@ -114,19 +114,7 @@ class TransactionServiceImpl implements TransactionService {
 		return table;
 	}
 	
-	@Override
-	public List<Map<String, String>> untouchedReport(String from, String to) {
-		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
-		logger.info("date range " + from.toString() + ": " + to.toString());
-		List<Object[]> list = txRepo.untouchedReport(from, to);
-		for (Object[] obj : list) {
-			Map<String, String> row = new HashMap<String, String>();
-			row.put("name", obj[0].toString());
-			row.put("total", obj[1].toString());
-			table.add(row);
-		}
-		return table;
-	}
+
 	@Override
 	public List<Map<String, String>> xinchengReport(String item, Date from, Date to) {
 		List<Map<String, String>> table = new LinkedList<Map<String, String>>();

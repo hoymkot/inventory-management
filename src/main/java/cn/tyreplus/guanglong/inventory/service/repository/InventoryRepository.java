@@ -86,6 +86,9 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 	@Query(nativeQuery=true, value="select item ,warehouse, number from inventory where period = ?1 ORDER BY ITEM")
 //	@Query(nativeQuery=true, value="select 'ac', 'ad', 'ade' from inventory where period = ?1")
 	List<String[]> findByPeriod(String period);
+
+	@Query(nativeQuery=true, value="select item , sum(number) as total from inventory where period = ?2 group by item having item not in (select item from transaction where created_on > ?1 and created_on <= ?2 ) and total <> 0;")
+	List<Object[]> untouchedReport( String from, String to);
 	
 }
 	
