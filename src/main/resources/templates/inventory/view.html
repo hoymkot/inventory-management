@@ -57,14 +57,20 @@
 						<table th:fragment="content" id="orders" class="table display">
 							<thead>
 								<tr>
-									<th>Item</th>
-									<th th:each="house : ${houseList}" th:text="*{house}" >Warehouse</th>
+									<th width = "30%" >Item</th>
+									<th width = "5%">吉大</th>
+									<th width = "5%">金鸡</th>
+									<th width = "5%">Total</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="key : ${keyList}">
-									<td th:text="*{key}"></td>
-									<td th:each="house : ${houseList}" th:text="*{table.get(key).get(house)}"></td>
+								<tr th:each="row: ${table}">
+									<td th:text="${row[0]}">N/A</td>
+									<td th:text="${row[1]}">N/A</td>
+									<td th:text="${row[2]}">N/A</td>
+									<td th:text="${row[3]}">N/A</td>
+									<td></td>
 								</tr>
 							</tbody>
 						</table>

@@ -83,8 +83,26 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
 	void deleteByPeriod(String period);
 
-	@Query(nativeQuery=true, value="select item ,warehouse, number from inventory where period = ?1 ORDER BY ITEM")
-//	@Query(nativeQuery=true, value="select 'ac', 'ad', 'ade' from inventory where period = ?1")
+//	@Query(nativeQuery=true, value="select item ,warehouse, number from inventory where period = ?1 ORDER BY ITEM")
+//	@Query(nativeQuery=true, value=
+//			"select A.item as item, A.number as jidai, B.number as jinji, A.number + B.number as total "+
+//			"from inventory A , inventory B "+ 
+//			"where A.item = B.item and A.period = B.period "+ 
+//			"and A.period= ?1  "+
+//			"and A.warehouse <> B.warehouse "+
+//			"and A.item <> B.warehouse "+
+//			"and A.number + B.number <> 0 "+
+//			"and A.warehouse = '吉大' order by A.item; ")
+	
+	@Query(nativeQuery=true, value=
+	"select A.item, "+  
+	"(select B.number from inventory B where B.period = ?1 and B.item = A.item and B.warehouse = '吉大') as jidai, "+
+	"(select C.number from inventory C where C.period = ?1 and C.item = A.item and C.warehouse = '金鸡') as jinji, "+
+	"sum(number) as total "+
+	"from inventory A "+
+	"where A.period = ?1 "+
+	"group by A.item "+
+	"having sum(number) <>0; ")
 	List<String[]> findByPeriod(String period);
 
 	@Query(nativeQuery=true, value="select item , sum(number) as total from inventory where period = ?2 group by item having item not in (select item from transaction where created_on > ?1 and created_on <= ?2 ) and total <> 0;")

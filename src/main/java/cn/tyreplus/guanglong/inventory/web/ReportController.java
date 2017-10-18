@@ -177,41 +177,4 @@ public class ReportController {
 	}
 
 	
-	/**
-	 * Show items that are not updated within a specified period and ignore zero inventory items.
-	 * @param model
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/untouched")
-	@Transactional(readOnly = true)
-	public String untouched(Model model, String from, String to) {
-		List<String> available = this.invService.availableInventoryReport();
-		logger.warn((new Integer(available.size()).toString()));
-		if (from == null || from.equals("")) {
-			Iterator<String> it = available.iterator();
-			to = it.next();
-			from = it.next();
-			logger.warn(from);
-			logger.warn(to);
-		}
-
-		List<Map<String, String>> table = new LinkedList<Map<String, String>>();
-		try {
-			table = txService.untouchedReport(from, to);
-		} catch (Exception e1) {
-			// } catch (ParseException e1) {
-			logger.warn("incorrect date", e1);
-		}
-
-		model.addAttribute("untouched_list", table);
-		model.addAttribute("from", from);
-		model.addAttribute("to", to);
-		model.addAttribute("available", available);
-		model.addAttribute("report_name", "Untouched Report");
-		model.addAttribute("layout_content", "report/untouched");
-		return "layout/general";
-	}
-
 }
