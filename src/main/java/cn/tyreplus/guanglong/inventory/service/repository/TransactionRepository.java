@@ -38,7 +38,7 @@ public interface TransactionRepository extends PagingAndSortingRepository<Transa
 	@Query(nativeQuery=true, value="Select item, sum(number), sum(number * price) from transaction where item like %?1% and created_on >= ?2 and created_on <= ?3 and supplier not in ('金鸡', '吉大') and number > 0 group by item order by item asc")
 	List<Object[]> purchaseReport(String itemName, Date from, Date to);
 
-	@Query(nativeQuery=true, value="Select item, sum(number), sum(number * price) from transaction where item like %?1% and created_on >= ?2 and created_on <= ?3 and supplier in ('信诚') and number > 0 group by item order by item asc")
+	@Query(nativeQuery=true, value="Select item, sum(number), sum(number * price) from transaction where item like %?1% and created_on >= ?2 and created_on <= ?3 and supplier = '信诚' and number > 0 group by item order by item asc")
 	List<Object[]> xinchengReport(String itemName, Date from, Date to);
 	
 	@Query(nativeQuery=true, value="select sum(tx.number) + inven.number as total, sum(tx.number) as net, inven.number as old_value, tx.warehouse, tx.item, ?2 from inventory inven inner join transaction tx on inven.item = tx.item and tx.warehouse = inven.warehouse where created_on > ?1 and created_on <= ?2 and period = ?1 group by tx.item")

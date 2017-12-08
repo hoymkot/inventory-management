@@ -83,17 +83,7 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
 	void deleteByPeriod(String period);
 
-//	@Query(nativeQuery=true, value="select item ,warehouse, number from inventory where period = ?1 ORDER BY ITEM")
-//	@Query(nativeQuery=true, value=
-//			"select A.item as item, A.number as jidai, B.number as jinji, A.number + B.number as total "+
-//			"from inventory A , inventory B "+ 
-//			"where A.item = B.item and A.period = B.period "+ 
-//			"and A.period= ?1  "+
-//			"and A.warehouse <> B.warehouse "+
-//			"and A.item <> B.warehouse "+
-//			"and A.number + B.number <> 0 "+
-//			"and A.warehouse = '吉大' order by A.item; ")
-	
+
 	@Query(nativeQuery=true, value=
 	"select A.item, "+  
 	"(select B.number from inventory B where B.period = ?1 and B.item = A.item and B.warehouse = '吉大') as jidai, "+

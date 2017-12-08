@@ -84,12 +84,13 @@ public class ReportController {
 		}
 
 		model.addAttribute("sales_list", table);
+		model.addAttribute("form", form);
 		model.addAttribute("report_name", "Sales Report");
 		model.addAttribute("layout_content", "report/sales");
 		return "layout/general";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/xinchenɡ")
+	@RequestMapping(method = RequestMethod.GET, value = "/xincheng")
 	@Transactional(readOnly = true)
 	public String xinchenɡ(Model model, DateRangeForm form) {
 		System.out.println("hellO");
@@ -123,6 +124,7 @@ public class ReportController {
 			form.setTo(df.format(to));
 		}
 
+		model.addAttribute("form", form);
 		model.addAttribute("sales_list", table);
 		model.addAttribute("report_name", "信诚 Report");
 		model.addAttribute("layout_content", "report/sales");
@@ -163,6 +165,7 @@ public class ReportController {
 			form.setTo(df.format(to));
 		}
 
+		model.addAttribute("form", form);
 		model.addAttribute("sales_list", table);
 		model.addAttribute("report_name", "Purchase Report");
 		model.addAttribute("layout_content", "report/sales");

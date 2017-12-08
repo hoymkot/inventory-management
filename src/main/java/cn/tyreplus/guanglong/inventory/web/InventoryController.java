@@ -100,23 +100,8 @@ public class InventoryController {
 		}
 		List<String[]> report = this.service.viewReport(period);
 
-//		HashMap<String, HashMap<String, String>> table = new LinkedHashMap<String, HashMap<String, String>>();
-//		for (Object[] in : report) {
-//			String i = in[0].toString();
-//			if (table.get(i) == null) {
-//				HashMap<String, String> entry = new HashMap<String, String>();
-//				entry.put(in[1].toString(), (new Long(in[2].toString())).toString());
-//				table.put(i, entry);
-//			} else {
-//				table.get(i).put(in[1].toString(), (new Long(in[2].toString())).toString());
-//			}
-//		}
-//		List<String> houseList = this.service.availableWarehouse();
-//		Set<String> itemList = table.keySet();
 		model.addAttribute("current_period", period);
 		model.addAttribute("table", report);
-//		model.addAttribute("keyList", itemList);
-//		model.addAttribute("houseList", houseList);
 		model.addAttribute("available", available);
 		model.addAttribute("layout_content", "inventory/view");
 		return "layout/general";
