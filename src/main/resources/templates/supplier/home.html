@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+
+	<!-- START CONTAINER -->
+	<div th:fragment="content" class="container-padding">
+
+		<!-- Start Row -->
+		<div class="row">
+			<!-- Start Panel -->
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-title">Suppliers
+					<ul class="panel-tools">
+						<li><a class="icon" href="add"><i class="fa fa-plus"></i></a></li>
+          			</ul>
+					</div>
+					<div class="panel-body table-responsive">
+						<table th:fragment="content" id="suppliers" class="table display">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th width="5%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<!-- End Row -->
+
+
+
+	</div>
+	<!-- END CONTAINER -->
+
+	<!-- //////////////////////////////////////////////////////////////////////////// -->
+
+	<script th:fragment="script">
+		$(document).ready(function() {
+			var table = $('#suppliers').DataTable({
+				serverSide : true,
+				ajax : 'list',
+				iDisplayLength : 100,
+				columns : [
+					{"data" : "name"},
+					{
+	                "class":          "details-control",
+	                "orderable":      false,
+	                "data":           null,
+	                "defaultContent": '<a class="delete-supplier"><i class="fa fa-minus"></i></a> ' 
+	            },		 
+				],
+			});
+			
+			$('#suppliers tbody').on('click', 'a.delete-supplier',function(){
+				var data = table.row( $(this).parents('tr') ).data();
+		        window.location="delete?supplier="+data.name;			
+
+			});
+		});
+	</script>
+</body>
+</html>
