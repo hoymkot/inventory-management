@@ -25,6 +25,9 @@ public class PaginationUtil {
 	static public PaginationUtil getInstance(HttpServletRequest req) {
 		return new PaginationUtil(req);
 	}
+	static public Pageable getDefaultPageable(Long length, String orderBy){
+		return new PageRequest(0, length.intValue(), Direction.fromString("asc"), orderBy);
+	}
 
 	public Pageable getPageable() {
 		

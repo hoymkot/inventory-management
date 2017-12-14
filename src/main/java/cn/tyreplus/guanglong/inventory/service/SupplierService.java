@@ -31,4 +31,5 @@ public interface SupplierService {
 	Long countRecords();
 	Long countFiltered(String search_value);
 	
+	
 }

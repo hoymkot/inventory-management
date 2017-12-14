@@ -36,10 +36,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
+import cn.tyreplus.guanglong.inventory.entity.Supplier;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
+import cn.tyreplus.guanglong.inventory.service.SupplierService;
 import cn.tyreplus.guanglong.inventory.service.TransactionService;
 import cn.tyreplus.guanglong.inventory.web.form.AdjustForm;
 import cn.tyreplus.guanglong.inventory.web.form.ItemForm;
@@ -57,6 +60,8 @@ public class TransactionController {
 	
 	@Autowired
 	private TransactionService txService;
+	@Autowired
+	private SupplierService supplierService;
 
 	@RequestMapping("/plain")
 	@Transactional(readOnly = true)
@@ -120,6 +125,10 @@ public class TransactionController {
 	@RequestMapping(method = RequestMethod.GET, value = "/add")
 	public String addForm(Model model, OrderForm orderForm) {
 		model.addAttribute("layout_content", "tx/add");
+		model.addAttribute("selected_seller", "N/A");
+		
+		Page<Supplier> suppliers = supplierService.find("", PaginationUtil.getDefaultPageable(supplierService.countRecords(), "name"));
+		model.addAttribute("suppliers", suppliers);
 		return "layout/general";
 	}
 	
@@ -187,32 +196,38 @@ public class TransactionController {
 	}
 
 	@RequestMapping(value = "/add", params = { "addItem" })
-	public String addRow(final OrderForm orderForm, final BindingResult bindingResult, Model model) {
+	public String addRow(final OrderForm orderForm, final BindingResult bindingResult, Model model, @RequestParam String supplier) {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("layout_content", "tx/add");
 			return "layout/general";
 		}
 		orderForm.addItem();
+		Page<Supplier> suppliers = supplierService.find("", PaginationUtil.getDefaultPageable(supplierService.countRecords(), "name"));
+		model.addAttribute("suppliers", suppliers);
 		model.addAttribute("layout_content", "tx/add");
+		model.addAttribute("selected_seller", supplier);
 		return "layout/general";
 	}
 
 	@RequestMapping(value = "/add", params = { "removeItem" })
 	public String removeRow(Model model, final OrderForm orderForm, final BindingResult bindingResult,
-			final HttpServletRequest req) {
+			final HttpServletRequest req, @RequestParam String supplier) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("layout_content", "tx/add");
 			return "layout/general";
 		}
 		final Integer rowId = Integer.valueOf(req.getParameter("removeItem"));
 		orderForm.removeItem(rowId);
+		Page<Supplier> suppliers = supplierService.find("", PaginationUtil.getDefaultPageable(supplierService.countRecords(), "name"));
+		model.addAttribute("suppliers", suppliers);
 		model.addAttribute("layout_content", "tx/add");
+		model.addAttribute("selected_seller", supplier);
 		return "layout/general";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/add")
-	public String addSubmit(OrderForm orderForm, BindingResult bindingResult, Model model) {
+	public String addSubmit(OrderForm orderForm, BindingResult bindingResult, Model model,@RequestParam String supplier) {
 
 		df.setLenient(false);
 
@@ -235,7 +250,7 @@ public class TransactionController {
 				e.printStackTrace();
 			}
 			tx.setConsumer(orderForm.getConsumer());
-			tx.setSupplier(orderForm.getSupplier());
+			tx.setSupplier(supplier);
 			tx.setWarehouse(orderForm.getWarehouse());
 			tx.setRemark(orderForm.getRemark());
 			tx.setItem((new Item()).setName(itemF.getItem()));

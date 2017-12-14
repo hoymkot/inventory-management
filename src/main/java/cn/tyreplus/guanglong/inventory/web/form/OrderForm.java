@@ -31,7 +31,7 @@ public class OrderForm implements Serializable {
 	
 	private String date=""; 
 
-	private String supplier;
+	private String supplier = "N/A";
 
 	private String consumer;
 
@@ -93,7 +93,7 @@ public class OrderForm implements Serializable {
 		this.remark = remark;
 	}
 
-	public String getDate() {
+	public String supplier() {
 		return date;
 	}
 
@@ -107,6 +107,10 @@ public class OrderForm implements Serializable {
 	}
 	public Long getId(){
 		return id;
+	}
+
+	public String getDate() {
+		return date;
 	}
 
 	
