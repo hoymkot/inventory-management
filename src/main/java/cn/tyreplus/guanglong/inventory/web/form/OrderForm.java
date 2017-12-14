@@ -31,8 +31,6 @@ public class OrderForm implements Serializable {
 	
 	private String date=""; 
 
-	private String supplier = "N/A";
-
 	private String consumer;
 
 	private String warehouse;
@@ -59,14 +57,6 @@ public class OrderForm implements Serializable {
 
 	public void setItems(List<ItemForm> items) {
 		this.items = items;
-	}
-
-	public String getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(String supplier) {
-		this.supplier = supplier;
 	}
 
 	public String getConsumer() {
