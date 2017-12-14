@@ -32,49 +32,9 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label form-label">Supplier</label>
                   <div class="col-sm-8">
-                    <select class="selectpicker"  th:field="*{supplier}">
-                        <option value="N/A" >N/A</option>
-                        <option value="信诚">信诚</option>
-                        <option value="石龙Yu玉">石龙Yu玉</option>
-                        <option value="中山兰姐">中山兰姐</option>
-                        <option value="广骏">广骏</option>
-                        <option value="车云网">车云网</option>
-                        <option value="王亚妹">王亚妹</option>
-                        <option value="小伍">小伍</option>
-                        <option value="海聚">海聚</option>
-                        <option value="黄涛">黄涛</option>
-                        <option value="欧剑">欧剑</option>
-                        <option value="六六轮胎">六六轮胎</option>
-                        <option value="尚誉">尚誉</option>                        
-                        <option value="石龙莫小姐">石龙莫小姐</option>
-                        <option value="胡耀伦">胡耀伦</option>
-                        <option value="明昌">明昌</option>
-                        <option value="宝全">宝全</option>
-                        <option value="钱途">钱途</option>
-                        <option value="麦生">麦生</option>
-                        <option value="许文煥">许文煥</option>
-                        <option value="东莞陈国华">东莞陈国华</option>
-                        <option value="粤港">粤港</option>
-                        <option value="广州炫业">广州炫业</option>
-                        <option value="海博">海博</option>
-                        <option value="许华龙">许华龙</option>
-                        <option value="车迷">车迷</option>
-                        <option value="康木生">康木生</option>
-                        <option value="方鸿">方鸿</option>  
-                        <option value="泰兴隆">泰兴隆</option>
-                        <option value="淘气">淘气</option>  
-                        <option value="强记">强记</option>
-                        <option value="正泰">正泰</option>
-                        <option value="肖华景">肖华景</option> 
-                        <option value="子光">子光</option>
-                        <option value="明成">明成</option> 
-                        <option value="万嘉">万嘉</option>
-                        <option value="金汇">金汇</option>
-                        <option value="万益">万益</option>
-                        <option value="富霖">富霖</option>
-                        <option value="其他">其他</option>
-                        <option value="初始">初始</option>                      
-                      </select>                  
+                    <select class="selectpicker" name="supplier" id="supplier">
+                        <option th:each="seller : ${suppliers}" th:text="${seller.name}" th:value="${seller.name}" th:selected="(${selected_seller}==${seller.name})">N/A</option>
+                      </select>            
                   </div>
                 </div>                                                   
                                 

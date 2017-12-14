@@ -140,20 +140,16 @@ public class TransactionController {
 
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/detail",  params = { "updateItem" })
-	public String updateItem(final OrderForm orderForm, final BindingResult bindingResult, Model model) {
+	public String updateItem(final OrderForm orderForm, final BindingResult bindingResult, Model model,@RequestParam String supplier) {
 		df.setLenient(false);
-
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("layout_content", "tx/detail");
 			return "layout/general";
 		}
-
 		Transaction tx = this.txService.getDetail(orderForm.getId()); 
-
 		for (ItemForm itemF : orderForm.getItems()) {
 			if (itemF.getItem().equals(""))
 				continue;
-			
 			try {
 				tx.setCreatedOn(df.parse(orderForm.getDate()));
 			} catch (ParseException e) {
@@ -161,7 +157,7 @@ public class TransactionController {
 				e.printStackTrace();
 			}
 			tx.setConsumer(orderForm.getConsumer());
-			tx.setSupplier(orderForm.getSupplier());
+			tx.setSupplier(supplier);
 			tx.setWarehouse(orderForm.getWarehouse());
 			tx.setRemark(orderForm.getRemark());
 			tx.setItem((new Item()).setName(itemF.getItem()));
@@ -169,7 +165,6 @@ public class TransactionController {
 			tx.setNumber(itemF.getNumber());
 		}
 		txService.save(tx);
-
 		return "redirect:/tx/detail/"+tx.getId().toString();
 	}
 	
@@ -181,7 +176,6 @@ public class TransactionController {
 		form.setConsumer(tx.getConsumer());
 		form.setDate(df.format(tx.getCreatedOn()));
 		form.setRemark(tx.getRemark());
-		form.setSupplier(tx.getSupplier());
 		form.setWarehouse(tx.getWarehouse());
 		ItemForm item = new ItemForm();
 		LinkedList<ItemForm> list = new LinkedList<ItemForm>();
@@ -191,6 +185,9 @@ public class TransactionController {
 		list.add(item);
 		form.setItems(list);
 		model.addAttribute("orderForm", form);
+		Page<Supplier> suppliers = supplierService.find("", PaginationUtil.getDefaultPageable(supplierService.countRecords(), "name"));
+		model.addAttribute("suppliers", suppliers);
+		model.addAttribute("selected_seller", tx.getSupplier());
 		model.addAttribute("layout_content", "tx/detail");
 		return "layout/general";
 	}
