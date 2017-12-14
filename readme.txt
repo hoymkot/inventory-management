@@ -1,1 +1,1 @@
-I use this system for my store. 
+(SSSIM) Simple System for Simple Inventory Management 
