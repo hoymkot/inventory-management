@@ -30,6 +30,10 @@ public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue
+	private Long id;
+	
+	// unique
 	@Column(nullable = false)
 	private String name;
 	

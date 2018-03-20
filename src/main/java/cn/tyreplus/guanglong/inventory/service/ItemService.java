@@ -28,6 +28,7 @@ public interface ItemService {
 	void add(Item item);
 
 	Page<Item> find(String search_value, Pageable pageable);
+	Item getItem(String name);
 	Long countRecords();
 	Long countFiltered(String search_value);
 	

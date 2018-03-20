@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +44,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.tyreplus.guanglong.inventory.entity.Item;
 import cn.tyreplus.guanglong.inventory.entity.Supplier;
 import cn.tyreplus.guanglong.inventory.entity.Transaction;
+import cn.tyreplus.guanglong.inventory.exception.DataLogicException;
+import cn.tyreplus.guanglong.inventory.service.ItemService;
 import cn.tyreplus.guanglong.inventory.service.SupplierService;
 import cn.tyreplus.guanglong.inventory.service.TransactionService;
 import cn.tyreplus.guanglong.inventory.web.form.AdjustForm;
@@ -61,6 +64,8 @@ public class TransactionController {
 	
 	@Autowired
 	private TransactionService txService;
+	@Autowired
+	private ItemService itemService;
 	@Autowired
 	private SupplierService supplierService;
 
@@ -156,12 +161,15 @@ public class TransactionController {
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				throw new DataLogicException(e);
 			}
+			Item item = getItem(itemF.getItem());
+
 			tx.setConsumer(orderForm.getConsumer());
 			tx.setSupplier(supplier);
 			tx.setWarehouse(orderForm.getWarehouse());
 			tx.setRemark(orderForm.getRemark());
-			tx.setItem((new Item()).setName(itemF.getItem()));
+			tx.setItem(item);
 			tx.setPrice(itemF.getPrice());
 			tx.setNumber(itemF.getNumber());
 		}
@@ -247,12 +255,14 @@ public class TransactionController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			Item item = getItem(itemF.getItem());
+			
 			tx.setTxgroupid(uuid);
 			tx.setConsumer(orderForm.getConsumer());
 			tx.setSupplier(supplier);
 			tx.setWarehouse(orderForm.getWarehouse());
 			tx.setRemark(orderForm.getRemark());
-			tx.setItem((new Item()).setName(itemF.getItem()));
+			tx.setItem(item);
 			tx.setPrice(itemF.getPrice());
 			tx.setNumber(itemF.getNumber());
 			orders.add(tx);
@@ -263,6 +273,13 @@ public class TransactionController {
 
 	}
 	
+	public Item getItem(String name){
+		Item item = itemService.getItem(name);
+		if (item == null ){
+			throw new DataLogicException("cannot find item: " + name);
+		}
+		return item;
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/adjust")
 	public String adjust(Model model, AdjustForm adjustForm) {
@@ -283,12 +300,14 @@ public class TransactionController {
 		String prefix = adjustForm.getFrom() + "调" + adjustForm.getTo() + " ";
 		
 		for (ItemForm itemF : adjustForm.getItems()) {
+			Item item = getItem(itemF.getItem());
+
 			Transaction from = new Transaction();
 			Transaction to = new Transaction();
 			from.setCreatedOn(date);
 			from.setConsumer(adjustForm.getTo());
 			from.setRemark(prefix + adjustForm.getRemark());
-			from.setItem((new Item()).setName(itemF.getItem()));
+			from.setItem(item);
 			from.setNumber(itemF.getNumber()*-1);		
 			from.setSupplier("N/A");
 			from.setWarehouse(adjustForm.getFrom());
@@ -300,7 +319,7 @@ public class TransactionController {
 			to.setConsumer("N/A");
 			to.setRemark(prefix + adjustForm.getRemark());
 			to.setWarehouse(adjustForm.getTo());
-			to.setItem((new Item()).setName(itemF.getItem()));
+			to.setItem(item);
 			to.setNumber(itemF.getNumber());
 			to.setPrice(0);
 			manyTo.add(to);

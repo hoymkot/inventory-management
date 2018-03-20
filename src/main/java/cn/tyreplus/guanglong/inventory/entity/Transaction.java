@@ -38,7 +38,6 @@ public class Transaction implements Serializable {
 	@Column(nullable = false)
 	private String txgroupid;
 
-
 	@OneToOne(fetch = FetchType.EAGER)
 	private Item item;
 

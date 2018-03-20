@@ -32,7 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import cn.tyreplus.guanglong.inventory.entity.Item;
+import cn.tyreplus.guanglong.inventory.exception.DataLogicException;
 import cn.tyreplus.guanglong.inventory.service.repository.ItemRepository;
+import cn.tyreplus.guanglong.web.util.PaginationUtil;
 
 
 
@@ -104,6 +106,15 @@ class ItemServiceImpl implements ItemService {
 			logger.info("item " + item.getName() + " already exists");
 		}
 			
+	}
+
+	@Override
+	public Item getItem(String name) {
+		Page<Item> itemlist = this.find(name, PaginationUtil.getOneItemPagable());
+		if (itemlist.getSize() == 0) {
+			return null;
+		}
+		return itemlist.iterator().next();
 	}
 	
 }

@@ -47,6 +47,10 @@ public class PaginationUtil {
 
 		return new PageRequest(start / length, length, Direction.fromString(direction), orderBy);
 	}
+	public static Pageable getOneItemPagable() {
+		
+		return new PageRequest(0, 1);
+	}
 	
 	public Integer getDraw(){
 		return Integer.valueOf(req.getParameter("draw")); 
