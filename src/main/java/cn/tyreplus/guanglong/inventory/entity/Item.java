@@ -31,9 +31,8 @@ public class Item implements Serializable {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private Integer id;
 	
-	// unique
 	@Column(nullable = false)
 	private String name;
 	
@@ -70,5 +69,12 @@ public class Item implements Serializable {
 	}
 
 	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 }

@@ -52,8 +52,11 @@ public class InventoryServiceImpl implements InventoryService{
 		if (reports.contains(thisMonth)) {
 			logger.warn("inventory report for " + thisMonth + " already exists");
 		} else {
+			logger.info("copy last month inventory " + lastMonth );
 			repo.copyLastMonthInventory(lastMonth, thisMonth);
+			logger.info("apply update to inventory for this month ");
 			repo.applyDiffToInventory(lastMonth, thisMonth);
+			logger.info("add new item to inventory for this month ");
 			repo.addNewlyAddedItemToInventory(lastMonth, thisMonth);
 		}
 		
@@ -78,6 +81,7 @@ public class InventoryServiceImpl implements InventoryService{
 	 */
 	@Override
 	public void deleteReport(String period) {
+		logger.info("delete inventory record for period " + period);
 		repo.deleteByPeriod(period);
 	}
 

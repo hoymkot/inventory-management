@@ -67,7 +67,8 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
 	
 	@Modifying
-	@Query(nativeQuery=true, value="UPDATE `inventory`i SET i.number = i.number + (select ifnull(sum(tx.number),0) from transaction tx where i.item = tx.item and tx.warehouse = i.warehouse and created_on > ?1 and created_on <= ?2 ), last_modified_on = now() WHERE period = ?2")
+	@Query(nativeQuery=true, value=
+	"UPDATE `inventory`i SET i.number = i.number + (select ifnull(sum(tx.number),0) from transaction tx where i.item = tx.item and tx.warehouse = i.warehouse and created_on > ?1 and created_on <= ?2 ), last_modified_on = now() WHERE period = ?2")
 	void applyDiffToInventory(String lastMonth, String thisMonth);
 
 	/**
@@ -85,22 +86,15 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
 
 	@Query(nativeQuery=true, value=
-	"select A.item, "+  
+	"select I.name, "+  
 	"(select B.number from inventory B where B.period = ?1 and B.item = A.item and B.warehouse = '吉大') as jidai, "+
 	"(select C.number from inventory C where C.period = ?1 and C.item = A.item and C.warehouse = '金鸡') as jinji, "+
-	"sum(number) as total "+
-	"from inventory A "+
+	"sum(number) as total , A.item "+
+	"from inventory A , item I "+
 	"where A.period = ?1 "+
+	" and I.id = A.item " +
 	"group by A.item "+
 	"having sum(number) <>0; ")
-
-//	@Query(nativeQuery=true, value=
-//	"select A.item, 1 as jindai, 1 as jinji," +
-//	"sum(number) as total "+
-//	"from inventory A "+
-//	"where A.period = ?1 "+
-//	"group by A.item "+
-//	"having sum(number) <>0; ")
 	List<String[]> findByPeriod(String period);
 
 	@Query(nativeQuery=true, value="select item , sum(number) as total from inventory where period = ?2 group by item having item not in (select item from transaction where created_on > ?1 and created_on <= ?2 ) and total <> 0;")

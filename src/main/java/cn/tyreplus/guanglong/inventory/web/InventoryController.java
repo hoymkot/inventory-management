@@ -109,8 +109,10 @@ public class InventoryController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/view", params = { "delete" })
 	public String deleteReport(String period, Model model) {
-		if (period != null && !period.equals("2016-06-30"))
+		if (period != null && !period.equals("2016-06-30")) {
+		
 			this.service.deleteReport(period);
+		}
 		return "redirect:/inventory/view";
 	}
 
