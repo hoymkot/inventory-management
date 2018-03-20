@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -233,7 +234,7 @@ public class TransactionController {
 			return "layout/general";
 		}
 		List<Transaction> orders = new ArrayList<Transaction>(); 
-
+		String uuid = UUID.randomUUID().toString();
 		for (ItemForm itemF : orderForm.getItems()) {
 			if (itemF.getItem().equals(""))
 				continue;
@@ -246,6 +247,7 @@ public class TransactionController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			tx.setTxgroupid(uuid);
 			tx.setConsumer(orderForm.getConsumer());
 			tx.setSupplier(supplier);
 			tx.setWarehouse(orderForm.getWarehouse());

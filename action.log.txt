@@ -1,9 +1,19 @@
 * move this system to live server
+
 * routine backup
-* log every single action done
-* inventory incremental report
-* inventory full report / port to db;
-* sales velocity report
-* transfer report
-* inadequacy report
+* log every single action done // write update log or mysql log 
+* inadequacy alert , send email notification job sending email notification
 * add last modified on transaction
+
+* restrict modification of past records ( lock specific reports ) 
+
+
+* login mechanism 
+* access control
+
+* create item name not id
+* data validation - no supplier - no consumer 
+* data validation - negative balance
+
+  
+

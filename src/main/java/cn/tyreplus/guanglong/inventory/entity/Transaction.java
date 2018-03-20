@@ -35,35 +35,37 @@ public class Transaction implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@OneToOne(fetch=FetchType.EAGER)
+	@Column(nullable = false)
+	private String txgroupid;
+
+
+	@OneToOne(fetch = FetchType.EAGER)
 	private Item item;
 
 	@Column(nullable = false)
 	Integer number;
-	
+
 	@Column(nullable = false)
 	Integer price;
 
-	
 	@Column(nullable = false)
 	private String supplier;
 
 	@Column(nullable = false)
 	private String consumer;
 
-
 	@Column(nullable = false)
 	private String warehouse;
 
 	@Column(nullable = false)
 	private String remark;
-	
+
 	@Column(nullable = false)
 	private Date createdOn;
 
 	@Column(nullable = true)
 	private Date lastModifiedOn = new Date();
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -136,5 +138,11 @@ public class Transaction implements Serializable {
 		this.createdOn = createdOn;
 	}
 
-
+	public String getTxgroupid() {
+		return txgroupid;
+	}
+	
+	public void setTxgroupid(String txgroupid) {
+		this.txgroupid = txgroupid;
+	}
 }

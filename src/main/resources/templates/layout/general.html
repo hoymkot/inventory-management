@@ -88,7 +88,7 @@ $('.selectpicker').selectpicker({
 	<div id="top" class="clearfix">
 		<!-- Start App Logo -->
 		<div class="applogo">
-			<a href="index.html" class="logo">Inventory</a>
+			<a href="index.html" class="logo">存货清单</a>
 		</div>
 		<!-- End App Logo -->
 	</div>
@@ -100,13 +100,15 @@ $('.selectpicker').selectpicker({
 	<!-- START SIDEBAR -->
 	<div class="sidebar clearfix">
 		<ul class="sidebar-panel nav">
-			<li class="sidetitle">MAIN</li>
-			<li><a th:href="${#mvc.url('TC#home').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>交易</a></li>				
-			<li><a th:href="${#mvc.url('TC#adjust').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>调货</a></li>				
-			<li><a th:href="${#mvc.url('RC#list').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>Reports</a></li>				
-			<li><a href="/inventory/view"><span class="icon color5"><i class="fa fa-user-md"></i></span>Inventory</a></li>				
-			<li><a href="/item/"><span class="icon color5"><i class="fa fa-user-md"></i></span>商品</a></li>				 
-			<li><a href="/supplier/"><span class="icon color5"><i class="fa fa-user-md"></i></span>供应商</a></li>				 
+			<li class="sidetitle">菜单</li>
+			<li><a th:href="${#mvc.url('TC#home').build()}" href="index.html"><span class="icon color5"><i class="fa fa-money"></i></span>交易</a></li>				
+<!--
+			<li><a th:href="${#mvc.url('TC#adjust').build()}" href="index.html"><span class="icon color5"><i class="fa fa-user-md"></i></span>调货</a></li>
+-->							
+			<li><a th:href="${#mvc.url('RC#list').build()}" href="index.html"><span class="icon color5"><i class="fa fa-line-chart"></i></span>报告</a></li>				
+			<li><a href="/inventory/view"><span class="icon color5"><i class="fa fa-archive"></i></span>存货</a></li>				
+			<li><a href="/item/"><span class="icon color5"><i class="fa fa-barcode"></i></span>商品</a></li>				 
+			<li><a href="/supplier/"><span class="icon color5"><i class="fa fa-male"></i></span>供应商</a></li>				 
 		</ul>
 	</div>
 	<!-- END SIDEBAR -->
